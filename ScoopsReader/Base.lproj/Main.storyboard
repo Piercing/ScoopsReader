@@ -19,8 +19,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Lxk-Yc-j2C">
-                                <rect key="frame" x="20" y="49" width="560" height="543"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="369" axis="vertical" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Lxk-Yc-j2C">
+                                <rect key="frame" x="20" y="49" width="560" height="369"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="News Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D1b-uQ-9Q3">
                                         <rect key="frame" x="236" y="0.0" width="88" height="19"/>
@@ -34,16 +34,8 @@
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bJr-9N-p51">
-                                        <rect key="frame" x="207" y="73" width="147" height="30"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                        <state key="normal" title="Set Default Text Label"/>
-                                        <connections>
-                                            <action selector="setDefaultLabelText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wnP-Q3-92X"/>
-                                        </connections>
-                                    </button>
                                     <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="240" image="defaultPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="0uq-lS-Lpt">
-                                        <rect key="frame" x="160" y="115" width="240" height="240"/>
+                                        <rect key="frame" x="160" y="73" width="240" height="240"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="0uq-lS-Lpt" secondAttribute="height" multiplier="1:1" id="Yxw-qE-Lxb"/>
@@ -53,12 +45,9 @@
                                         </connections>
                                     </imageView>
                                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="44" translatesAutoresizingMaskIntoConstraints="NO" id="sxd-Ik-CNZ" customClass="RatingControl" customModule="ScoopsReader" customModuleProvider="target">
-                                        <rect key="frame" x="160" y="367" width="240" height="44"/>
+                                        <rect key="frame" x="160" y="325" width="240" height="44"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
-                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="120" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="aug-CM-VL0">
-                                        <rect key="frame" x="160" y="423" width="240" height="120"/>
-                                    </mapView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="dP0-tX-Kku" firstAttribute="leading" secondItem="Lxk-Yc-j2C" secondAttribute="leading" id="TCw-UR-iUt"/>
