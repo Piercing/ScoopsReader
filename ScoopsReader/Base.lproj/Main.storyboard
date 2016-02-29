@@ -19,11 +19,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Lxk-Yc-j2C">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Lxk-Yc-j2C">
                                 <rect key="frame" x="20" y="49" width="560" height="543"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="News Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D1b-uQ-9Q3">
-                                        <rect key="frame" x="0.0" y="0.0" width="88" height="19"/>
+                                        <rect key="frame" x="236" y="0.0" width="88" height="19"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -35,7 +35,7 @@
                                         <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bJr-9N-p51">
-                                        <rect key="frame" x="0.0" y="73" width="147" height="30"/>
+                                        <rect key="frame" x="207" y="73" width="147" height="30"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                         <state key="normal" title="Set Default Text Label"/>
                                         <connections>
@@ -43,7 +43,7 @@
                                         </connections>
                                     </button>
                                     <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="240" image="defaultPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="0uq-lS-Lpt">
-                                        <rect key="frame" x="0.0" y="115" width="240" height="240"/>
+                                        <rect key="frame" x="160" y="115" width="240" height="240"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="0uq-lS-Lpt" secondAttribute="height" multiplier="1:1" id="Yxw-qE-Lxb"/>
@@ -53,11 +53,11 @@
                                         </connections>
                                     </imageView>
                                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="44" translatesAutoresizingMaskIntoConstraints="NO" id="sxd-Ik-CNZ" customClass="RatingControl" customModule="ScoopsReader" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="367" width="240" height="44"/>
+                                        <rect key="frame" x="160" y="367" width="240" height="44"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="120" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="aug-CM-VL0">
-                                        <rect key="frame" x="0.0" y="423" width="240" height="120"/>
+                                        <rect key="frame" x="160" y="423" width="240" height="120"/>
                                     </mapView>
                                 </subviews>
                                 <constraints>
@@ -77,6 +77,7 @@
                         <outlet property="nameTextField" destination="dP0-tX-Kku" id="fHI-Ns-MFF"/>
                         <outlet property="newsNameLabel" destination="D1b-uQ-9Q3" id="R6D-Te-iBv"/>
                         <outlet property="photoImageView" destination="0uq-lS-Lpt" id="XOr-dN-0TM"/>
+                        <outlet property="ratingControl" destination="sxd-Ik-CNZ" id="xv2-eh-ea1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -86,6 +87,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
+            <point key="canvasLocation" x="650" y="409"/>
         </scene>
     </scenes>
     <resources>

@@ -16,9 +16,9 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var newsNameLabel: UILabel!
     @IBOutlet weak var photoImageView: UIImageView!
+    @IBOutlet weak var ratingControl: RatingControl!
     
-    
-    
+    // var reset : RatingControl?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +29,24 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
     
     // MARK: - Actions (Target-Action)
-    @IBAction func setDefaultLabelText(sender: UIButton) {
-        newsNameLabel.text = "Default Text"
-    }
+
+    
+//    @IBAction func resetRating(sender: UIButton) {
+//        
+//        for (index, button) in (reset?.ratingButtons.enumerate())! {
+//            
+//            switch (index){
+//                
+//            case 0...4: button.setImage(reset?.emptyStarImage, forState: .Normal)
+//            reset?.rating = 0
+//                break
+//            default: ()
+//            }
+//            // Para asegurarme de que la imagen no muestre alguna caract.
+//            // adicional  durante  el cambio  de  estado, al ser pulsada.
+//            reset!.button.adjustsImageWhenHighlighted = false
+//        }
+//    }
     
     
     @IBAction func selectImageFromPhotLibrary(sender: UITapGestureRecognizer) {
