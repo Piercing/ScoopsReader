@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Lxk-Yc-j2C">
-                                <rect key="frame" x="20" y="49" width="560" height="395"/>
+                                <rect key="frame" x="20" y="49" width="560" height="543"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="News Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D1b-uQ-9Q3">
                                         <rect key="frame" x="0.0" y="0.0" width="88" height="19"/>
@@ -42,8 +42,8 @@
                                             <action selector="setDefaultLabelText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wnP-Q3-92X"/>
                                         </connections>
                                     </button>
-                                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="280" placeholderIntrinsicHeight="280" image="defaultPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="0uq-lS-Lpt">
-                                        <rect key="frame" x="0.0" y="115" width="280" height="280"/>
+                                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="240" image="defaultPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="0uq-lS-Lpt">
+                                        <rect key="frame" x="0.0" y="115" width="240" height="240"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="0uq-lS-Lpt" secondAttribute="height" multiplier="1:1" id="Yxw-qE-Lxb"/>
@@ -52,6 +52,13 @@
                                             <outletCollection property="gestureRecognizers" destination="uLN-3X-g6q" appends="YES" id="fRZ-N9-BXG"/>
                                         </connections>
                                     </imageView>
+                                    <view contentMode="scaleToFill" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="44" translatesAutoresizingMaskIntoConstraints="NO" id="sxd-Ik-CNZ" customClass="RatingControl" customModule="ScoopsReader" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="367" width="240" height="44"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="120" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="aug-CM-VL0">
+                                        <rect key="frame" x="0.0" y="423" width="240" height="120"/>
+                                    </mapView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="dP0-tX-Kku" firstAttribute="leading" secondItem="Lxk-Yc-j2C" secondAttribute="leading" id="TCw-UR-iUt"/>

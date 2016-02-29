@@ -79,7 +79,8 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     }
 
     // Método qu se llama cuando usuario selecciona una foto pudiendo modificarla
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController,
+         didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         
         // El diccionario que recibo contiene múltiples representaciones de image
         // utilizo la imagen  original ===> 'UIImagePickerControllerOriginalImage'
@@ -88,7 +89,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate{
         // Establezco como 'photoImage' la 'selectImage' seleccionada y la muestro
         photoImageView.image = selectImage
         
-        // Cierro  el selector de imágenes de forma animada y bloque  final => nil
+        // Cierro  el selector de imágenes de forma animada y bloque final ==> nil
         dismissViewControllerAnimated(true, completion: nil)
         
     }

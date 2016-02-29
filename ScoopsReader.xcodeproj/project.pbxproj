@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		522696091C83AD5A00EF47A8 /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522696081C83AD5A00EF47A8 /* RatingControl.swift */; };
+		5226960E1C83B61D00EF47A8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5226960D1C83B61D00EF47A8 /* MapKit.framework */; };
 		52BB29291C8232820025645A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BB29281C8232820025645A /* AppDelegate.swift */; };
 		52BB292B1C8232820025645A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BB292A1C8232820025645A /* ViewController.swift */; };
 		52BB292E1C8232820025645A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52BB292C1C8232820025645A /* Main.storyboard */; };
@@ -26,6 +28,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		522696081C83AD5A00EF47A8 /* RatingControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
+		5226960D1C83B61D00EF47A8 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		52BB29251C8232820025645A /* ScoopsReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScoopsReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52BB29281C8232820025645A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52BB292A1C8232820025645A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -43,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5226960E1C83B61D00EF47A8 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +61,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5226960A1C83B04300EF47A8 /* ViewsControllers */ = {
+			isa = PBXGroup;
+			children = (
+				52BB292A1C8232820025645A /* ViewController.swift */,
+			);
+			name = ViewsControllers;
+			sourceTree = "<group>";
+		};
+		5226960B1C83B06500EF47A8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				522696081C83AD5A00EF47A8 /* RatingControl.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		5226960C1C83B08100EF47A8 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				52BB29281C8232820025645A /* AppDelegate.swift */,
+			);
+			name = App;
+			sourceTree = "<group>";
+		};
+		5226960F1C83B62400EF47A8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5226960D1C83B61D00EF47A8 /* MapKit.framework */,
+			);
+			name = Frameworks;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		52BB291C1C8232820025645A = {
 			isa = PBXGroup;
 			children = (
@@ -77,12 +115,14 @@
 		52BB29271C8232820025645A /* ScoopsReader */ = {
 			isa = PBXGroup;
 			children = (
-				52BB29281C8232820025645A /* AppDelegate.swift */,
-				52BB292A1C8232820025645A /* ViewController.swift */,
+				5226960A1C83B04300EF47A8 /* ViewsControllers */,
+				5226960B1C83B06500EF47A8 /* Views */,
+				5226960C1C83B08100EF47A8 /* App */,
 				52BB292C1C8232820025645A /* Main.storyboard */,
 				52BB292F1C8232820025645A /* Assets.xcassets */,
 				52BB29311C8232820025645A /* LaunchScreen.storyboard */,
 				52BB29341C8232820025645A /* Info.plist */,
+				5226960F1C83B62400EF47A8 /* Frameworks */,
 			);
 			path = ScoopsReader;
 			sourceTree = "<group>";
@@ -200,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				52BB292B1C8232820025645A /* ViewController.swift in Sources */,
+				522696091C83AD5A00EF47A8 /* RatingControl.swift in Sources */,
 				52BB29291C8232820025645A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -390,6 +431,7 @@
 				52BB29441C8232820025645A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		52BB29451C8232820025645A /* Build configuration list for PBXNativeTarget "ScoopsReaderTests" */ = {
 			isa = XCConfigurationList;
@@ -398,6 +440,7 @@
 				52BB29471C8232820025645A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
