@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate,
-UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
     
     
     // MARK: - Properties
@@ -17,20 +17,24 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     @IBOutlet weak var newsNameLabel: UILabel!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var ratingControl: RatingControl!
+    @IBOutlet weak var newsText: UITextView!
+    @IBOutlet weak var placeholderLabel : UILabel!
     
     // var reset : RatingControl?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 'ViewController' <== delegado ==>'textField'
+        self.view.backgroundColor = UIColor.orangeColor()
+        
+        // 'ViewController' <===? delegado ===> 'textField'
         nameTextField.delegate = self
+        
     }
     
     
     // MARK: - Actions (Target-Action)
 
-    
 //    @IBAction func resetRating(sender: UIButton) {
 //        
 //        for (index, button) in (reset?.ratingButtons.enumerate())! {
@@ -47,6 +51,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate{
 //            reset!.button.adjustsImageWhenHighlighted = false
 //        }
 //    }
+
     
     
     @IBAction func selectImageFromPhotLibrary(sender: UITapGestureRecognizer) {
@@ -107,6 +112,26 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate{
         // Cierro  el selector de imágenes de forma animada y bloque final ==> nil
         dismissViewControllerAnimated(true, completion: nil)
         
+    }
+    
+    // MARK: Delegate textView
+    func textViewDidChange(textView: UITextView) {
+        // Oculto la  etiqueta  cuando  hay  texto
+        placeholderLabel.hidden = !textView.text.isEmpty
+    }
+    
+    // MARK: Utils
+    func settingsNewsText(){
+        // Establezco propiedades para el textView
+        //newsText.delegate = self
+        placeholderLabel = UILabel()
+        placeholderLabel.text = "Enter the text of the news here..."
+        placeholderLabel.font = UIFont.italicSystemFontOfSize(newsText.font!.pointSize)
+        placeholderLabel.sizeToFit()
+        newsText.addSubview(placeholderLabel)
+        placeholderLabel.frame.origin = CGPointMake(5, newsText.font!.pointSize / 2)
+        placeholderLabel.textColor = UIColor(white: 0, alpha: 0.3)
+        placeholderLabel.hidden = !newsText.text.isEmpty
     }
 }
 

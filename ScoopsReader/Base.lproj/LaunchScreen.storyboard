@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,7 +17,40 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ImageLaunchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="pqu-4d-iKC">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Copyright © 2016 Carlos Inc. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="ATo-lL-abi">
+                                <rect key="frame" x="20" y="559" width="560" height="21"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Scoops Reader" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="3FP-OB-Eax">
+                                <rect key="frame" x="20" y="40" width="560" height="47"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="40"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ATo-lL-abi" firstAttribute="leading" secondItem="3FP-OB-Eax" secondAttribute="leading" id="6fa-DH-9SX"/>
+                            <constraint firstItem="ATo-lL-abi" firstAttribute="trailing" secondItem="3FP-OB-Eax" secondAttribute="trailing" id="GnI-8B-uyQ"/>
+                            <constraint firstAttribute="trailing" secondItem="pqu-4d-iKC" secondAttribute="trailing" id="IGd-3e-aU4"/>
+                            <constraint firstItem="pqu-4d-iKC" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Inh-4c-Uc9"/>
+                            <constraint firstAttribute="bottom" secondItem="ATo-lL-abi" secondAttribute="bottom" constant="20" symbolic="YES" id="JDD-LP-uas"/>
+                            <constraint firstItem="3FP-OB-Eax" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="20" id="WTg-5X-Qa0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3FP-OB-Eax" secondAttribute="trailing" id="aJV-LA-9Bc"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="3FP-OB-Eax" secondAttribute="bottom" constant="513" id="cbn-Xl-LVu"/>
+                            <constraint firstItem="pqu-4d-iKC" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="iJ8-xs-9OK"/>
+                            <constraint firstItem="3FP-OB-Eax" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-236.5" id="kw9-fu-vbT"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="pqu-4d-iKC" secondAttribute="bottom" id="tPI-4b-Oix"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="3FP-OB-Eax" secondAttribute="leading" id="zJF-cq-pLG"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -24,4 +58,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ImageLaunchScreen" width="320" height="568"/>
+    </resources>
 </document>

@@ -17,6 +17,8 @@
 		52BB293E1C8232820025645A /* ScoopsReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BB293D1C8232820025645A /* ScoopsReaderTests.swift */; };
 		52C1A5A01C85093A00EE21FF /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C1A59F1C85093A00EE21FF /* News.swift */; };
 		52C1A5A11C85093A00EE21FF /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C1A59F1C85093A00EE21FF /* News.swift */; };
+		52C1A5A31C8554BB00EE21FF /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C1A5A21C8554BB00EE21FF /* NewsTableViewCell.swift */; };
+		52C1A5AB1C862E8400EE21FF /* AccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C1A5AA1C862E8400EE21FF /* AccessViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +45,8 @@
 		52BB293D1C8232820025645A /* ScoopsReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoopsReaderTests.swift; sourceTree = "<group>"; };
 		52BB293F1C8232820025645A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52C1A59F1C85093A00EE21FF /* News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
+		52C1A5A21C8554BB00EE21FF /* NewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
+		52C1A5AA1C862E8400EE21FF /* AccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				52BB292A1C8232820025645A /* ViewController.swift */,
+				52C1A5AA1C862E8400EE21FF /* AccessViewController.swift */,
 			);
 			name = ViewsControllers;
 			sourceTree = "<group>";
@@ -76,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				522696081C83AD5A00EF47A8 /* RatingControl.swift */,
+				52C1A5A21C8554BB00EE21FF /* NewsTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -251,8 +257,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52C1A5AB1C862E8400EE21FF /* AccessViewController.swift in Sources */,
 				52BB292B1C8232820025645A /* ViewController.swift in Sources */,
 				522696091C83AD5A00EF47A8 /* RatingControl.swift in Sources */,
+				52C1A5A31C8554BB00EE21FF /* NewsTableViewCell.swift in Sources */,
 				52C1A5A01C85093A00EE21FF /* News.swift in Sources */,
 				52BB29291C8232820025645A /* AppDelegate.swift in Sources */,
 			);
@@ -385,9 +393,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ScoopsReader/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.weblogmerlos.ScoopsReader;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -396,9 +406,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ScoopsReader/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.weblogmerlos.ScoopsReader;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

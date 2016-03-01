@@ -11,26 +11,52 @@ import XCTest
 
 class ScoopsReaderTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
+    // MARK; Test para News
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    // Test  para  confirmar que el 'init' de 'News' puede  fallar
+    // cuando no se le pasa al 'init' los parámetros no opcionales
+    // o se le pasan  valores nulos a alguno de sus parámetros Int.
+    func testNewsInitialization () {
+        
+        // Caso de éxito, parámetros correctos - Ok.
+        // Espero que el test no falle,  todos sus campos son correctos, probando así,
+        // que el 'init' no puede tener campos vacios o nulos en todos sus parámetros
+        let potentialItem = News(title: "Primera noticia, título no puede ser nulo", author: "Yo mismo",
+            newsText: "Ponga usted mismo el texto que quiera para describir la noticia 1",
+            rating: 5, photo: nil)
+        XCTAssertNotNil(potentialItem)
+        
+        // Caso de fallo, parámetro author vacio - OK.
+        // Espero que el test falle, ya que el título está vacio, probando así, que el init
+        // puede  fallar debido a la condición de  que el title no puede ser un campo vacio.
+        let noAuthor = News(title: "Segunda noticia, author no puede ser nulo", author: "",
+            newsText: "Ponga usted mismo el texto que quiera para describir la noticia 2",
+            rating: 5, photo: nil)
+        XCTAssertNil(noAuthor, "Autor no válido, campo vacio")
+        
+        // Caso de fallo, parámetro title vacio - OK.
+        // Espero que el test falle, ya que el título está vacio, probando así, que el init
+        // puede  fallar debido a la condición de  que el title no puede ser un campo vacio.
+        let noTitle = News(title: "", author: "Yo mismo",
+            newsText: "Ponga usted mismo el texto que quiera para describir la noticia 3",
+            rating: 5, photo: nil)
+        XCTAssertNil(noTitle, "Título no válido, campo vacio")
+        
+        // Caso de fallo, parámetro newsText vacio - OK.
+        // Espero que el test falle, ya que el título está vacio, probando así, que el init
+        // puede  fallar debido a la condición de  que el title no puede ser un campo vacio.
+        let nonewsText = News(title: "Ponga usted mismo el texto que quiera para describir la noticia 4", author: "Yo mismo",
+            newsText: "",
+            rating: 5, photo: nil)
+        XCTAssertNil(nonewsText, "Texto noticias no válido, campo vacio")
+        
+        // Caso de fallo, Rating  valor negativo - Ok.
+        // Espero que el test falle, ya que el rating es negativo, probando así, que el init
+        // puede fallar debido a la  condición de que el rating  no puede ser menor que cero
+        let badRating = News(title: "Quinta noticia, el rating no puede ser negativo", author: "Yo mismo",
+            newsText: "Ponga usted mismo el texto que quiera para describir la noticia 5",
+            rating: -5, photo: nil)
+        XCTAssertNil(badRating)
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }
