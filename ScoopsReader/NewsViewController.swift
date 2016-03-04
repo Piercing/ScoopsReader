@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  NewsViewController.swift
 //  ScoopsReader
 //
 //  Created by MacBook Pro on 27/2/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate,
+class NewsViewController: UIViewController, UITextFieldDelegate,
 UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
     
     
@@ -24,10 +24,10 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.view.backgroundColor = UIColor.whiteColor()
         
-        self.view.backgroundColor = UIColor.orangeColor()
-        
-        // 'ViewController' <===? delegado ===> 'textField'
+        // 'ViewController' <=== delegado ===> 'textField'
         nameTextField.delegate = self
         
     }
@@ -86,7 +86,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     // dando la opción de poder  leer el texto introducido y hacer  algo con él
     func textFieldDidEndEditing(textField: UITextField) {
         
-        newsNameLabel.text = textField.text
+        //@IBOutlet weak var newsTitleLabel : UILabel!
     }
     
     // MARK: - UIImagePickerControllerDelegate - Métodos del  protocolo delegado 
