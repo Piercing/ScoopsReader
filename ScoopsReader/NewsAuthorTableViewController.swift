@@ -20,7 +20,7 @@ class NewsAuthorTableViewController: UITableViewController {
         // Título  para  el ===> 'navigationItem'
         navigationItem.title = "Your News"
         
-        self.navigationItem.leftBarButtonItem?.title = "Back"
+        //self.navigationItem.leftBarButtonItem?.title = "Back"
         
         // Color  para el título 'navigationItem'
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
@@ -115,11 +115,26 @@ class NewsAuthorTableViewController: UITableViewController {
         cell.authorLabel.text = newsOfIndexPath.author
         cell.photoImage.image = newsOfIndexPath.photo
         cell.ratingControl.rating = newsOfIndexPath.rating
+        
 
         return cell
     }
 
 
+    @IBAction func unwindToNewsList(sender : UIStoryboardSegue) {
+        
+        // Casteo 'sourceViewController' de tipo 'UIViewController' a 'NewsViewController'
+        if let sourceViewController = sender.sourceViewController as? NewsViewController,
+            // Si no es 'nil' asigno a la constante  local 'new' el valor que tiene 'news'
+            new = sourceViewController.news {
+                // Añado una nueva noticia, calculando la posición en la tabla y la guardo
+                let newIndexPath = NSIndexPath(forRow: news.count, inSection: 0)
+                news.append(new)
+                // Ahora  añado la nueva  noticia a la tabla en el 'indexPath' que le paso
+                tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
+                
+        }
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

@@ -199,7 +199,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k53-nd-aXe" customClass="RatingControl" customModule="ScoopsReader" customModuleProvider="target">
-                                            <rect key="frame" x="128" y="58" width="240" height="44"/>
+                                            <rect key="frame" x="128" y="60" width="240" height="36"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </view>
                                     </subviews>
@@ -220,7 +220,7 @@
                     <navigationItem key="navigationItem" id="vkf-VZ-35y">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="yHv-kJ-tlS">
                             <connections>
-                                <segue destination="BYZ-38-t0r" kind="show" id="bYz-gl-SUv"/>
+                                <segue destination="EJ1-M9-sSH" kind="presentation" identifier="addItem" id="bYz-gl-SUv"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -229,7 +229,7 @@
             </objects>
             <point key="canvasLocation" x="759" y="409"/>
         </scene>
-        <!--News View Controller-->
+        <!--Create News-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="NewsViewController" customModule="ScoopsReader" customModuleProvider="target" sceneMemberID="viewController">
@@ -242,9 +242,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="369" axis="vertical" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Lxk-Yc-j2C">
-                                <rect key="frame" x="20" y="86" width="560" height="369"/>
+                                <rect key="frame" x="20" y="86" width="560" height="508"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="252" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter news name" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dP0-tX-Kku">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="252" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter news title" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dP0-tX-Kku">
                                         <rect key="frame" x="0.0" y="0.0" width="560" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="flH-fW-PK0"/>
@@ -253,8 +253,23 @@
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="252" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter news author" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iol-xj-aOC">
+                                        <rect key="frame" x="0.0" y="42" width="560" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="Cfw-Ud-QhM"/>
+                                        </constraints>
+                                        <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="101" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu." textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="k9I-sG-4tW">
+                                        <rect key="frame" x="0.0" y="84" width="560" height="116"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                    </textView>
                                     <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="240" image="defaultPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="0uq-lS-Lpt">
-                                        <rect key="frame" x="160" y="42" width="240" height="240"/>
+                                        <rect key="frame" x="160" y="212" width="240" height="240"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="0uq-lS-Lpt" secondAttribute="height" multiplier="1:1" id="Yxw-qE-Lxb"/>
@@ -263,39 +278,62 @@
                                             <outletCollection property="gestureRecognizers" destination="uLN-3X-g6q" appends="YES" id="fRZ-N9-BXG"/>
                                         </connections>
                                     </imageView>
-                                    <view contentMode="scaleAspectFill" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="44" translatesAutoresizingMaskIntoConstraints="NO" id="sxd-Ik-CNZ" customClass="RatingControl" customModule="ScoopsReader" customModuleProvider="target">
-                                        <rect key="frame" x="160" y="294" width="240" height="75"/>
+                                    <view contentMode="scaleToFill" verticalHuggingPriority="252" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="44" translatesAutoresizingMaskIntoConstraints="NO" id="Bkx-UI-Qxp" customClass="RatingControl" customModule="ScoopsReader" customModuleProvider="target">
+                                        <rect key="frame" x="160" y="464" width="240" height="44"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="dP0-tX-Kku" firstAttribute="leading" secondItem="Lxk-Yc-j2C" secondAttribute="leading" id="3Cr-Sw-Scv"/>
+                                    <constraint firstItem="0uq-lS-Lpt" firstAttribute="top" secondItem="k9I-sG-4tW" secondAttribute="bottom" constant="12" id="F24-SC-XU8"/>
                                     <constraint firstAttribute="trailing" secondItem="dP0-tX-Kku" secondAttribute="trailing" id="NOH-Jg-88G"/>
                                     <constraint firstItem="dP0-tX-Kku" firstAttribute="top" secondItem="Lxk-Yc-j2C" secondAttribute="top" id="h8R-Kw-Tef"/>
+                                    <constraint firstItem="k9I-sG-4tW" firstAttribute="top" secondItem="Bkx-UI-Qxp" secondAttribute="bottom" constant="-424" id="hMF-mW-LDi"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="leadingMargin" secondItem="iol-xj-aOC" secondAttribute="leading" id="5UA-Io-a3g"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="iol-xj-aOC" secondAttribute="trailing" id="JrC-z6-9bj"/>
                             <constraint firstItem="Lxk-Yc-j2C" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="UoO-SQ-Nhy"/>
+                            <constraint firstItem="iol-xj-aOC" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="64" id="bca-w7-1jm"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="k9I-sG-4tW" secondAttribute="leading" id="oVo-96-d3P"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Lxk-Yc-j2C" secondAttribute="trailing" id="sW7-iT-EV4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="k9I-sG-4tW" secondAttribute="trailing" id="syQ-XJ-4YN"/>
                             <constraint firstItem="Lxk-Yc-j2C" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="22" id="vdi-kw-0pa"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Create News" id="CFo-VB-SEK">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="dfd-lp-CP8">
+                            <connections>
+                                <action selector="cancelButton:" destination="BYZ-38-t0r" id="gRU-08-e66"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="uVT-O3-DV5">
+                            <connections>
+                                <segue destination="Zz3-Iy-Fp3" kind="unwind" unwindAction="unwindToNewsList:" id="9sG-oX-Lpp"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <outlet property="nameTextField" destination="dP0-tX-Kku" id="fHI-Ns-MFF"/>
-                        <outlet property="photoImageView" destination="0uq-lS-Lpt" id="XOr-dN-0TM"/>
-                        <outlet property="ratingControl" destination="sxd-Ik-CNZ" id="xv2-eh-ea1"/>
+                        <outlet property="authorTextField" destination="iol-xj-aOC" id="gUh-8X-fjX"/>
+                        <outlet property="newsText" destination="k9I-sG-4tW" id="zsv-dc-ds0"/>
+                        <outlet property="photoImageView" destination="0uq-lS-Lpt" id="ed0-rb-pmB"/>
+                        <outlet property="ratingControl" destination="Bkx-UI-Qxp" id="gV9-0N-MTj"/>
+                        <outlet property="saveButton" destination="uVT-O3-DV5" id="PfW-jq-RXK"/>
+                        <outlet property="titleTextField" destination="dP0-tX-Kku" id="8vw-Vc-Aef"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="Zz3-Iy-Fp3" userLabel="Exit" sceneMemberID="exit"/>
                 <tapGestureRecognizer id="uLN-3X-g6q">
                     <connections>
                         <action selector="selectImageFromPhotLibrary:" destination="BYZ-38-t0r" id="rn8-nb-lxc"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1462" y="409"/>
+            <point key="canvasLocation" x="2274" y="409"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Dno-Yu-Vsk">
@@ -318,6 +356,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GgA-K5-ipI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-761" y="414"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="jCw-ow-JKz">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="EJ1-M9-sSH" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="jFP-FQ-Iat">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="vEp-c1-fE4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fux-Gv-eCP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1462" y="409"/>
         </scene>
     </scenes>
     <resources>
