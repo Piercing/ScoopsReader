@@ -246,7 +246,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="369" axis="vertical" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Lxk-Yc-j2C">
                                 <rect key="frame" x="20" y="101" width="560" height="491"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="252" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter news title" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dP0-tX-Kku">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="252" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter news title" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="dP0-tX-Kku">
                                         <rect key="frame" x="0.0" y="0.0" width="560" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="wje-Iw-avF"/>
@@ -287,16 +287,22 @@
                                     <constraint firstItem="k9I-sG-4tW" firstAttribute="top" secondItem="Bkx-UI-Qxp" secondAttribute="bottom" constant="-157" id="u8f-fU-nOE"/>
                                 </constraints>
                             </stackView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" placeholderIntrinsicWidth="20" placeholderIntrinsicHeight="20" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="e6m-vd-hBI">
+                                <rect key="frame" x="290" y="230" width="20" height="20"/>
+                                <color key="color" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="iol-xj-aOC" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="79" id="Ffo-hY-YrB"/>
+                            <constraint firstItem="e6m-vd-hBI" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="OUA-PT-WeO"/>
                             <constraint firstAttribute="leadingMargin" secondItem="k9I-sG-4tW" secondAttribute="leading" id="TPK-Co-bxu"/>
                             <constraint firstAttribute="leadingMargin" secondItem="iol-xj-aOC" secondAttribute="leading" id="e22-tb-u8r"/>
                             <constraint firstAttribute="trailingMargin" secondItem="k9I-sG-4tW" secondAttribute="trailing" id="nAA-Ui-xtm"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dP0-tX-Kku" secondAttribute="trailing" id="qj1-Hw-dFi"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Lxk-Yc-j2C" secondAttribute="bottom" constant="8" symbolic="YES" id="ud3-B2-XCL"/>
                             <constraint firstAttribute="trailingMargin" secondItem="iol-xj-aOC" secondAttribute="trailing" id="xud-Tn-qAR"/>
+                            <constraint firstItem="e6m-vd-hBI" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-60" id="yZo-aA-9Y3"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Create News" id="CFo-VB-SEK">
@@ -312,6 +318,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="e6m-vd-hBI" id="wCC-Dx-TUI"/>
                         <outlet property="authorTextField" destination="iol-xj-aOC" id="gUh-8X-fjX"/>
                         <outlet property="newsText" destination="k9I-sG-4tW" id="zsv-dc-ds0"/>
                         <outlet property="photoImageView" destination="0uq-lS-Lpt" id="ed0-rb-pmB"/>

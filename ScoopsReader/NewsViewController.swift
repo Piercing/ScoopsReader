@@ -20,6 +20,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     @IBOutlet weak var ratingControl: RatingControl!
     @IBOutlet weak var newsText: UITextView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // Valor que puede ser pasado mediante 'prepareForsegue'
     var news : News?
@@ -129,25 +130,56 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     //            reset!.button.adjustsImageWhenHighlighted = false
     //        }
     //    }
-    
+    // Arranco el 'activityView'
+    //    [self.activityView startAnimating];
+    //    // Utilizo una cola del sistema, no creo una para esto,
+    //    // donde se aplica el filtro asíncronamente ==> 2º plano
+    //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    //    // Obtengo imagen de salida
+    //    CGImageRef res = [context createCGImage:output
+    //    // como quiero procesar, no solo una parte de la imagen,
+    //    // sino todo, le paso 'extent', es como un 'bounds' y demás.
+    //    fromRect:[output extent]];
+    //    // 'activityView' ==> cola principal
+    //    dispatch_async(dispatch_get_main_queue(), ^{
+    //    // Para el 'activity'una vez se muestra el filtro aplicado
+    //    [self.activityView stopAnimating];
+    //
+    //    // Guardo la imagen
+    //    UIImage *img = [UIImage imageWithCGImage:res];
+    //    self.photoView.image = img;
+    //
+    //    // Libero el CGImageRef, ya que ARC no llega hasta tan bajo nivel, a manubrio toca
+    //    CGImageRelease(res);
     
     
     @IBAction func selectImageFromPhotLibrary(sender: UITapGestureRecognizer) {
         
-        // Usuario  toca la 'imageView' mientras escribe el teclado desaparece
-        titleTextField.resignFirstResponder()
+        self.activityIndicator.startAnimating()
         
-        // Creo 'imagePickerController' para  que el usuario acceda al carrete
-        let imagePickerController = UIImagePickerController()
+        // Utilizo una cola del sistema, donde se obtiene la foto en segundo plano
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            // Usuario  toca la 'imageView' mientras escribe el teclado desaparece
+            self.titleTextField.resignFirstResponder()
+            
+            // Creo 'imagePickerController' para  que el usuario acceda al carrete
+            let imagePickerController = UIImagePickerController()
+            
+            // Acceso solamente a 'photLibrary' del usuario, no acceso a la camara
+            imagePickerController.sourceType = .PhotoLibrary
+            
+            // Recibo las notificaciones cuando usuario escoge imagen => 'Delegate'
+            imagePickerController.delegate = self
+            
+            // Presento  el 'viewController' definido  por  'imagePickerController'
+            self.presentViewController(imagePickerController, animated: true, completion: nil)
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.activityIndicator.stopAnimating()
+            })
+        }
         
-        // Acceso solamente a 'photLibrary' del usuario, no acceso a la camara
-        imagePickerController.sourceType = .PhotoLibrary
         
-        // Recibo las notificaciones cuando usuario escoge imagen => 'Delegate'
-        imagePickerController.delegate = self
-        
-        // Presento  el 'viewController' definido  por  'imagePickerController'
-        presentViewController(imagePickerController, animated: true, completion: nil)
     }
     
     // MARK: - UITextViewDelegate - Métodos del protocolo delegado opcionales
@@ -155,12 +187,12 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     // Método  que se llama al usuario pulsar en  el teclado 'return' => 'Done'
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange,
         replacementText text: String) -> Bool {
-        
-        if text == "\n" {
-            textView.resignFirstResponder()
-            return false
-        }
-        return true
+            
+            if text == "\n" {
+                textView.resignFirstResponder()
+                return false
+            }
+            return true
     }
     
     // MARK: - UITextFieldDelegate - Métodos del protocolo delegado opcionales
