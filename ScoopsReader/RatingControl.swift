@@ -104,7 +104,7 @@ class RatingControl: UIView {
             // Cojo el primero con índice '0', por tanto se situa 'x=0'
             // El siguiente,  con índice '1',  se situará en ==> 'x=49'
             // y así hasta el quinto botón que será el de la posicón 4
-            buttonFrame.origin.x = CGFloat(index * (buttonSize + 5))
+            buttonFrame.origin.x = CGFloat(index * (buttonSize + spacing))
             // Asigno donde  situar cada botón en el valor 'posición X'
             button.frame = buttonFrame
         }

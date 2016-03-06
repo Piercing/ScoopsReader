@@ -13,13 +13,12 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     
     
     // MARK: - Properties
-
+    
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var authorTextField: UITextField!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var ratingControl: RatingControl!
     @IBOutlet weak var newsText: UITextView!
-    //@IBOutlet weak var placeholderLabel : UILabel!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     // Valor que puede ser pasado mediante 'prepareForsegue'
@@ -29,13 +28,25 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.view.backgroundColor = UIColor.whiteColor()
         
-        // 'ViewController' delegado: 'textField' 'UITextView'
+        // 'ViewController' delegado => 'textField' 'UITextView'
         titleTextField.delegate = self
         authorTextField.delegate = self
         newsText.delegate = self
+        
+        // Establecer  cada una de las vistas en 'NewsViewController'
+        // para  mostrar los  datos de las  propiedades de una 'news'
+        // si 'news' no es 'nil', que sucede cuando la news se edita
+        if let news = news {
+            navigationItem.title = news.title
+            titleTextField.text  = news.title
+            authorTextField.text = news.author
+            photoImageView.image = news.photo
+            ratingControl.rating = news.rating
+            newsText.text = news.newsText
+        }
         
         // Habilito el botón 'Save' sólo si los campos de texto
         // contienen valores válidos para las propiedades 'news'
@@ -45,9 +56,31 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     
     // MARK: Navigation
     
-    @IBAction func cancelButton(sender: AnyObject) {
-        // Cancelar la nueva entrada  sin almacenar ninguna información
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelButton(sender: UIBarButtonItem) {
+        
+        // Dependiendo del estilo de presentación ('modal' o 'push') el
+        // viewController se puede  cancelar de  dos  maneras distintas
+        
+        // Valor booleano para comprobar si la escena es 'NavigationCtr'
+        // Compruebo si la escena ha sido presentada con el botón =>'+'
+        let isPresentingInAddNewsMode = presentingViewController is UINavigationController
+        
+        // Ahora sólo se cancela la entrada de información si se cumple
+        if isPresentingInAddNewsMode {
+            
+            // Cancelar la  nueva  entrada  sin  almacenar  información
+            dismissViewControllerAnimated(true, completion: nil)
+            
+        }else{
+            // Se  ejecuta cuando la  noticia  se  inserta en la pila de
+            // navegación de la parte superior de la escena  tabla 'news'
+            // Con este método aparece el controlador de la vista actual
+            // (news) de la pila de navegación  de 'navigationController'
+            // Es decir, si se cancela cuando se ha pulsado una celda de
+            // la tabla y no el botón de añadir, este método devuelve la
+            // la  tabla de  nuevo sin mostrar  ningún  cambio realizado
+            navigationController!.popViewControllerAnimated(true)
+        }
     }
     
     // Método para configurar un viewController antes de ser presentado.
@@ -66,33 +99,37 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             let photo = photoImageView.image
             let rating = ratingControl.rating
             let newsTxt = newsText.text ?? ""
-            //let newsTxt = "Prueba, no implementado aún"
+            let newDat = NSDate()
+            let state = false
+            //let latitude =
+            //let longitude =
             
             // Estableciendo  valores de la 'news' para ser pasados al
             // =====>  'NewsTableViewController' a  través  del  segue
-            news = News(title: title, author: author, newsText: newsTxt, rating: rating, photo: photo)
+            news = News(title: title, author: author, newsText: newsTxt,
+                rating: rating, photo: photo, state: state, newDat : newDat)
         }
     }
     
     // MARK: - Actions (Target-Action)
-
-//    @IBAction func resetRating(sender: UIButton) {
-//        
-//        for (index, button) in (reset?.ratingButtons.enumerate())! {
-//            
-//            switch (index){
-//                
-//            case 0...4: button.setImage(reset?.emptyStarImage, forState: .Normal)
-//            reset?.rating = 0
-//                break
-//            default: ()
-//            }
-//            // Para asegurarme de que la imagen no muestre alguna caract.
-//            // adicional  durante  el cambio  de  estado, al ser pulsada.
-//            reset!.button.adjustsImageWhenHighlighted = false
-//        }
-//    }
-
+    
+    //    @IBAction func resetRating(sender: UIButton) {
+    //
+    //        for (index, button) in (reset?.ratingButtons.enumerate())! {
+    //
+    //            switch (index){
+    //
+    //            case 0...4: button.setImage(reset?.emptyStarImage, forState: .Normal)
+    //            reset?.rating = 0
+    //                break
+    //            default: ()
+    //            }
+    //            // Para asegurarme de que la imagen no muestre alguna caract.
+    //            // adicional  durante  el cambio  de  estado, al ser pulsada.
+    //            reset!.button.adjustsImageWhenHighlighted = false
+    //        }
+    //    }
+    
     
     
     @IBAction func selectImageFromPhotLibrary(sender: UITapGestureRecognizer) {
@@ -116,7 +153,8 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     // MARK: - UITextViewDelegate - Métodos del protocolo delegado opcionales
     
     // Método  que se llama al usuario pulsar en  el teclado 'return' => 'Done'
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange,
+        replacementText text: String) -> Bool {
         
         if text == "\n" {
             textView.resignFirstResponder()
@@ -169,7 +207,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         
     }
     
-    // MARK: - UIImagePickerControllerDelegate - Métodos del  protocolo delegado 
+    // MARK: - UIImagePickerControllerDelegate - Métodos del  protocolo delegado
     
     // Método que se llama cuando el usuario pulsa el botón Cancelar de imágenes
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -177,55 +215,43 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         // Cierro  el selector de imágenes  si el  usuario pulsa  botón cancelar
         dismissViewControllerAnimated(true, completion: nil)
     }
-
+    
     // Método qu se llama cuando usuario selecciona una foto pudiendo modificarla
     func imagePickerController(picker: UIImagePickerController,
-         didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        
-        // El diccionario que recibo contiene múltiples representaciones de image
-        // utilizo la imagen  original ===> 'UIImagePickerControllerOriginalImage'
-        let selectImage = info [UIImagePickerControllerOriginalImage] as! UIImage
-        
-        // Establezco como 'photoImage' la 'selectImage' seleccionada y la muestro
-        photoImageView.image = selectImage
-        
-        // Cierro  el selector de imágenes de forma animada y bloque final ==> nil
-        dismissViewControllerAnimated(true, completion: nil)
-        
+        didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+            
+            // El diccionario que recibo contiene múltiples representaciones de image
+            // utilizo la imagen  original ===> 'UIImagePickerControllerOriginalImage'
+            let selectImage = info [UIImagePickerControllerOriginalImage] as! UIImage
+            
+            // Establezco como 'photoImage' la 'selectImage' seleccionada y la muestro
+            photoImageView.image = selectImage
+            
+            // Cierro  el selector de imágenes de forma animada y bloque final ==> nil
+            dismissViewControllerAnimated(true, completion: nil)
+            
     }
     
     // MARK: Delegate textView
-//    func textViewDidChange(textView: UITextView) {
-//        // Oculto la  etiqueta  cuando  hay  texto
-//        placeholderLabel.hidden = !textView.text.isEmpty
-//    }
+    //    func textViewDidChange(textView: UITextView) {
+    //        // Oculto la  etiqueta  cuando  hay  texto
+    //        placeholderLabel.hidden = !textView.text.isEmpty
+    //    }
     
     // MARK: Utils
-//    func settingsNewsText(){
-//        // Establezco propiedades para el textView
-//        //newsText.delegate = self
-//        placeholderLabel = UILabel()
-//        placeholderLabel.text = "Enter the text of the news here..."
-//        placeholderLabel.font = UIFont.italicSystemFontOfSize(newsText.font!.pointSize)
-//        placeholderLabel.sizeToFit()
-//        newsText.addSubview(placeholderLabel)
-//        placeholderLabel.frame.origin = CGPointMake(5, newsText.font!.pointSize / 2)
-//        placeholderLabel.textColor = UIColor(white: 0, alpha: 0.3)
-//        placeholderLabel.hidden = !newsText.text.isEmpty
-//    }
+    //    func settingsNewsText(){
+    //        // Establezco propiedades para el textView
+    //        //newsText.delegate = self
+    //        placeholderLabel = UILabel()
+    //        placeholderLabel.text = "Enter the text of the news here..."
+    //        placeholderLabel.font = UIFont.italicSystemFontOfSize(newsText.font!.pointSize)
+    //        placeholderLabel.sizeToFit()
+    //        newsText.addSubview(placeholderLabel)
+    //        placeholderLabel.frame.origin = CGPointMake(5, newsText.font!.pointSize / 2)
+    //        placeholderLabel.textColor = UIColor(white: 0, alpha: 0.3)
+    //        placeholderLabel.hidden = !newsText.text.isEmpty
+    //    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

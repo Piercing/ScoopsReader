@@ -9,7 +9,6 @@
 import UIKit
 
 class NewsLectorTableViewCell: UITableViewCell {
-
     
     // MARK: Properties
     
