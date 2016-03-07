@@ -22,6 +22,10 @@
 		52E4C9701C897967006FD2E8 /* NewsLectorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E4C96F1C897967006FD2E8 /* NewsLectorTableViewCell.swift */; };
 		52E4C9721C8980D7006FD2E8 /* NewsAuthorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E4C9711C8980D7006FD2E8 /* NewsAuthorTableViewController.swift */; };
 		52E4C9741C898F3A006FD2E8 /* NewsAuthorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E4C9731C898F3A006FD2E8 /* NewsAuthorTableViewCell.swift */; };
+		52FD72921C8D3C86007646D1 /* MicrosoftAzureMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52FD72911C8D3C85007646D1 /* MicrosoftAzureMobile.framework */; };
+		52FD72941C8D3D37007646D1 /* Azure Storage Client Library.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52FD72931C8D3D37007646D1 /* Azure Storage Client Library.framework */; };
+		52FD72981C8D3E47007646D1 /* AzFake.m in Sources */ = {isa = PBXBuildFile; fileRef = 52FD72971C8D3E47007646D1 /* AzFake.m */; };
+		52FD729A1C8D40B5007646D1 /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 52FD72991C8D40B5007646D1 /* libxml2.2.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +57,12 @@
 		52E4C96F1C897967006FD2E8 /* NewsLectorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsLectorTableViewCell.swift; sourceTree = "<group>"; };
 		52E4C9711C8980D7006FD2E8 /* NewsAuthorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsAuthorTableViewController.swift; sourceTree = "<group>"; };
 		52E4C9731C898F3A006FD2E8 /* NewsAuthorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsAuthorTableViewCell.swift; sourceTree = "<group>"; };
+		52FD72911C8D3C85007646D1 /* MicrosoftAzureMobile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MicrosoftAzureMobile.framework; sourceTree = "<group>"; };
+		52FD72931C8D3D37007646D1 /* Azure Storage Client Library.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "Azure Storage Client Library.framework"; sourceTree = "<group>"; };
+		52FD72951C8D3E46007646D1 /* ScoopsReader-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ScoopsReader-Bridging-Header.h"; sourceTree = "<group>"; };
+		52FD72961C8D3E47007646D1 /* AzFake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzFake.h; sourceTree = "<group>"; };
+		52FD72971C8D3E47007646D1 /* AzFake.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AzFake.m; sourceTree = "<group>"; };
+		52FD72991C8D40B5007646D1 /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +70,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52FD729A1C8D40B5007646D1 /* libxml2.2.tbd in Frameworks */,
 				5226960E1C83B61D00EF47A8 /* MapKit.framework in Frameworks */,
+				52FD72921C8D3C86007646D1 /* MicrosoftAzureMobile.framework in Frameworks */,
+				52FD72941C8D3D37007646D1 /* Azure Storage Client Library.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,6 +119,9 @@
 		5226960F1C83B62400EF47A8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52FD72991C8D40B5007646D1 /* libxml2.2.tbd */,
+				52FD72911C8D3C85007646D1 /* MicrosoftAzureMobile.framework */,
+				52FD72931C8D3D37007646D1 /* Azure Storage Client Library.framework */,
 				5226960D1C83B61D00EF47A8 /* MapKit.framework */,
 			);
 			name = Frameworks;
@@ -142,6 +158,9 @@
 				52BB29311C8232820025645A /* LaunchScreen.storyboard */,
 				52BB29341C8232820025645A /* Info.plist */,
 				5226960F1C83B62400EF47A8 /* Frameworks */,
+				52FD72961C8D3E47007646D1 /* AzFake.h */,
+				52FD72971C8D3E47007646D1 /* AzFake.m */,
+				52FD72951C8D3E46007646D1 /* ScoopsReader-Bridging-Header.h */,
 			);
 			path = ScoopsReader;
 			sourceTree = "<group>";
@@ -267,6 +286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				52C1A5AB1C862E8400EE21FF /* AccessViewController.swift in Sources */,
+				52FD72981C8D3E47007646D1 /* AzFake.m in Sources */,
 				52E4C9701C897967006FD2E8 /* NewsLectorTableViewCell.swift in Sources */,
 				52BB292B1C8232820025645A /* NewsViewController.swift in Sources */,
 				52E4C9741C898F3A006FD2E8 /* NewsAuthorTableViewCell.swift in Sources */,
@@ -404,11 +424,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = ScoopsReader/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.weblogmerlos.ScoopsReader;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ScoopsReader/ScoopsReader-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -417,11 +444,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = ScoopsReader/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.weblogmerlos.ScoopsReader;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ScoopsReader/ScoopsReader-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
