@@ -1,1 +1,1 @@
-pod 'AZSClient', '~0.1'
+pod 'AZSClient', '~>0.1'
