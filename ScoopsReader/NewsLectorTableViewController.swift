@@ -31,42 +31,15 @@ class NewsLectorTableViewController: UITableViewController {
         self.navigationController?.navigationBar.topItem?.backBarButtonItem?.setTitleTextAttributes(
             [NSForegroundColorAttributeName: color], forState: .Normal)
         
+        // Defino  altura de las celdas en tabla
+        self.tableView.rowHeight = 120
+        
         // Cargar noticas
         loadNews()
         
     }
     
     func loadNews() {
-        
-        let photo1 = UIImage(named: "meal1.png")
-        let news1 = News(
-            title: "Caprese Salad",
-            author: "Carlos",
-            newsText: "Rica rica aliñada",
-            rating: 4,
-            photo: photo1,
-            state: false,
-            newDat: NSDate())!
-        
-        let photo2 = UIImage(named: "meal2.png")
-        let news2 = News(
-            title: "Chicken and Potatoes",
-            author: "Juan",
-            newsText: "Rico rico al horno ",
-            rating: 5,
-            photo: photo2,
-            state: false,
-            newDat: NSDate())!
-        
-        let photo3 = UIImage(named: "meal3.png")
-        let news3 = News(
-            title: "Pasta with Meatballs",
-            author: "Pablo",
-            newsText: "Rica rica las albóndigas",
-            rating: 3,
-            photo: photo3,
-            state: false,
-            newDat: NSDate())!
         
         let photo4 = UIImage(named: "noticias.jpg")
         let news4 = News(
@@ -98,7 +71,7 @@ class NewsLectorTableViewController: UITableViewController {
             state: false,
             newDat: NSDate())!
         
-        news += [news1, news2, news3, news4, news5, news6]
+        news += [news4, news5, news6]
     }
     
     override func didReceiveMemoryWarning() {
@@ -133,8 +106,7 @@ class NewsLectorTableViewController: UITableViewController {
         cell.authorLabel.text = newsOfIndexPath.author
         cell.photoImage.image = newsOfIndexPath.photo
         cell.ratingControl.rating = newsOfIndexPath.rating
-        
-        
+
         return cell
     }
     

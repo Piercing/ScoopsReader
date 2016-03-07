@@ -29,9 +29,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.backgroundColor = UIColor.whiteColor()
-        
+
         // 'ViewController' delegado => 'textField' 'UITextView'
         titleTextField.delegate = self
         authorTextField.delegate = self
@@ -40,7 +38,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         // Establecer  cada una de las vistas en 'NewsViewController'
         // para  mostrar los  datos de las  propiedades de una 'news'
         // si 'news' no es 'nil', que sucede cuando la news se edita
-        if let news = news {
+        if let news = self.news {
             navigationItem.title = news.title
             titleTextField.text  = news.title
             authorTextField.text = news.author
@@ -53,6 +51,16 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         // contienen valores válidos para las propiedades 'news'
         checkValidNewsName()
         
+    }
+    override func viewWillAppear(animated: Bool) {
+        
+        self.view.backgroundColor = UIColor.whiteColor()
+        
+        // Color  para el título 'navigationItem'
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.orangeColor()]
+        
+        // Color de fondo  para el 'navigationBar'
+        UINavigationBar.appearance().barTintColor = UIColor.blackColor()
     }
     
     // MARK: Navigation
@@ -87,14 +95,13 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     // Método para configurar un viewController antes de ser presentado.
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        // 'identity operator' ==> compruebo que el objeto referenciado
+        // 'identity operator' === compruebo que el objeto referenciado
         // de salida => 'saveButton' es la misma instancia que 'sender'
         if saveButton === sender {
             
             // 'Coalescencing operator' => devuelve un valor si lo tiene
             // y si éste no lo tiene, devuelve un valor por defecto ("")
-            // En este caso si al desempaquetar tuviera un nil, devolver
-            // texto vacio ""
+            // En este caso si tuviera un nil, devolvería texto vacio ""
             let title = titleTextField.text ?? ""
             let author = authorTextField.text ?? ""
             let photo = photoImageView.image
@@ -130,37 +137,19 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     //            reset!.button.adjustsImageWhenHighlighted = false
     //        }
     //    }
-    // Arranco el 'activityView'
-    //    [self.activityView startAnimating];
-    //    // Utilizo una cola del sistema, no creo una para esto,
-    //    // donde se aplica el filtro asíncronamente ==> 2º plano
-    //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    //    // Obtengo imagen de salida
-    //    CGImageRef res = [context createCGImage:output
-    //    // como quiero procesar, no solo una parte de la imagen,
-    //    // sino todo, le paso 'extent', es como un 'bounds' y demás.
-    //    fromRect:[output extent]];
-    //    // 'activityView' ==> cola principal
-    //    dispatch_async(dispatch_get_main_queue(), ^{
-    //    // Para el 'activity'una vez se muestra el filtro aplicado
-    //    [self.activityView stopAnimating];
-    //
-    //    // Guardo la imagen
-    //    UIImage *img = [UIImage imageWithCGImage:res];
-    //    self.photoView.image = img;
-    //
-    //    // Libero el CGImageRef, ya que ARC no llega hasta tan bajo nivel, a manubrio toca
-    //    CGImageRelease(res);
+    
     
     
     @IBAction func selectImageFromPhotLibrary(sender: UITapGestureRecognizer) {
         
+        // Inicio el 'activityIndicator'  cuando el usuario va  acceder carrete
         self.activityIndicator.startAnimating()
+        
+        // Usuario  toca la 'imageView' mientras escribe, el teclado desaparece
+        self.titleTextField.resignFirstResponder()
         
         // Utilizo una cola del sistema, donde se obtiene la foto en segundo plano
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-            // Usuario  toca la 'imageView' mientras escribe el teclado desaparece
-            self.titleTextField.resignFirstResponder()
             
             // Creo 'imagePickerController' para  que el usuario acceda al carrete
             let imagePickerController = UIImagePickerController()
@@ -168,13 +157,16 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             // Acceso solamente a 'photLibrary' del usuario, no acceso a la camara
             imagePickerController.sourceType = .PhotoLibrary
             
-            // Recibo las notificaciones cuando usuario escoge imagen => 'Delegate'
-            imagePickerController.delegate = self
-            
-            // Presento  el 'viewController' definido  por  'imagePickerController'
-            self.presentViewController(imagePickerController, animated: true, completion: nil)
-            
+            // Paro  el 'activity Indicator' en la cola principal una vez accedido
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                // Recibo las notificaciones cuando usuario escoge imagen => 'Delegate'
+                imagePickerController.delegate = self
+                
+                // Presento  el 'viewController' definido  por  'imagePickerController'
+                self.presentViewController(imagePickerController, animated: true, completion: nil)
+
+                // Detengo el 'activityIndicator' cuando el usuario ya accedió carrete
                 self.activityIndicator.stopAnimating()
             })
         }
@@ -209,7 +201,6 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     // dando la opción de poder  leer el texto introducido y hacer  algo con él
     func textFieldDidEndEditing(textField: UITextField) {
         
-        //@IBOutlet weak var newsTitleLabel : UILabel!
         // LLamo al método '' para comporbar si hay texto en los campos de texto
         checkValidNewsName()
         // Establezco el título de la escena al texto del título que le da autor
@@ -263,26 +254,6 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             dismissViewControllerAnimated(true, completion: nil)
             
     }
-    
-    // MARK: Delegate textView
-    //    func textViewDidChange(textView: UITextView) {
-    //        // Oculto la  etiqueta  cuando  hay  texto
-    //        placeholderLabel.hidden = !textView.text.isEmpty
-    //    }
-    
-    // MARK: Utils
-    //    func settingsNewsText(){
-    //        // Establezco propiedades para el textView
-    //        //newsText.delegate = self
-    //        placeholderLabel = UILabel()
-    //        placeholderLabel.text = "Enter the text of the news here..."
-    //        placeholderLabel.font = UIFont.italicSystemFontOfSize(newsText.font!.pointSize)
-    //        placeholderLabel.sizeToFit()
-    //        newsText.addSubview(placeholderLabel)
-    //        placeholderLabel.frame.origin = CGPointMake(5, newsText.font!.pointSize / 2)
-    //        placeholderLabel.textColor = UIColor(white: 0, alpha: 0.3)
-    //        placeholderLabel.hidden = !newsText.text.isEmpty
-    //    }
 }
 
 

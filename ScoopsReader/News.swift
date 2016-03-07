@@ -112,6 +112,7 @@ class News : NSObject, NSCoding {
     // MARK: NScoding
     
     // Métodos Protocolos para codificar y descodificar la información guardada
+    
     func encodeWithCoder(aCoder: NSCoder) {
         // encodeObject codifica cualquier tipo de objeto, codificando el valor
         // de cada propiedad de 'news'
@@ -122,8 +123,8 @@ class News : NSObject, NSCoding {
         aCoder.encodeObject(photo, forKey: propertyKey.photoKey)
         aCoder.encodeObject(dateActual, forKey: propertyKey.dateActualKey)
         aCoder.encodeObject(state, forKey: propertyKey.stateKey)
-        //        aCoder.encodeObject(latitude as? AnyObject, forKey: propertyKey.latitudeKey)
-        //        aCoder.encodeObject(longitude as? AnyObject, forKey: propertyKey.longitudeKey)
+        //aCoder.encodeObject(latitude as? AnyObject, forKey: propertyKey.latitudeKey)
+        //aCoder.encodeObject(longitude as? AnyObject, forKey: propertyKey.longitudeKey)
     }
     
     // Inicializador  de conveniencia: ===> debe implementarse en las subclases

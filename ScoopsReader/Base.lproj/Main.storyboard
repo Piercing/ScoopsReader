@@ -103,51 +103,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="120" selectionStyle="none" indentationWidth="10" reuseIdentifier="newsLectorTableViewCell" rowHeight="120" id="wkz-03-EXi" customClass="NewsLectorTableViewCell" customModule="ScoopsReader" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="newsLectorTableViewCell" rowHeight="120" id="wkz-03-EXi" customClass="NewsLectorTableViewCell" customModule="ScoopsReader" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wkz-03-EXi" id="liD-De-k7m">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="119"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="Mhi-QR-2EW">
-                                            <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="120" id="p71-BM-0kQ"/>
-                                            </constraints>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="defaultPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="Mhi-QR-2EW">
+                                            <rect key="frame" x="6" y="5" width="110" height="110"/>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0NQ-Cr-EqO">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0NQ-Cr-EqO">
                                             <rect key="frame" x="128" y="8" width="464" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y1A-PI-KEf">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y1A-PI-KEf">
                                             <rect key="frame" x="128" y="37" width="464" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g2B-hh-bsX" customClass="RatingControl" customModule="ScoopsReader" customModuleProvider="target">
-                                            <rect key="frame" x="128" y="67" width="240" height="44"/>
+                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g2B-hh-bsX" customClass="RatingControl" customModule="ScoopsReader" customModuleProvider="target">
+                                            <rect key="frame" x="128" y="60" width="240" height="44"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </view>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstItem="Mhi-QR-2EW" firstAttribute="top" secondItem="liD-De-k7m" secondAttribute="top" id="3MD-9D-vhw"/>
-                                        <constraint firstItem="y1A-PI-KEf" firstAttribute="top" secondItem="0NQ-Cr-EqO" secondAttribute="bottom" constant="8" symbolic="YES" id="72w-7W-q8a"/>
-                                        <constraint firstItem="y1A-PI-KEf" firstAttribute="trailing" secondItem="liD-De-k7m" secondAttribute="trailingMargin" id="7Qe-h7-F1U"/>
-                                        <constraint firstItem="g2B-hh-bsX" firstAttribute="bottom" secondItem="liD-De-k7m" secondAttribute="bottomMargin" id="8GH-Jp-cM6"/>
-                                        <constraint firstAttribute="trailing" secondItem="g2B-hh-bsX" secondAttribute="trailing" constant="232" id="Ay5-AY-nbD"/>
-                                        <constraint firstItem="g2B-hh-bsX" firstAttribute="top" secondItem="y1A-PI-KEf" secondAttribute="bottom" constant="9" id="He9-q7-8uK"/>
-                                        <constraint firstItem="y1A-PI-KEf" firstAttribute="trailing" secondItem="0NQ-Cr-EqO" secondAttribute="trailing" id="Lqi-Wj-D0t"/>
-                                        <constraint firstItem="y1A-PI-KEf" firstAttribute="top" secondItem="liD-De-k7m" secondAttribute="top" constant="37" id="Ves-93-rWd"/>
-                                        <constraint firstItem="0NQ-Cr-EqO" firstAttribute="leading" secondItem="Mhi-QR-2EW" secondAttribute="trailing" constant="8" symbolic="YES" id="fFT-Vx-Jtg"/>
-                                        <constraint firstItem="Mhi-QR-2EW" firstAttribute="centerY" secondItem="liD-De-k7m" secondAttribute="centerY" id="i5C-VT-Wgq"/>
-                                        <constraint firstItem="y1A-PI-KEf" firstAttribute="leading" secondItem="Mhi-QR-2EW" secondAttribute="trailing" constant="8" symbolic="YES" id="nW0-lu-0Mi"/>
-                                        <constraint firstItem="Mhi-QR-2EW" firstAttribute="leading" secondItem="liD-De-k7m" secondAttribute="leading" id="sXm-lb-E34"/>
-                                        <constraint firstItem="g2B-hh-bsX" firstAttribute="leading" secondItem="Mhi-QR-2EW" secondAttribute="trailing" constant="8" symbolic="YES" id="x4B-y7-SoF"/>
-                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="authorLabel" destination="y1A-PI-KEf" id="UGI-Ww-QYb"/>
@@ -255,13 +237,13 @@
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="252" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter news author" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iol-xj-aOC">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="252" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter news author" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="iol-xj-aOC">
                                         <rect key="frame" x="0.0" y="42" width="560" height="30"/>
                                         <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" image="defaultPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="0uq-lS-Lpt">
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="560" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" image="defaultPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="0uq-lS-Lpt">
                                         <rect key="frame" x="161" y="84" width="238" height="238"/>
                                         <gestureRecognizers/>
                                         <constraints>
@@ -307,11 +289,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="Create News" id="CFo-VB-SEK">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="dfd-lp-CP8">
+                            <color key="tintColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="cancelButton:" destination="BYZ-38-t0r" id="gRU-08-e66"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="uVT-O3-DV5">
+                            <color key="tintColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="Zz3-Iy-Fp3" kind="unwind" unwindAction="unwindToNewsList:" id="9sG-oX-Lpp"/>
                             </connections>
@@ -383,6 +367,6 @@
         <image name="defaultPhoto" width="540" height="540"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="azt-p7-7WC"/>
+        <segue reference="vEp-c1-fE4"/>
     </inferredMetricsTieBreakers>
 </document>

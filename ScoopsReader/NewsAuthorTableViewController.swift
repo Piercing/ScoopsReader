@@ -12,8 +12,11 @@ class NewsAuthorTableViewController: UITableViewController {
     
     // MARK: Properties
     var news = [News]()
+    var activityIndicator : NewsViewController?
     
     
+    
+    // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,23 +32,30 @@ class NewsAuthorTableViewController: UITableViewController {
         }
         
         // Botón 'back':de vuelva pantalla inicio
-        let button = UIBarButtonItem(title: "❮ Back👻", style: UIBarButtonItemStyle.Done, target: self, action: "goBack")
+        let button = UIBarButtonItem(title: "❮ Back👻", style: UIBarButtonItemStyle.Done,
+            target: self, action: "goBack")
+        // Situo el botón (Item) al lado izquierdo
         self.navigationItem.leftBarButtonItem = button
+    }
+    
+    
+    override func viewWillAppear(animated: Bool) {
         
         // Título  para  el ====> 'navigationItem'
         navigationItem.title = "Your News"
+        
+        self.view.backgroundColor = UIColor.whiteColor()
         
         // Color  para el título 'navigationItem'
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         
         // Color de fondo  para el 'navigationBar'
-        UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
+        UINavigationBar.appearance().barTintColor = UIColor.blackColor()
         
         // Color para el título de 'navigationBar'
-        let color = UIColor.whiteColor()
+        let color = UIColor.orangeColor()
         self.navigationController?.navigationBar.topItem?.backBarButtonItem?.setTitleTextAttributes(
             [NSForegroundColorAttributeName: color], forState: .Normal)
-        
     }
     
     /// Este método devuelve a la pantalla de inicio
@@ -55,36 +65,6 @@ class NewsAuthorTableViewController: UITableViewController {
     }
     
     func loadSamplesNews() {
-        
-        let photo1 = UIImage(named: "meal1.png")
-        let news1 = News(
-            title: "Caprese Salad",
-            author: "Carlos",
-            newsText: "Rica rica aliñada",
-            rating: 4,
-            photo: photo1,
-            state: false,
-            newDat: NSDate())!
-        
-        let photo2 = UIImage(named: "meal2.png")
-        let news2 = News(
-            title: "Chicken and Potatoes",
-            author: "Juan",
-            newsText: "Rico rico al horno ",
-            rating: 5,
-            photo: photo2,
-            state: false,
-            newDat: NSDate())!
-        
-        let photo3 = UIImage(named: "meal3.png")
-        let news3 = News(
-            title: "Pasta with Meatballs",
-            author: "Pablo",
-            newsText: "Rica rica las albóndigas",
-            rating: 3,
-            photo: photo3,
-            state: false,
-            newDat: NSDate())!
         
         let photo4 = UIImage(named: "noticias.jpg")
         let news4 = News(
@@ -116,7 +96,7 @@ class NewsAuthorTableViewController: UITableViewController {
             state: false,
             newDat: NSDate())!
         
-        news += [news1, news2, news3, news4, news5, news6]
+        news += [news4, news5, news6]
     }
     
     override func didReceiveMemoryWarning() {
@@ -247,13 +227,18 @@ class NewsAuthorTableViewController: UITableViewController {
     /// Guarda la lista de noticias
     func saveNews() {
         
-        // Intento guardar  el array de las 'news', si se  ha podido  guardar me devuelve 'true'
-        // Le paso constante  estática creada en 'News' que es la ruta al archivo donde guardar
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(news, toFile: News.archiveURL.path!)
-        
-        // Compruebo por consola si se han guardado o no los objetos en ruta especificada (path)
-        if !isSuccessfulSave {
-            print("Failed to save news")
+        self.activityIndicator?.activityIndicator.startAnimating()
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            // Intento guardar  el array de las 'news', si se  ha podido  guardar me devuelve 'true'
+            // Le paso constante  estática creada en 'News' que es la ruta al archivo donde guardar
+            let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(self.news, toFile: News.archiveURL.path!)
+            // Compruebo por consola si se han guardado o no los objetos en ruta especificada (path)
+            if !isSuccessfulSave {
+                print("Failed to save news")
+            }
+        }
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.activityIndicator?.activityIndicator.stopAnimating()
         }
     }
     
