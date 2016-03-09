@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MobileCoreServices
 
 class NewsViewController: UIViewController, UITextFieldDelegate,
 UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
@@ -21,15 +22,23 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     @IBOutlet weak var newsText: UITextView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var numberValoration: UILabel!
+    @IBOutlet weak var numberVotes: UILabel!
     
-    // Valor que puede ser pasado mediante 'prepareForsegue'
+    // Valor para pasar por 'prepareForsegue'
     var news : News?
+    // Propiedad para almacenar datos  photo
+    var bufferPhoto : UIImage?
+    // Propiedad para almacenar  nombre blob
+    var blobName : String?
+    // Propiedad cliente
+    var client : MSClient?
     
     // var reset : RatingControl?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // 'ViewController' delegado => 'textField' 'UITextView'
         titleTextField.delegate = self
         authorTextField.delegate = self
@@ -92,7 +101,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         }
     }
     
-    // Método para configurar un viewController antes de ser presentado.
+    // Método para  configurar un viewController antes de ser presentado.
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         // 'identity operator' === compruebo que el objeto referenciado
@@ -140,6 +149,32 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     
     
     
+    
+    
+    @IBAction func saveAzureAction(sender: UIBarButtonItem) {
+        
+        // Usando el ==>'client' hacemos referencia a la tabla de los vídeos
+        let tablePhotos = client?.tableWithName("photos")
+        
+        // 1º: Guardamos las  fotos que queremos  persistir en Base de Datos
+        tablePhotos?.insert([
+            "title" : titleTextField.text!, "author" : authorTextField.text!,"newText": newsText.text,
+            "rating" : ratingControl , "blobName": blobName!, "containername" : "myphotoposts"],
+            completion: { (inserted, error: NSError?) -> Void in
+                
+                // Si hay error
+                if error != nil {
+                    print("Houston, we have a problem to save  😱😵😱 => : \(error?.description)")
+                } else {
+                    // 2º: Persistimos ahora el 'blob' en el Storage de Azure
+                    print("All right when saving Database Houston, now plays Blob 😎😎😎")
+                    // Se supone que aquí el vídeo ya debe de estar capturado
+                    self.uploadToStorage(self.bufferPhoto!, blobName: self.blobName!)
+                }
+        })
+    }
+    
+    
     @IBAction func selectImageFromPhotLibrary(sender: UITapGestureRecognizer) {
         
         // Inicio el 'activityIndicator'  cuando el usuario va  acceder carrete
@@ -165,11 +200,64 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
                 
                 // Presento  el 'viewController' definido  por  'imagePickerController'
                 self.presentViewController(imagePickerController, animated: true, completion: nil)
-
-                // Detengo el 'activityIndicator' cuando el usuario ya accedió carrete
+                
+                // Detengo 'activityIndicator' cuando el usuario ya accedió al carrete
                 self.activityIndicator.stopAnimating()
             })
         }
+    }
+    
+    // MARK: Methods for Capture Video
+    
+    /// Captura los vídeos realizados mediante la cámara de nuestro dispositvo
+    func capturePhotos (sender : AnyObject){
+        
+        startCapturePhotosBlogFromViewController(self, withDelegate: self)
+    }
+    
+    /// Captura  vídeos realizados  mediante  la cámara del  dispositivo usado
+    func startCapturePhotosBlogFromViewController(viewcontroller: UIViewController,
+        withDelegate delegate: protocol<UIImagePickerControllerDelegate,
+        UINavigationControllerDelegate>) -> Bool {
+            
+            if (UIImagePickerController.isSourceTypeAvailable(.Camera) == false) {
+                return false
+            }
+            
+            let cameraController = UIImagePickerController()
+            cameraController.sourceType = .Camera
+            cameraController.mediaTypes = [kUTTypeMovie as NSString as String]
+            cameraController.allowsEditing = false
+            cameraController.delegate = delegate
+            
+            presentViewController(cameraController, animated: true, completion: nil)
+            
+            return true
+    }
+    
+    // MARK: Methods to save Videos & Upload Videos
+    
+    /// Path donde se guardarán los vídeos  grabados en el dispositivo local/
+    func savePhotosInDocuments (data: NSData) {
+        
+        let existsFile = NSArray(contentsOfFile: News.archivePhotosURL.path!) as? [String]
+        
+        if existsFile == nil {
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+                // Intento guardar  el array de  'vídeos', si se  ha podido  guardar me devuelve 'true'
+                // Le paso constante  estática creada en 'News' que es la ruta al archivo donde guardar
+                let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(self.news!, toFile: News.archivePhotosURL.path!)
+                // Compruebo por consola si se han guardado o no los objetos en ruta especificada (path)
+                if !isSuccessfulSave {
+                    print("Failed to save photos")
+                }
+            }
+        }
+    }
+    
+    /// Sube los vídeos al Storage de Azure y los almacena
+    func uploadToStorage(data: UIImage, blobName: String) {
         
         
     }

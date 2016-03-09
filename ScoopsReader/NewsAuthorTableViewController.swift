@@ -10,11 +10,21 @@ import UIKit
 
 class NewsAuthorTableViewController: UITableViewController {
     
+    
+    // Creo cuenta para AZS
+    // x90MSepEOi1TMwFnhft+iBtxVCWeA9JIoC6FlLZxhPNEjHT04Y6/kup4/XvuabeBMc0pYEtzfZf2KaqGK1rVOw==
+    
+    // DefaultEndpointsProtocol=https;AccountName=scoopes;AccountKey=x90MSepEOi1TMwFnhft+iBtxVCWeA9JIoC6FlLZxhPNEjHT04Y6/kup4/XvuabeBMc0pYEtzfZf2KaqGK1rVOw==
+    //let account = AZSCloudStorageAccount(fromConnectionString: "")
+    
     // MARK: Properties
+    var client : MSClient = MSClient(applicationURL: NSURL(
+        string: "https://scoopsdailay.azure-mobile.net/"),
+        applicationKey: "VjcTsrgmahsJOviIgUWrrkpQHxIRKO71")
+    
     var news = [News]()
     var activityIndicator : NewsViewController?
-    
-    
+
     
     // MARK: LifeCycle
     override func viewDidLoad() {
@@ -36,6 +46,9 @@ class NewsAuthorTableViewController: UITableViewController {
             target: self, action: "goBack")
         // Situo el botón (Item) al lado izquierdo
         self.navigationItem.leftBarButtonItem = button
+        
+        // Modelo  para ser publicado en la tabla
+        populateModel()
     }
     
     
@@ -58,12 +71,9 @@ class NewsAuthorTableViewController: UITableViewController {
             [NSForegroundColorAttributeName: color], forState: .Normal)
     }
     
-    /// Este método devuelve a la pantalla de inicio
-    func goBack()
-    {
-        self.navigationController?.popViewControllerAnimated(true)
-    }
     
+    
+    /// Lee noticias de ejemplo almacenadas en local
     func loadSamplesNews() {
         
         let photo4 = UIImage(named: "noticias.jpg")
@@ -157,6 +167,45 @@ class NewsAuthorTableViewController: UITableViewController {
         }
     }
     
+    // MARK: Populate Model
+    
+    ///  Popula  el  modelo
+    func populateModel() {
+        
+        // Defino la tabla donde voy a coger 'vídeos/fotos' Azure'
+        let tableNews = client.tableWithName("news")
+        
+        // Prueba 1: obtener todos los datos de tabla via 'MSTable'
+//        tableNews?.readWithCompletion({ (results: MSQueryResult?, error: NSError?) -> Void in
+//            
+//            // si no hay error
+//            if error == nil {
+//                // Sincronizo la tabla con el modelo
+//                self.news = results?.items as! [News]
+//                // actualizo la tabla con un 'reload'
+//                self.tableView.reloadData()
+//            }
+//        })
+        
+        // Prueba 2: Obtener todos los datos de tabla via 'MSQuery'
+        let query = MSQuery(table: tableNews)
+        
+        // Incluir predicados, constrains  para filtrar, limitar el
+        // número de filas que vamos a recibir o en múmero columnas
+        query.orderByAscending("actualdate")
+        // Ejecutar el 'MSQuery', que es practiacamente al anterior
+        query.readWithCompletion { (results: MSQueryResult?, error: NSError?) -> Void in
+            
+            // si no hay error
+            if error == nil {
+                // Sincronizo la tabla con el modelo
+                self.news = results?.items as! [News]
+                // actualizo la tabla con un 'reload'
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     
     // MARK: - Navigation
     
@@ -178,6 +227,10 @@ class NewsAuthorTableViewController: UITableViewController {
                 // Obtengo objeto seleccionado del'indexPath'del array
                 let selectNews = news[indexPath.row]
                 
+                // //************** TODO: aprovecho para coger el indexpath y asignarle ****************//
+                // guardarle, la cantidad de rating y votos que tiene,
+                // el 'state' que tiene, la fecha  y las  coordenadas.
+                
                 // Asigno el  objeto 'selectNews' a la propiedad 'news'
                 // del controlador que es el objeto seleccionado table
                 newsDetailViewController.news = selectNews
@@ -189,9 +242,7 @@ class NewsAuthorTableViewController: UITableViewController {
             
         }
     }
-    
 
-    
     // MARK: Action
     
     @IBAction func unwindToNewsList(sender : UIStoryboardSegue) {
@@ -203,16 +254,20 @@ class NewsAuthorTableViewController: UITableViewController {
                 
                 // Compruebo si se ha seleccionado una fila de la tabla, si es así, es que
                 // se está editando una celda por el usuario, por tanto guardo los cambios
-                if let selectedIndexPath = tableView.indexPathForSelectedRow{
+                if let selectedIndexPath = tableView.indexPathForSelectedRow {
                     // Actualizo una noticia existente que se ha modificado por el usuario
                     news[selectedIndexPath.row] = new
                     // Vuelvo a cargar  la fila  correspondiente  para mostrar los cambios
                     tableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .None)
                     
                 }else{
-                    // Esta se ejecuta mientras no se selecciona ninguna fila por el usuario(+)
+                    // Ésta se ejecuta mientras no se selecciona ninguna fila por el usuario(+)
                     // Añado una  nueva noticia, calculando la posición en la tabla y la guardo
-                    let newIndexPath = NSIndexPath(forRow: news.count, inSection: 0)
+                    // La posción es, en la sección 0, y en el  total de noticas, el total será
+                    // su posición en la  tabla, es decir, si hay 5 noticias, se  situará en el
+                    // indexPath 5, y como empieza desde cero,siempre se colocará después de la
+                    // última notica, ya  que éstas  empiezan a contar desde  cero en la  tabla
+                    let newIndexPath = NSIndexPath(forRow: news.count,inSection: 0)//Sólo hay 1
                     news.append(new)
                     // Ahora  añado la nueva  noticia a la tabla en el 'indexPath' que le paso
                     tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
@@ -246,7 +301,15 @@ class NewsAuthorTableViewController: UITableViewController {
     func loadUpNews () -> [News]? {
         
         return NSKeyedUnarchiver.unarchiveObjectWithFile(News.archiveURL.path!) as? [News]
-        
+    }
+    
+    
+    // MARK: Utils
+
+    /// Nos  devuelve a la pantalla  de inicio al pulsar botón ===>'Back'
+    func goBack()
+    {
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     /*

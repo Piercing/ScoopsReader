@@ -68,6 +68,10 @@ class News : NSObject, NSCoding {
     static let documentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
     // Path donde se  guardarán las 'news'
     static let archiveURL = documentsDirectory.URLByAppendingPathComponent("news")
+    // Luagar donde se guardarán  'vídeos'
+    static let photosDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+    // Path donde se guardar  los 'vídeos'
+    static let archivePhotosURL = photosDirectory.URLByAppendingPathComponent("/video-\(NSUUID().UUIDString).mov")
 
     
     // MARK: Types
@@ -138,8 +142,8 @@ class News : NSObject, NSCoding {
         let photo = aDecoder.decodeObjectForKey(propertyKey.photoKey) as? UIImage
         let date = aDecoder.decodeObjectForKey(propertyKey.dateActualKey) as! NSDate
         let state = aDecoder.decodeObjectForKey(propertyKey.stateKey) as! Bool
-        //        let latitude = aDecoder.decodeObjectForKey(propertyKey.latitudeKey) as! Double
-        //        let longitude = aDecoder.decodeObjectForKey(propertyKey.longitudeKey) as! Double
+        //let latitude = aDecoder.decodeObjectForKey(propertyKey.latitudeKey) as! Double
+        //let longitude = aDecoder.decodeObjectForKey(propertyKey.longitudeKey) as! Double
         
         // Llammo al incializador designado
         self.init(title : title, author : author, newsText : newsText, rating : rating,

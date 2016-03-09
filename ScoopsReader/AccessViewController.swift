@@ -12,20 +12,32 @@ class AccessViewController: UIViewController {
     
     @IBOutlet weak var accessAuthor: UIButton!
     @IBOutlet weak var accessLector: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    @IBAction func authorButton(sender: UIButton) {
+        if sender == self.accessAuthor{
+            self.activityIndicator.startAnimating()
+        }
+    }
+    
+    @IBAction func unwindToNewsAuthorTable(sender : UIStoryboardSegue) {
+        if sender.destinationViewController is NewsAuthorTableViewController{
+            self.activityIndicator.stopAnimating()
+        }
+    }
     
     // MARK: LifeCycle
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
         self.view.backgroundColor = UIColor.blackColor()
-
+        
         settingPropeties(accessLector)
         settingPropeties(accessAuthor)
-
+        
     }
-
+    
     override func viewWillAppear(animated: Bool) {
         
         navigationItem.title = "Scoopes Reader"
@@ -48,15 +60,27 @@ class AccessViewController: UIViewController {
         object.layer.shadowColor = UIColor.orangeColor().CGColor
         object.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
     }
-
-    /*
+    
+    
     // MARK: - Navigation
-
+    /*
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
+    
+    }*/
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

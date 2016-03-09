@@ -11,6 +11,9 @@ import UIKit
 /// Clase de tipo UIView para la valoración ==> 'rating' de noticas
 class RatingControl: UIView {
     
+    var numberValoration : NewsViewController?
+    var numberVoting : NewsViewController?
+    
     // MARK: Properties
     
     // Observo a los  cambios  de 'rating', que será llamado después
@@ -27,6 +30,10 @@ class RatingControl: UIView {
     var ratingButtons = [UIButton]()
     var spacing = 5
     var stars = 5
+    // Cantidad de votos users
+    var amountVotes = 0
+    // Total rating  acumulado
+    var ratingTotalNews = 0
     
     
     // MARK: Initialization
@@ -34,7 +41,7 @@ class RatingControl: UIView {
     // Inicalizador para definir 'StoryBoards'. Se puede inicializar
     // mediante  'frame', si  trabajamos con 'frames', en  este caso
     // voy a trabajar con 'StoryBoards' por lo tanto, uso 'aDecorder'
-    // Cada subclase de 'UIview' que implementa un incializador debe
+    // Cada subclase de 'UIview' que implementa un incializador debe:
     required init?(coder aDecoder: NSCoder) {
         
         // LLamo  al incializador de la supreclase  == > 'super.init'
@@ -102,6 +109,7 @@ class RatingControl: UIView {
         // de 44 puntos y 5puntos de de padding multiplicado por index
         for(index, button) in ratingButtons.enumerate(){
             // Cojo el primero con índice '0', por tanto se situa 'x=0'
+            // que  tendrá un ancho y un alto definido por 'buttonSize'
             // El siguiente,  con índice '1',  se situará en ==> 'x=49'
             // y así hasta el quinto botón que será el de la posicón 4
             buttonFrame.origin.x = CGFloat(index * (buttonSize + spacing))
@@ -109,7 +117,7 @@ class RatingControl: UIView {
             button.frame = buttonFrame
         }
         
-        // Actualizo el estado de los botones, stars rellenas o vacias
+        // Actualizo el estado de los botones(stars) rellenas o vacias
         // Hay que actualizarlas también  cuando  la vista sea cargada
         // y no solamente cuando se actualiza si hay cambios de rating
         updateButtonSelectionStates()
@@ -144,13 +152,24 @@ class RatingControl: UIView {
         // cosa que no es cierta, ya que es dos, de ahí que le sume +1
         rating = ratingButtons.indexOf(button)! + 1
         
+        // TODO: implementar votación media noticia
+        let total = self.totalVoteOfTheNewsByUsers(rating)
+        self.numberValoration?.numberValoration.text = (self.ratingTotalNews).description
+        self.numberVoting?.numberVotes.text = (self.amountVotes).description
+        
         // Actulaizo el estado de los botones, stars rellenas o vacias
         updateButtonSelectionStates()
         
         print("Button pressed 😎👍")
+        print("Cantidad de usuarios que han votado:  \(amountVotes)")
+        print("Valoración total usuarios: \(ratingTotalNews)")
+        print("Valoración media usuarios: \(total)")
+        
         
     }
     
+    // MARK: Utils
+
     /// Método de ayuda que  acutalizar estado de los botones 'selected'
     func updateButtonSelectionStates() {
         
@@ -178,4 +197,49 @@ class RatingControl: UIView {
     }
     */
     
+    // MARK: Utils
+    /// Calcula el rating medio de los usuarios que han votado una noticia
+    func totalVoteOfTheNewsByUsers(valueRating :Int)-> Int{
+        
+        var result = 0
+        
+        switch(valueRating){
+            
+        case 1: self.ratingTotalNews += 1
+            self.amountVotes++
+            break
+        case 2: self.ratingTotalNews += 2
+        self.amountVotes++
+            break
+        case 3: self.ratingTotalNews += 3
+        self.amountVotes++
+            break
+        case 4: self.ratingTotalNews += 4
+        self.amountVotes++
+            break
+        case 5: self.ratingTotalNews += 5
+        self.amountVotes++
+            break
+        default: ()
+        }
+        
+        result = (self.ratingTotalNews / self.amountVotes)
+        self.rating = result
+        
+        return result
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
