@@ -11,6 +11,8 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    var prueba : NewsViewController?
+    
     var window: UIWindow?
     
     let client = MSClient(
@@ -21,24 +23,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         //sleep(1)
         
+//        // Usando el ==>'client' hacemos referencia a la tabla de los vídeos
+//        let tablePhotos = client?.tableWithName("photos")
+//        
+//        // 1º: Guardamos las  fotos que queremos  persistir en Base de Datos
+//        tablePhotos?.insert([
+//            "title" : "prueba", "author" : "yo mismo","newText": "texto de prueba",
+//            "rating" : 5, "amountVotes": 12, "ratingTotalNews": 120,
+//            "blobName": "nombre blob", "containername" : "myphotoposts"],
+//            completion: { (inserted: [NSObject : AnyObject]!, error: NSError?) -> Void in
+//                print("Hello Azure!!!👋👍😋 👋👍😋")
+//                // Si hay error
+//                if error != nil {
+//                    print("Houston, we have a problem to save  😱😵😱 => : \(error?.description)")
+//                }
+//                else {
+//                    // 2º: Persistimos ahora el 'blob' en el Storage de Azure
+////                    print("All right when saving Database Houston, now plays Blob 😎😎😎")
+////                    // Se supone que aquí la photo ya debe de estar capturada
+////                    self.uploadToStorage(self.bufferPhoto!, blobName: self.blobName!)
+//                }
+//        })
+        
         
         // Diccionario para ingresar en Mobile Service de Azure
-        let item = ["title":"Photo 02 prueba", "author":"Pedro", "rating":"5"]
+        //let item = ["title":"Photo 02 prueba", "author":"Pedro", "rating":"5"]
         
         // Obtengo la tabla donde  insertar los datos en 'Azure'
-        let table = client.tableWithName("news")
+        //let table = client.tableWithName("news")
         // Inserto
-        table.insert(item) {
-            (insertedItem, error : NSError?) in
-            print("Hello Azure!!!👋👍😋")
-            if (error != nil) {
-                print("Error" + error!.description)
-            } else {
-                print("Item inserted, id:  \(insertedItem["id"])")
-            }
-        }
+//        table.insert(item) {
+//            (insertedItem, error : NSError?) in
+//            print("Hello Azure!!!👋👍😋")
+//            if (error != nil) {
+//                print("Error" + error!.description)
+//            } else {
+//                print("Item inserted, id:  \(insertedItem["id"])")
+//            }
+//        }
         
-        // Predicado para filtar la consulta
+        //Predicado para filtar la consulta
 //        let predicate = NSPredicate(format: "rating > 4", [])
 //        // Consulta a la tabla en ===> Azure
 //        table.readWithPredicate(predicate) { (result : MSQueryResult?, error : NSError?) -> Void in

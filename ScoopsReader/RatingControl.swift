@@ -11,8 +11,8 @@ import UIKit
 /// Clase de tipo UIView para la valoración ==> 'rating' de noticas
 class RatingControl: UIView {
     
-    var numberValoration : NewsViewController?
-    var numberVoting : NewsViewController?
+    var totalRating : News?
+    var save : NewsAuthorTableViewController?
     
     // MARK: Properties
     
@@ -27,9 +27,12 @@ class RatingControl: UIView {
             setNeedsLayout()
         }
     }
+    
     var ratingButtons = [UIButton]()
     var spacing = 5
     var stars = 5
+    // Resultado 1/2votaciones
+    var result = 0
     // Cantidad de votos users
     var amountVotes = 0
     // Total rating  acumulado
@@ -140,7 +143,6 @@ class RatingControl: UIView {
     
     // MARK: Button Action
     func ratingButtonTapped(button: UIButton) {
-        
         // Busco el botón que me pasan como parámetro, que es el botón
         // seleccionado en el array que los contiene ==>'ratingButtons'
         // devolviendo el índice en el que se encuentra el botón selec
@@ -152,10 +154,10 @@ class RatingControl: UIView {
         // cosa que no es cierta, ya que es dos, de ahí que le sume +1
         rating = ratingButtons.indexOf(button)! + 1
         
-        // TODO: implementar votación media noticia
+        // TODO: implementar votación media de una noticia por usuarios
+        
         let total = self.totalVoteOfTheNewsByUsers(rating)
-        self.numberValoration?.numberValoration.text = (self.ratingTotalNews).description
-        self.numberVoting?.numberVotes.text = (self.amountVotes).description
+        totalRating?.totalRating  = total
         
         // Actulaizo el estado de los botones, stars rellenas o vacias
         updateButtonSelectionStates()
@@ -200,9 +202,7 @@ class RatingControl: UIView {
     // MARK: Utils
     /// Calcula el rating medio de los usuarios que han votado una noticia
     func totalVoteOfTheNewsByUsers(valueRating :Int)-> Int{
-        
-        var result = 0
-        
+
         switch(valueRating){
             
         case 1: self.ratingTotalNews += 1
@@ -223,8 +223,15 @@ class RatingControl: UIView {
         default: ()
         }
         
-        result = (self.ratingTotalNews / self.amountVotes)
-        self.rating = result
+        result = (self.ratingTotalNews / self.amountVotes) 
+        self.totalRating?.totalRating = self.result
+        self.totalRating?.amountVotes = self.amountVotes
+        self.totalRating?.ratingTotalNews = self.ratingTotalNews
+        
+        // Añado al modelo los valores de las votaciones
+        self.totalRating?.amountVotes = self.amountVotes
+        self.totalRating?.ratingTotalNews = self.ratingTotalNews
+        self.totalRating?.result = self.result
         
         return result
     }

@@ -23,8 +23,14 @@ class NewsAuthorTableViewController: UITableViewController {
         applicationKey: "VjcTsrgmahsJOviIgUWrrkpQHxIRKO71")
     
     var news = [News]()
+    var result : RatingControl?
     var activityIndicator : NewsViewController?
-
+    
+    // Valores para asignarlos en la vista detalle
+    
+    static var ratingTotalNewsForViewDetail = 0
+    static var amountForViewDetail = 0
+    static var resultViewDetail = 0
     
     // MARK: LifeCycle
     override func viewDidLoad() {
@@ -84,7 +90,11 @@ class NewsAuthorTableViewController: UITableViewController {
             rating: 3,
             photo: photo4,
             state: false,
-            newDat: NSDate())!
+            newDat: NSDate(),
+            result:  4,
+            totalRating: 4,
+            amountVotes: 10,
+            ratingTotalNews: 100)!
         
         let photo5 = UIImage(named: "noticiasfresquitas.png")
         let news5 = News(
@@ -94,7 +104,11 @@ class NewsAuthorTableViewController: UITableViewController {
             rating: 3,
             photo: photo5,
             state: false,
-            newDat: NSDate())!
+            newDat: NSDate(),
+            result:  4,
+            totalRating: 4,
+            amountVotes: 10,
+            ratingTotalNews: 100)!
         
         let photo6 = UIImage(named: "Mafalda_vin_prodiaser.jpg")
         let news6 = News(
@@ -104,7 +118,11 @@ class NewsAuthorTableViewController: UITableViewController {
             rating: 3,
             photo: photo6,
             state: false,
-            newDat: NSDate())!
+            newDat: NSDate(),
+            result:  4,
+            totalRating: 2,
+            amountVotes: 10,
+            ratingTotalNews: 100)!
         
         news += [news4, news5, news6]
     }
@@ -138,7 +156,14 @@ class NewsAuthorTableViewController: UITableViewController {
         cell.titleLabel.text = newsOfIndexPath.title
         cell.authorLabel.text = newsOfIndexPath.author
         cell.photoImage.image = newsOfIndexPath.photo
-        cell.ratingControl.rating = newsOfIndexPath.rating
+        cell.ratingControl.rating = newsOfIndexPath.totalRating
+        
+        
+        
+        // Aprovecho para asignar  datos de las votaciones y actualizar sus valores
+        NewsAuthorTableViewController.amountForViewDetail = newsOfIndexPath.amountVotes
+        NewsAuthorTableViewController.ratingTotalNewsForViewDetail = newsOfIndexPath.ratingTotalNews
+        NewsAuthorTableViewController.resultViewDetail = newsOfIndexPath.result
         
         return cell
     }
@@ -176,16 +201,16 @@ class NewsAuthorTableViewController: UITableViewController {
         let tableNews = client.tableWithName("news")
         
         // Prueba 1: obtener todos los datos de tabla via 'MSTable'
-//        tableNews?.readWithCompletion({ (results: MSQueryResult?, error: NSError?) -> Void in
-//            
-//            // si no hay error
-//            if error == nil {
-//                // Sincronizo la tabla con el modelo
-//                self.news = results?.items as! [News]
-//                // actualizo la tabla con un 'reload'
-//                self.tableView.reloadData()
-//            }
-//        })
+        //        tableNews?.readWithCompletion({ (results: MSQueryResult?, error: NSError?) -> Void in
+        //
+        //            // si no hay error
+        //            if error == nil {
+        //                // Sincronizo la tabla con el modelo
+        //                self.news = results?.items as! [News]
+        //                // actualizo la tabla con un 'reload'
+        //                self.tableView.reloadData()
+        //            }
+        //        })
         
         // Prueba 2: Obtener todos los datos de tabla via 'MSQuery'
         let query = MSQuery(table: tableNews)
@@ -242,7 +267,7 @@ class NewsAuthorTableViewController: UITableViewController {
             
         }
     }
-
+    
     // MARK: Action
     
     @IBAction func unwindToNewsList(sender : UIStoryboardSegue) {
@@ -255,8 +280,15 @@ class NewsAuthorTableViewController: UITableViewController {
                 // Compruebo si se ha seleccionado una fila de la tabla, si es así, es que
                 // se está editando una celda por el usuario, por tanto guardo los cambios
                 if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                    
                     // Actualizo una noticia existente que se ha modificado por el usuario
                     news[selectedIndexPath.row] = new
+                    
+                    // Aprovecho para asignar  datos de las votaciones y actualizar sus valores
+                    NewsAuthorTableViewController.amountForViewDetail = new.amountVotes
+                    NewsAuthorTableViewController.ratingTotalNewsForViewDetail = new.ratingTotalNews
+                    NewsAuthorTableViewController.resultViewDetail = new.result
+                    
                     // Vuelvo a cargar  la fila  correspondiente  para mostrar los cambios
                     tableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .None)
                     
@@ -275,6 +307,17 @@ class NewsAuthorTableViewController: UITableViewController {
                 // Guardo 'news' tanto si se añade una nueva o se ha actualizado una existente
                 saveNews()
         }
+    }
+    
+    // Activo el 'Refresh Control' en el 'inspector de propiedades'
+    // y creo este'IBAction' para poder refrescar la tabla-cambios
+    @IBAction func refreshTable(sender: AnyObject) {
+        
+        // Aquí  tengo que  actualizar la tabla, el modelo, etc...
+        tableView.reloadData()
+        
+        // Por último, termino el  'Refresh Control'  de la  tabla.
+        sender.endRefreshing()
     }
     
     // MARK: NSCoding
@@ -305,7 +348,7 @@ class NewsAuthorTableViewController: UITableViewController {
     
     
     // MARK: Utils
-
+    
     /// Nos  devuelve a la pantalla  de inicio al pulsar botón ===>'Back'
     func goBack()
     {

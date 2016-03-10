@@ -13,6 +13,8 @@ class NewsViewController: UIViewController, UITextFieldDelegate,
 UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
     
     
+    
+    
     // MARK: - Properties
     
     @IBOutlet weak var titleTextField: UITextField!
@@ -31,13 +33,19 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     var bufferPhoto : UIImage?
     // Propiedad para almacenar  nombre blob
     var blobName : String?
+    var values : RatingControl?
     // Propiedad cliente
-    var client : MSClient?
-    
-    // var reset : RatingControl?
+    var client : MSClient = MSClient(applicationURL: NSURL(
+        string: "https://scoopsdailay.azure-mobile.net/"),
+        applicationKey: "VjcTsrgmahsJOviIgUWrrkpQHxIRKO71")
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Añado a la  Bar Navigation el botón de save y photo
+        let plusButton = UIBarButtonItem(barButtonSystemItem: .Camera, target: self, action: "capturePhotos:")
+        self.navigationItem.setRightBarButtonItems([self.saveButton ,plusButton], animated: true)
+        plusButton.tintColor = UIColor.orangeColor()
         
         // 'ViewController' delegado => 'textField' 'UITextView'
         titleTextField.delegate = self
@@ -52,7 +60,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             titleTextField.text  = news.title
             authorTextField.text = news.author
             photoImageView.image = news.photo
-            ratingControl.rating = news.rating
+            ratingControl.rating = news.rating!
             newsText.text = news.newsText
         }
         
@@ -118,13 +126,18 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             let newsTxt = newsText.text ?? ""
             let newDat = NSDate()
             let state = false
+            let result = ratingControl.result
+            let totalRating = ratingControl.rating
+            let amountVotes = ratingControl.amountVotes
+            let totalRatingNews = ratingControl.ratingTotalNews
             //let latitude =
             //let longitude =
             
             // Estableciendo  valores de la 'news' para ser pasados al
             // =====>  'NewsTableViewController' a  través  del  segue
             news = News(title: title, author: author, newsText: newsTxt,
-                rating: rating, photo: photo, state: state, newDat : newDat)
+                rating: rating, photo: photo, state: state, newDat : newDat, result: result,
+                totalRating: totalRating, amountVotes: amountVotes, ratingTotalNews: totalRatingNews)
         }
     }
     
@@ -148,57 +161,55 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     //    }
     
     
-    
-    
-    
-    @IBAction func saveAzureAction(sender: UIBarButtonItem) {
+    @IBAction func saveAzureAction(sender: AnyObject) {
         
         // Usando el ==>'client' hacemos referencia a la tabla de los vídeos
-        let tablePhotos = client?.tableWithName("photos")
+        let tablePhotos = client.tableWithName("photos")
         
         // 1º: Guardamos las  fotos que queremos  persistir en Base de Datos
         tablePhotos?.insert([
             "title" : titleTextField.text!, "author" : authorTextField.text!,"newText": newsText.text,
-            "rating" : ratingControl , "blobName": blobName!, "containername" : "myphotoposts"],
-            completion: { (inserted, error: NSError?) -> Void in
-                
+            "blobName": "myBlob", "containername" : "myphotoposts"],
+            completion: { (inserted: [NSObject : AnyObject]!, error: NSError?) -> Void in
+                print("Hello Azure!!!👋👍😋 👋👍😋")
                 // Si hay error
                 if error != nil {
                     print("Houston, we have a problem to save  😱😵😱 => : \(error?.description)")
-                } else {
+                }
+                else {
                     // 2º: Persistimos ahora el 'blob' en el Storage de Azure
                     print("All right when saving Database Houston, now plays Blob 😎😎😎")
-                    // Se supone que aquí el vídeo ya debe de estar capturado
+                    // Se supone que aquí la photo ya debe de estar capturada
                     self.uploadToStorage(self.bufferPhoto!, blobName: self.blobName!)
                 }
         })
     }
     
-    
+    // Tap Capture Recognizer, al  pulsar sobre 'no photo availble' accede  carrete
     @IBAction func selectImageFromPhotLibrary(sender: UITapGestureRecognizer) {
         
-        // Inicio el 'activityIndicator'  cuando el usuario va  acceder carrete
+        // Inicio  el  'activityIndicator'  cuando  el usuario va  acceder  carrete
         self.activityIndicator.startAnimating()
         
-        // Usuario  toca la 'imageView' mientras escribe, el teclado desaparece
+        // Usuario  toca   la 'imageView' mientras escribe, el  teclado  desaparece
         self.titleTextField.resignFirstResponder()
         
-        // Utilizo una cola del sistema, donde se obtiene la foto en segundo plano
+        // Utilizo una cola del sistema, donde se obtiene la foto en  segundo plano
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
             
-            // Creo 'imagePickerController' para  que el usuario acceda al carrete
+            // Creo 'imagePickerController' para  que el usuario acceda  al carrete
             let imagePickerController = UIImagePickerController()
             
-            // Acceso solamente a 'photLibrary' del usuario, no acceso a la camara
+            // Acceso solamente a 'photLibrary' del usuario, no acceso a  la camara
             imagePickerController.sourceType = .PhotoLibrary
             
-            // Paro  el 'activity Indicator' en la cola principal una vez accedido
+            // Paro  el 'activity Indicator' en la cola principal una vez  accedido
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
-                // Recibo las notificaciones cuando usuario escoge imagen => 'Delegate'
+                // Recibo las notificaciones cuando usuario escoge imagen 'Delegate'
                 imagePickerController.delegate = self
                 
-                // Presento  el 'viewController' definido  por  'imagePickerController'
+                // Presento el 'viewController' definido por 'imagePickerController'
                 self.presentViewController(imagePickerController, animated: true, completion: nil)
                 
                 // Detengo 'activityIndicator' cuando el usuario ya accedió al carrete
@@ -209,13 +220,21 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     
     // MARK: Methods for Capture Video
     
-    /// Captura los vídeos realizados mediante la cámara de nuestro dispositvo
+    /// Captura las photos realizados mediante la cámara de nuestro dispositvo
     func capturePhotos (sender : AnyObject){
         
-        startCapturePhotosBlogFromViewController(self, withDelegate: self)
+        // Inicio  el  'activityIndicator'  cuando  el usuario va  acceder  carrete
+        self.activityIndicator.startAnimating()
+        
+        
+        // Utilizo una cola del sistema, donde se obtiene la foto en  segundo plano
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            self.startCapturePhotosBlogFromViewController(self, withDelegate: self)
+        }
+        
     }
     
-    /// Captura  vídeos realizados  mediante  la cámara del  dispositivo usado
+    /// Captura  photos realizados  mediante  la cámara del  dispositivo usado
     func startCapturePhotosBlogFromViewController(viewcontroller: UIViewController,
         withDelegate delegate: protocol<UIImagePickerControllerDelegate,
         UINavigationControllerDelegate>) -> Bool {
@@ -232,13 +251,20 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             
             presentViewController(cameraController, animated: true, completion: nil)
             
+            // Paro  el 'activity  Indicator'  en la cola principal  una vez  accedido
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                // Detengo 'activityIndicator' cuando el usuario ya accedió al carrete
+                self.activityIndicator.stopAnimating()
+            })
+            
             return true
     }
     
     // MARK: Methods to save Videos & Upload Videos
     
-    /// Path donde se guardarán los vídeos  grabados en el dispositivo local/
-    func savePhotosInDocuments (data: NSData) {
+    /// Path donde se guardarán las photos  grabadas en el dispositivo local/
+    func savePhotosInDocuments (data: UIImage) {
         
         let existsFile = NSArray(contentsOfFile: News.archivePhotosURL.path!) as? [String]
         
@@ -248,6 +274,11 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
                 // Intento guardar  el array de  'vídeos', si se  ha podido  guardar me devuelve 'true'
                 // Le paso constante  estática creada en 'News' que es la ruta al archivo donde guardar
                 let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(self.news!, toFile: News.archivePhotosURL.path!)
+                
+                // Guardo los datos de la foto y el  nombre que se le dará al blob que se sube a 'Azure'
+                self.bufferPhoto = data
+                self.blobName = News.blobNameUUID
+                
                 // Compruebo por consola si se han guardado o no los objetos en ruta especificada (path)
                 if !isSuccessfulSave {
                     print("Failed to save photos")
@@ -261,6 +292,22 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         
         
     }
+    
+    // Asigna los valores en vista Detail valoración y votos
+    func textField(textField: UITextField,
+        shouldChangeCharactersInRange range: NSRange,
+        replacementString string: String) -> Bool {
+            
+            // Asigno valoración
+            numberValoration.text = NewsAuthorTableViewController.resultViewDetail.description
+            numberValoration.textColor = UIColor.orangeColor()
+            // Asigno total votos
+            numberVotes.text = NewsAuthorTableViewController.amountForViewDetail.description
+            numberVotes.textColor = UIColor.orangeColor()
+            
+            return true
+    }
+    
     
     // MARK: - UITextViewDelegate - Métodos del protocolo delegado opcionales
     

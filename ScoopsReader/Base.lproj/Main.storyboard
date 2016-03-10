@@ -5,7 +5,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Access View Controller-->
@@ -197,7 +196,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <view userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k53-nd-aXe" customClass="RatingControl" customModule="ScoopsReader" customModuleProvider="target">
+                                        <view tag="1" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k53-nd-aXe" customClass="RatingControl" customModule="ScoopsReader" customModuleProvider="target">
                                             <rect key="frame" x="128" y="60" width="240" height="36"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </view>
@@ -225,8 +224,11 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="VdT-tn-2OG">
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="tby-5c-o4y">
                         <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refreshTable:" destination="jqV-iP-xRN" eventType="valueChanged" id="q8H-al-esh"/>
+                        </connections>
                     </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xgz-i0-ul8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -245,6 +247,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" placeholderIntrinsicWidth="20" placeholderIntrinsicHeight="20" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="e6m-vd-hBI">
+                                <rect key="frame" x="290" y="230" width="20" height="20"/>
+                                <color key="color" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                             <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="369" axis="vertical" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Lxk-Yc-j2C">
                                 <rect key="frame" x="20" y="101" width="560" height="491"/>
                                 <subviews>
@@ -273,15 +279,15 @@
                                             <outletCollection property="gestureRecognizers" destination="uLN-3X-g6q" appends="YES" id="fRZ-N9-BXG"/>
                                         </connections>
                                     </imageView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" verticalCompressionResistancePriority="749" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="200" text="Enter text news" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="k9I-sG-4tW">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" verticalCompressionResistancePriority="749" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="200" maximumZoomScale="3" text="Enter text news" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="k9I-sG-4tW">
                                         <rect key="frame" x="0.0" y="334" width="560" height="73"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.92845852829768272" green="0.92845852829768272" blue="0.92845852829768272" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" returnKeyType="done"/>
                                     </textView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="150" placeholderIntrinsicHeight="16" translatesAutoresizingMaskIntoConstraints="NO" id="d45-a6-cmn">
-                                        <rect key="frame" x="205" y="419" width="150" height="16"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="172" placeholderIntrinsicHeight="16" translatesAutoresizingMaskIntoConstraints="NO" id="d45-a6-cmn">
+                                        <rect key="frame" x="186" y="419" width="188" height="16"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Valoración:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wsy-jF-9YM">
                                                 <rect key="frame" x="0.0" y="0.0" width="62" height="16"/>
@@ -289,27 +295,43 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="20" placeholderIntrinsicHeight="16" text="V" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="QPV-rx-bK2">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="infinite" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="QPV-rx-bK2">
                                                 <rect key="frame" x="62" y="0.0" width="20" height="16"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="- V" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8EV-ZE-gNW">
-                                                <rect key="frame" x="82" y="0.0" width="36" height="16"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="25" placeholderIntrinsicHeight="16" text="- " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="8EV-ZE-gNW">
+                                                <rect key="frame" x="82" y="0.0" width="25" height="16"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Votos" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oju-eY-5dc">
-                                                <rect key="frame" x="118" y="0.0" width="32" height="16"/>
+                                                <rect key="frame" x="107" y="0.0" width="32" height="16"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6DR-JZ-D8A">
+                                                <rect key="frame" x="139" y="0.0" width="49" height="16"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                                <state key="normal" title="Upload">
+                                                    <color key="titleColor" red="0.98823529409999999" green="0.43137254899999999" blue="0.047058823530000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="saveAzureAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UZW-uE-vQh"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="8EV-ZE-gNW" firstAttribute="centerY" secondItem="d45-a6-cmn" secondAttribute="centerY" id="B8h-5N-H3x"/>
+                                            <constraint firstItem="QPV-rx-bK2" firstAttribute="centerY" secondItem="d45-a6-cmn" secondAttribute="centerY" id="QMI-bJ-46o"/>
+                                            <constraint firstItem="QPV-rx-bK2" firstAttribute="centerX" secondItem="d45-a6-cmn" secondAttribute="centerX" constant="-22" id="ozL-nN-4dv"/>
+                                            <constraint firstItem="8EV-ZE-gNW" firstAttribute="centerX" secondItem="d45-a6-cmn" secondAttribute="centerX" id="ukG-B0-e9B"/>
+                                        </constraints>
                                     </stackView>
-                                    <view contentMode="scaleAspectFit" verticalHuggingPriority="251" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="44" translatesAutoresizingMaskIntoConstraints="NO" id="Bkx-UI-Qxp" customClass="RatingControl" customModule="ScoopsReader" customModuleProvider="target">
+                                    <view tag="2" contentMode="scaleAspectFit" verticalHuggingPriority="251" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="44" translatesAutoresizingMaskIntoConstraints="NO" id="Bkx-UI-Qxp" customClass="RatingControl" customModule="ScoopsReader" customModuleProvider="target">
                                         <rect key="frame" x="160" y="447" width="240" height="44"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
@@ -318,10 +340,6 @@
                                     <constraint firstItem="k9I-sG-4tW" firstAttribute="top" secondItem="Bkx-UI-Qxp" secondAttribute="bottom" constant="-157" id="u8f-fU-nOE"/>
                                 </constraints>
                             </stackView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" placeholderIntrinsicWidth="20" placeholderIntrinsicHeight="20" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="e6m-vd-hBI">
-                                <rect key="frame" x="290" y="230" width="20" height="20"/>
-                                <color key="color" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -343,23 +361,20 @@
                                 <action selector="cancelButton:" destination="BYZ-38-t0r" id="gRU-08-e66"/>
                             </connections>
                         </barButtonItem>
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="save" id="uVT-O3-DV5">
-                                <color key="tintColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <action selector="saveAzureAction:" destination="BYZ-38-t0r" id="PHd-f2-xdy"/>
-                                    <segue destination="Zz3-Iy-Fp3" kind="unwind" unwindAction="unwindToNewsList:" id="9sG-oX-Lpp"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem systemItem="camera" id="QcD-RN-8Vd">
-                                <color key="tintColor" red="0.9882352941176471" green="0.43137254901960786" blue="0.047058823529411764" alpha="1" colorSpace="calibratedRGB"/>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="uVT-O3-DV5">
+                            <color key="tintColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="saveAzureAction:" destination="BYZ-38-t0r" id="GDa-4w-XES"/>
+                                <segue destination="Zz3-Iy-Fp3" kind="unwind" unwindAction="unwindToNewsList:" id="9sG-oX-Lpp"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="e6m-vd-hBI" id="wCC-Dx-TUI"/>
                         <outlet property="authorTextField" destination="iol-xj-aOC" id="gUh-8X-fjX"/>
                         <outlet property="newsText" destination="k9I-sG-4tW" id="zsv-dc-ds0"/>
+                        <outlet property="numberValoration" destination="QPV-rx-bK2" id="AwO-Ry-uKL"/>
+                        <outlet property="numberVotes" destination="8EV-ZE-gNW" id="MMZ-Np-FPa"/>
                         <outlet property="photoImageView" destination="0uq-lS-Lpt" id="ed0-rb-pmB"/>
                         <outlet property="ratingControl" destination="Bkx-UI-Qxp" id="gV9-0N-MTj"/>
                         <outlet property="saveButton" destination="uVT-O3-DV5" id="PfW-jq-RXK"/>
