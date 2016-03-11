@@ -87,42 +87,39 @@ class NewsAuthorTableViewController: UITableViewController {
             title: "Nunas noticias",
             author: "Andrés",
             newsText: "Noticias mundiales",
-            rating: 3,
+            rating: 0,
             photo: photo4,
             state: false,
             newDat: NSDate(),
-            result:  4,
-            totalRating: 4,
-            amountVotes: 10,
-            ratingTotalNews: 100)!
+            result:  0,
+            totalRating: 0,
+            amountVotes: 0)!
         
         let photo5 = UIImage(named: "noticiasfresquitas.png")
         let news5 = News(
             title: "Notcias frescas",
             author: "Fernando",
             newsText: "Las noticias más fresquitas de la actualidad",
-            rating: 3,
+            rating: 0,
             photo: photo5,
             state: false,
             newDat: NSDate(),
-            result:  4,
-            totalRating: 4,
-            amountVotes: 10,
-            ratingTotalNews: 100)!
+            result:  0,
+            totalRating: 0,
+            amountVotes: 0)!
         
         let photo6 = UIImage(named: "Mafalda_vin_prodiaser.jpg")
         let news6 = News(
             title: "Mafalda",
             author: "Marta",
             newsText: "Mafalda se pone al día",
-            rating: 3,
+            rating: 0,
             photo: photo6,
             state: false,
             newDat: NSDate(),
-            result:  4,
-            totalRating: 2,
-            amountVotes: 10,
-            ratingTotalNews: 100)!
+            result:  0,
+            totalRating: 0,
+            amountVotes: 0)!
         
         news += [news4, news5, news6]
     }
@@ -162,7 +159,7 @@ class NewsAuthorTableViewController: UITableViewController {
         
         // Aprovecho para asignar  datos de las votaciones y actualizar sus valores
         NewsAuthorTableViewController.amountForViewDetail = newsOfIndexPath.amountVotes
-        NewsAuthorTableViewController.ratingTotalNewsForViewDetail = newsOfIndexPath.ratingTotalNews
+        //NewsAuthorTableViewController.ratingTotalNewsForViewDetail = newsOfIndexPath.ratingTotalNews
         NewsAuthorTableViewController.resultViewDetail = newsOfIndexPath.result
         
         return cell
@@ -286,7 +283,7 @@ class NewsAuthorTableViewController: UITableViewController {
                     
                     // Aprovecho para asignar  datos de las votaciones y actualizar sus valores
                     NewsAuthorTableViewController.amountForViewDetail = new.amountVotes
-                    NewsAuthorTableViewController.ratingTotalNewsForViewDetail = new.ratingTotalNews
+                    //NewsAuthorTableViewController.ratingTotalNewsForViewDetail = new.ratingTotalNews
                     NewsAuthorTableViewController.resultViewDetail = new.result
                     
                     // Vuelvo a cargar  la fila  correspondiente  para mostrar los cambios

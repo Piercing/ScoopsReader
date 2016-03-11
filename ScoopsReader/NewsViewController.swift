@@ -129,7 +129,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             let result = ratingControl.result
             let totalRating = ratingControl.rating
             let amountVotes = ratingControl.amountVotes
-            let totalRatingNews = ratingControl.ratingTotalNews
+            //let totalRatingNews = ratingControl.ratingTotalNews
             //let latitude =
             //let longitude =
             
@@ -137,7 +137,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             // =====>  'NewsTableViewController' a  través  del  segue
             news = News(title: title, author: author, newsText: newsTxt,
                 rating: rating, photo: photo, state: state, newDat : newDat, result: result,
-                totalRating: totalRating, amountVotes: amountVotes, ratingTotalNews: totalRatingNews)
+                totalRating: totalRating, amountVotes: amountVotes)
         }
     }
     

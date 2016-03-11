@@ -13,6 +13,7 @@ class RatingControl: UIView {
     
     var totalRating : News?
     var save : NewsAuthorTableViewController?
+    //var save : NewsAuthorTableViewController?
     
     // MARK: Properties
     
@@ -226,12 +227,14 @@ class RatingControl: UIView {
         result = (self.ratingTotalNews / self.amountVotes) 
         self.totalRating?.totalRating = self.result
         self.totalRating?.amountVotes = self.amountVotes
-        self.totalRating?.ratingTotalNews = self.ratingTotalNews
+        //self.totalRating?.ratingTotalNews = self.ratingTotalNews
         
         // Añado al modelo los valores de las votaciones
         self.totalRating?.amountVotes = self.amountVotes
-        self.totalRating?.ratingTotalNews = self.ratingTotalNews
+        //self.totalRating?.ratingTotalNews = self.ratingTotalNews
         self.totalRating?.result = self.result
+        
+        self.save?.saveNews()
         
         return result
     }

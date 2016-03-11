@@ -196,7 +196,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <view tag="1" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k53-nd-aXe" customClass="RatingControl" customModule="ScoopsReader" customModuleProvider="target">
+                                        <view userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k53-nd-aXe" customClass="RatingControl" customModule="ScoopsReader" customModuleProvider="target">
                                             <rect key="frame" x="128" y="60" width="240" height="36"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </view>

@@ -50,10 +50,9 @@ class NewsLectorTableViewController: UITableViewController {
             photo: photo4,
             state: false,
             newDat: NSDate(),
-            result:  4,
+            result:  0,
             totalRating: 0,
-            amountVotes: 0,
-            ratingTotalNews: 0)!
+            amountVotes: 0)!
         
         let photo5 = UIImage(named: "noticiasfresquitas.png")
         let news5 = News(
@@ -64,10 +63,9 @@ class NewsLectorTableViewController: UITableViewController {
             photo: photo5,
             state: false,
             newDat: NSDate(),
-            result:  4,
+            result:  0,
             totalRating: 0,
-            amountVotes: 0,
-            ratingTotalNews: 0)!
+            amountVotes: 0)!
         
         let photo6 = UIImage(named: "Mafalda_vin_prodiaser.jpg")
         let news6 = News(
@@ -78,10 +76,9 @@ class NewsLectorTableViewController: UITableViewController {
             photo: photo6,
             state: false,
             newDat: NSDate(),
-            result:  4,
+            result:  0,
             totalRating: 0,
-            amountVotes: 0,
-            ratingTotalNews: 0)!
+            amountVotes: 0)!
         
         news += [news4, news5, news6]
     }

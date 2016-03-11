@@ -24,7 +24,7 @@ class News : NSObject, NSCoding {
     }
     
     var amountVotes : Int = 0
-    var ratingTotalNews : Int = 0
+    //var ratingTotalNews : Int = 0
     var result : Int = 0
     var title : String
     var author : String
@@ -101,14 +101,14 @@ class News : NSObject, NSCoding {
         static let resultkey = "result"
         static let totalRatingKey = "totalRating"
         static let amountVotesKey = "amountVotes"
-        static let ratingTotalNewsKey = "ratingTotalNews"
+        //static let ratingTotalNewsKey = "ratingTotalNews"
     }
     
     
     // MARK:  Initialization
     init? (title : String, author : String, newsText : String, rating : Int,
         photo : UIImage?,  state : Bool, newDat : NSDate,result : Int, totalRating : Int,
-        amountVotes : Int, ratingTotalNews : Int) {
+        amountVotes : Int) {
             
             // Inicilizando propiedades almacenadas
             self.title = title
@@ -121,7 +121,7 @@ class News : NSObject, NSCoding {
             self.result = result
             self.totalRating = totalRating
             self.amountVotes = amountVotes
-            self.ratingTotalNews = ratingTotalNews
+            //self.ratingTotalNews = ratingTotalNews
             // Llamo al inicializador superclase
             super.init()
             
@@ -150,7 +150,7 @@ class News : NSObject, NSCoding {
         aCoder.encodeObject(result, forKey: propertyKey.resultkey)
         aCoder.encodeObject(totalRating, forKey: propertyKey.totalRatingKey)
         aCoder.encodeObject(amountVotes, forKey: propertyKey.amountVotesKey)
-        aCoder.encodeObject(ratingTotalNews, forKey: propertyKey.ratingTotalNewsKey)
+        //aCoder.encodeObject(ratingTotalNews, forKey: propertyKey.ratingTotalNewsKey)
         //aCoder.encodeObject(latitude as? AnyObject, forKey: propertyKey.latitudeKey)
         //aCoder.encodeObject(longitude as? AnyObject, forKey: propertyKey.longitudeKey)
     }
@@ -169,14 +169,14 @@ class News : NSObject, NSCoding {
         let result = aDecoder.decodeObjectForKey(propertyKey.resultkey) as! Int
         let totalRating = aDecoder.decodeObjectForKey(propertyKey.totalRatingKey) as! Int
         let amountVotes = aDecoder.decodeObjectForKey(propertyKey.amountVotesKey) as! Int
-        let ratingTotalNews = aDecoder.decodeObjectForKey(propertyKey.ratingTotalNewsKey) as! Int
+        //let ratingTotalNews = aDecoder.decodeObject(propertyKey.ratingTotalNewsKey) as! Int
         //let latitude = aDecoder.decodeObjectForKey(propertyKey.latitudeKey) as! Double
         //let longitude = aDecoder.decodeObjectForKey(propertyKey.longitudeKey) as! Double
         
         // Llammo al incializador designado
         self.init(title : title, author : author, newsText : newsText, rating : rating,
             photo : photo,  state: state, newDat: date, result : result, totalRating : totalRating,
-            amountVotes : amountVotes, ratingTotalNews : ratingTotalNews)
+            amountVotes : amountVotes)
         
     }
 }
