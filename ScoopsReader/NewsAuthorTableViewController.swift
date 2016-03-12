@@ -153,13 +153,11 @@ class NewsAuthorTableViewController: UITableViewController {
         cell.titleLabel.text = newsOfIndexPath.title
         cell.authorLabel.text = newsOfIndexPath.author
         cell.photoImage.image = newsOfIndexPath.photo
-        cell.ratingControl.rating = newsOfIndexPath.totalRating
-        
-        
+        cell.ratingControl.rating = newsOfIndexPath.result
         
         // Aprovecho para asignar  datos de las votaciones y actualizar sus valores
+        //NewsAuthorTableViewController.ratingTotalNewsForViewDetail = newsOfIndexPath.rating!
         NewsAuthorTableViewController.amountForViewDetail = newsOfIndexPath.amountVotes
-        //NewsAuthorTableViewController.ratingTotalNewsForViewDetail = newsOfIndexPath.ratingTotalNews
         NewsAuthorTableViewController.resultViewDetail = newsOfIndexPath.result
         
         return cell
@@ -286,11 +284,14 @@ class NewsAuthorTableViewController: UITableViewController {
                     //NewsAuthorTableViewController.ratingTotalNewsForViewDetail = new.ratingTotalNews
                     NewsAuthorTableViewController.resultViewDetail = new.result
                     
+                    saveNews()
+                    
                     // Vuelvo a cargar  la fila  correspondiente  para mostrar los cambios
                     tableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .None)
                     
+                    
                 }else{
-                    // Ésta se ejecuta mientras no se selecciona ninguna fila por el usuario(+)
+                    // Ésta se ejecuta mientras no se seleccione ninguna fila, sino al pulsar'+'
                     // Añado una  nueva noticia, calculando la posición en la tabla y la guardo
                     // La posción es, en la sección 0, y en el  total de noticas, el total será
                     // su posición en la  tabla, es decir, si hay 5 noticias, se  situará en el

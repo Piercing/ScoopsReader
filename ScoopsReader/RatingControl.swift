@@ -173,7 +173,7 @@ class RatingControl: UIView {
     
     // MARK: Utils
 
-    /// Método de ayuda que  acutalizar estado de los botones 'selected'
+    /// Método de ayuda que  actualizar estado de los botones 'selected'
     func updateButtonSelectionStates() {
         
         // Itero  a través de 'ratingButtons' para establecer el estado
@@ -188,7 +188,7 @@ class RatingControl: UIView {
             // Decir que si se  selecciona  un botón del array,  siempre
             // será  menor que el rating, por lo que  simpre se cumplirá
             // Por tanto, cuando no se seleccione éste se mostrará vacia
-            button.selected = index < rating
+            button.selected = index < rating //==> devuelve true o false
         }
     }
     
@@ -233,8 +233,6 @@ class RatingControl: UIView {
         self.totalRating?.amountVotes = self.amountVotes
         //self.totalRating?.ratingTotalNews = self.ratingTotalNews
         self.totalRating?.result = self.result
-        
-        self.save?.saveNews()
         
         return result
     }

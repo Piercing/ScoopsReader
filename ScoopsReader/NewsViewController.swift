@@ -60,7 +60,9 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             titleTextField.text  = news.title
             authorTextField.text = news.author
             photoImageView.image = news.photo
-            ratingControl.rating = news.rating!
+            ratingControl.rating = news.result
+            numberVotes.text = news.amountVotes.description
+            numberValoration.text = news.result.description
             newsText.text = news.newsText
         }
         
@@ -127,7 +129,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             let newDat = NSDate()
             let state = false
             let result = ratingControl.result
-            let totalRating = ratingControl.rating
+            let totalRating = ratingControl.ratingTotalNews
             let amountVotes = ratingControl.amountVotes
             //let totalRatingNews = ratingControl.ratingTotalNews
             //let latitude =
@@ -185,10 +187,10 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         })
     }
     
-    // Tap Capture Recognizer, al  pulsar sobre 'no photo availble' accede  carrete
+    // Tap Capture Recognizer, al pulsar sobre 'no photo availble' accede a carrete
     @IBAction func selectImageFromPhotLibrary(sender: UITapGestureRecognizer) {
         
-        // Inicio  el  'activityIndicator'  cuando  el usuario va  acceder  carrete
+        // Inicio  el  'activityIndicator'  cuando el usuario va  acceder a carrete
         self.activityIndicator.startAnimating()
         
         // Usuario  toca   la 'imageView' mientras escribe, el  teclado  desaparece
