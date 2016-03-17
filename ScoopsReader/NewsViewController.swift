@@ -59,11 +59,11 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             navigationItem.title = news.title
             titleTextField.text  = news.title
             authorTextField.text = news.author
-            photoImageView.image = news.photo
+            //photoImageView.image = news.photo
             ratingControl.rating = news.result
             numberVotes.text = news.amountVotes.description
             numberValoration.text = news.result.description
-            newsText.text = news.newsText
+            newsText.text = news.newstext
         }
         
         // Habilito el botón 'Save' sólo si los campos de texto
@@ -121,29 +121,34 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             // 'Coalescencing operator' => devuelve un valor si lo tiene
             // y si éste no lo tiene, devuelve un valor por defecto ("")
             // En este caso si tuviera un nil, devolvería texto vacio ""
+            let id = self.news!.id
             let title = titleTextField.text ?? ""
             let author = authorTextField.text ?? ""
-            let photo = photoImageView.image
+            //let photo = photoImageView.image
             let rating = ratingControl.rating
-            let newsTxt = newsText.text ?? ""
-            let newDat = NSDate()
-            let state = false
-            let result = ratingControl.result
-            let totalRating = ratingControl.ratingTotalNews
-            let amountVotes = ratingControl.amountVotes
+            let newstext = newsText.text ?? ""
+//            let newDat = NSDate()
+//            let state = false
+//            let result = ratingControl.result
+            let totalrating = ratingControl.ratingTotalNews
+//            let amountVotes = ratingControl.amountVotes
             //let totalRatingNews = ratingControl.ratingTotalNews
             //let latitude =
             //let longitude =
             
             // Estableciendo  valores de la 'news' para ser pasados al
             // =====>  'NewsTableViewController' a  través  del  segue
-            news = News(title: title, author: author, newsText: newsTxt,
-                rating: rating, photo: photo, state: state, newDat : newDat, result: result,
-                totalRating: totalRating, amountVotes: amountVotes)
+            news = News(id : id, title: title, author: author, newstext: newstext,
+                rating: rating, totalrating:  totalrating
+//                , photo: photo, state: state, newDat : newDat, result: result,
+//                totalRating: totalRating, amountVotes: amountVotes
+            )
         }
     }
     
     // MARK: - Actions (Target-Action)
+    
+    
     
     //    @IBAction func resetRating(sender: UIButton) {
     //

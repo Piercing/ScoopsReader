@@ -158,7 +158,7 @@ class RatingControl: UIView {
         // TODO: implementar votación media de una noticia por usuarios
         
         let total = self.totalVoteOfTheNewsByUsers(rating)
-        totalRating?.totalRating  = total
+        //totalRating?.totalRating  = total
         
         // Actulaizo el estado de los botones, stars rellenas o vacias
         updateButtonSelectionStates()
@@ -225,7 +225,7 @@ class RatingControl: UIView {
         }
         
         result = (self.ratingTotalNews / self.amountVotes) 
-        self.totalRating?.totalRating = self.result
+        //self.totalRating?.totalRating = self.result
         self.totalRating?.amountVotes = self.amountVotes
         //self.totalRating?.ratingTotalNews = self.ratingTotalNews
         

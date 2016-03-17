@@ -41,44 +41,53 @@ class NewsLectorTableViewController: UITableViewController {
     
     func loadNews() {
         
-        let photo4 = UIImage(named: "noticias.jpg")
+        //let photo4 = UIImage(named: "noticias.jpg")
         let news4 = News(
+            id: "SADA-34DS-SD3T",
             title: "Nunas noticias",
             author: "Andrés",
-            newsText: "Noticias mundiales",
+            newstext: "Noticias mundiales",
             rating: 0,
-            photo: photo4,
-            state: false,
-            newDat: NSDate(),
-            result:  0,
-            totalRating: 0,
-            amountVotes: 0)!
+//            ,
+//            photo: photo4,
+//            state: false,
+//            newDat: NSDate(),
+//            result:  0,
+            totalrating: 0
+//            amountVotes: 0
+            )!
         
-        let photo5 = UIImage(named: "noticiasfresquitas.png")
+        //let photo5 = UIImage(named: "noticiasfresquitas.png")
         let news5 = News(
+            id: "3KSD-DSFS-SD3T",
             title: "Notcias frescas",
             author: "Fernando",
-            newsText: "Las noticias más fresquitas de la actualidad",
+            newstext: "Las noticias más fresquitas de la actualidad",
             rating: 0,
-            photo: photo5,
-            state: false,
-            newDat: NSDate(),
-            result:  0,
-            totalRating: 0,
-            amountVotes: 0)!
+//            ,
+//            photo: photo5,
+//            state: false,
+//            newDat: NSDate(),
+//            result:  0,
+            totalrating: 0
+//            amountVotes: 0
+            )!
         
-        let photo6 = UIImage(named: "Mafalda_vin_prodiaser.jpg")
+        //let photo6 = UIImage(named: "Mafalda_vin_prodiaser.jpg")
         let news6 = News(
+            id: "ÑKL0-SE4BN-003D",
             title: "Mafalda",
             author: "Marta",
-            newsText: "Mafalda se pone al día",
+            newstext: "Mafalda se pone al día",
             rating: 0,
-            photo: photo6,
-            state: false,
-            newDat: NSDate(),
-            result:  0,
-            totalRating: 0,
-            amountVotes: 0)!
+            //,
+//            photo: photo6,
+//            state: false,
+//            newDat: NSDate(),
+//            result:  0,
+            totalrating: 0
+//            amountVotes: 0
+            )!
         
         news += [news4, news5, news6]
     }
@@ -113,7 +122,7 @@ class NewsLectorTableViewController: UITableViewController {
         // Actualizando las propidades de la vista con sus valores correspondientes
         cell.titleLabel.text = newsOfIndexPath.title
         cell.authorLabel.text = newsOfIndexPath.author
-        cell.photoImage.image = newsOfIndexPath.photo
+        //cell.photoImage.image = newsOfIndexPath.photo
         cell.ratingControl.rating = newsOfIndexPath.rating!
         
         return cell

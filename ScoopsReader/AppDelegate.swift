@@ -47,20 +47,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         // Diccionario para ingresar en Mobile Service de Azure
-        //let item = ["title":"Photo 02 prueba", "author":"Pedro", "rating":"5"]
+        let item = ["id":"SDR5-FGT4-23DE-QWEA" , "title":"Photo 03 prueba", "author":"Carlos", "newtext":"hola" , "rating":"3", "totalrating":"25"]
         
         // Obtengo la tabla donde  insertar los datos en 'Azure'
-        //let table = client.tableWithName("news")
+        let table = client.tableWithName("photos")
         // Inserto
-//        table.insert(item) {
-//            (insertedItem, error : NSError?) in
-//            print("Hello Azure!!!👋👍😋")
-//            if (error != nil) {
-//                print("Error" + error!.description)
-//            } else {
-//                print("Item inserted, id:  \(insertedItem["id"])")
-//            }
-//        }
+        table.insert(item) {
+            (insertedItem, error : NSError?) in
+            print("Hello Azure!!!👋👍😋")
+            if (error != nil) {
+                print("Error" + error!.description)
+            } else {
+                print("Item inserted, id:  \(insertedItem["id"])")
+            }
+        }
         
         //Predicado para filtar la consulta
 //        let predicate = NSPredicate(format: "rating > 4", [])

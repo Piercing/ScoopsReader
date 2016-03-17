@@ -247,10 +247,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" placeholderIntrinsicWidth="20" placeholderIntrinsicHeight="20" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="e6m-vd-hBI">
-                                <rect key="frame" x="290" y="230" width="20" height="20"/>
-                                <color key="color" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </activityIndicatorView>
                             <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="369" axis="vertical" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Lxk-Yc-j2C">
                                 <rect key="frame" x="20" y="101" width="560" height="491"/>
                                 <subviews>
@@ -304,7 +300,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" placeholderIntrinsicWidth="9" placeholderIntrinsicHeight="16" text=" de " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dwc-4l-iIG">
                                                 <rect key="frame" x="94" y="0.0" width="9" height="16"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="25" placeholderIntrinsicHeight="16" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="8EV-ZE-gNW">
@@ -342,10 +338,10 @@
                                             <mask key="constraints">
                                                 <exclude reference="QMI-bJ-46o"/>
                                                 <exclude reference="ozL-nN-4dv"/>
-                                                <exclude reference="B8h-5N-H3x"/>
-                                                <exclude reference="ukG-B0-e9B"/>
                                                 <exclude reference="3ja-W6-CQJ"/>
                                                 <exclude reference="cMS-ZN-0Oe"/>
+                                                <exclude reference="B8h-5N-H3x"/>
+                                                <exclude reference="ukG-B0-e9B"/>
                                             </mask>
                                         </variation>
                                     </stackView>
@@ -358,6 +354,10 @@
                                     <constraint firstItem="k9I-sG-4tW" firstAttribute="top" secondItem="Bkx-UI-Qxp" secondAttribute="bottom" constant="-157" id="u8f-fU-nOE"/>
                                 </constraints>
                             </stackView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" placeholderIntrinsicWidth="20" placeholderIntrinsicHeight="20" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="e6m-vd-hBI">
+                                <rect key="frame" x="290" y="230" width="20" height="20"/>
+                                <color key="color" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>

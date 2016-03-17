@@ -10,27 +10,18 @@ import UIKit
 
 class AccessViewController: UIViewController {
     
+    var callNewsCloud : NewsAuthorTableViewController?
+    
     @IBOutlet weak var accessAuthor: UIButton!
     @IBOutlet weak var accessLector: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
-    @IBAction func authorButton(sender: UIButton) {
-        if sender == self.accessAuthor{
-            self.activityIndicator.startAnimating()
-        }
-    }
-    
-    @IBAction func unwindToNewsAuthorTable(sender : UIStoryboardSegue) {
-        if sender.destinationViewController is NewsAuthorTableViewController{
-            self.activityIndicator.stopAnimating()
-        }
-    }
     
     // MARK: LifeCycle
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
         self.view.backgroundColor = UIColor.blackColor()
         
         settingPropeties(accessLector)
@@ -42,6 +33,8 @@ class AccessViewController: UIViewController {
         
         navigationItem.title = "Scoopes Reader"
         navigationController?.navigationBar.tintColor = UIColor.orangeColor()
+        // Color de fondo  para el 'navigationBar'
+        UINavigationBar.appearance().barTintColor = UIColor.blackColor()
     }
     
     
@@ -61,6 +54,23 @@ class AccessViewController: UIViewController {
         object.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
     }
     
+    // MARK: Action
+    
+    @IBAction func callNewsCloud(sender: AnyObject) {
+        //self.callNewsCloud?.populateModel()
+    }
+    
+    @IBAction func authorButton(sender: UIButton) {
+        if sender == self.accessAuthor{
+            self.activityIndicator.startAnimating()
+        }
+    }
+    
+    @IBAction func unwindToNewsAuthorTable(sender : UIStoryboardSegue) {
+        if sender.destinationViewController is NewsAuthorTableViewController{
+            self.activityIndicator.stopAnimating()
+        }
+    }
     
     // MARK: - Navigation
     /*

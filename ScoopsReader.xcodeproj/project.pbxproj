@@ -163,7 +163,6 @@
 				522696081C83AD5A00EF47A8 /* RatingControl.swift */,
 				52E4C9731C898F3A006FD2E8 /* NewsAuthorTableViewCell.swift */,
 				52E4C96F1C897967006FD2E8 /* NewsLectorTableViewCell.swift */,
-				52FD72971C8D3E47007646D1 /* AzFake.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -173,6 +172,7 @@
 			children = (
 				52BB29281C8232820025645A /* AppDelegate.swift */,
 				52FD72961C8D3E47007646D1 /* AzFake.h */,
+				52FD72971C8D3E47007646D1 /* AzFake.m */,
 				52FD72951C8D3E46007646D1 /* ScoopsReader-Bridging-Header.h */,
 				52BB292C1C8232820025645A /* Main.storyboard */,
 				52BB29311C8232820025645A /* LaunchScreen.storyboard */,
