@@ -396,6 +396,7 @@
                         <outlet property="photoImageView" destination="0uq-lS-Lpt" id="ed0-rb-pmB"/>
                         <outlet property="ratingControl" destination="Bkx-UI-Qxp" id="gV9-0N-MTj"/>
                         <outlet property="saveButton" destination="uVT-O3-DV5" id="PfW-jq-RXK"/>
+                        <outlet property="saveInAzure" destination="6DR-JZ-D8A" id="f0P-cB-Djr"/>
                         <outlet property="titleTextField" destination="dP0-tX-Kku" id="8vw-Vc-Aef"/>
                     </connections>
                 </viewController>

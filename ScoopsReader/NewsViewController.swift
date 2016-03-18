@@ -11,10 +11,7 @@ import MobileCoreServices
 
 class NewsViewController: UIViewController, UITextFieldDelegate,
 UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
-    
-    
-    
-    
+
     // MARK: - Properties
     
     @IBOutlet weak var titleTextField: UITextField!
@@ -26,13 +23,15 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var numberValoration: UILabel!
     @IBOutlet weak var numberVotes: UILabel!
+    @IBOutlet weak var saveInAzure: UIButton!
     
     // Valor para pasar por 'prepareForsegue'
     var news : News?
     // Propiedad para almacenar datos  photo
-    var bufferPhoto : UIImage?
+    var bufferPhoto : NSData?
     // Propiedad para almacenar  nombre blob
     var blobName : String?
+    // Propiedad para  acceder a propiedades
     var values : RatingControl?
     // Propiedad cliente
     var client : MSClient = MSClient(applicationURL: NSURL(
@@ -120,53 +119,33 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             
             // 'Coalescencing operator' => devuelve un valor si lo tiene
             // y si éste no lo tiene, devuelve un valor por defecto ("")
-            // En este caso si tuviera un nil, devolvería texto vacio ""
-            let id = self.news!.id
+            // En este caso si tuviera un nil, devolvería vacio "" ó '0'
+            //let id = self.news!.id
             let title = titleTextField.text ?? ""
             let author = authorTextField.text ?? ""
             //let photo = photoImageView.image
-            let rating = ratingControl.rating
+            let rating = ratingControl.rating ?? 0
             let newstext = newsText.text ?? ""
-//            let newDat = NSDate()
-//            let state = false
-//            let result = ratingControl.result
-            let totalrating = ratingControl.ratingTotalNews
-//            let amountVotes = ratingControl.amountVotes
+            //            let newDat = NSDate()
+            //            let state = false
+            //            let result = ratingControl.result
+            let totalrating = ratingControl.ratingTotalNews ?? 0
+            //            let amountVotes = ratingControl.amountVotes
             //let totalRatingNews = ratingControl.ratingTotalNews
             //let latitude =
             //let longitude =
             
             // Estableciendo  valores de la 'news' para ser pasados al
             // =====>  'NewsTableViewController' a  través  del  segue
-            news = News(id : id, title: title, author: author, newstext: newstext,
+            news = News(title: title, author: author, newstext: newstext,
                 rating: rating, totalrating:  totalrating
-//                , photo: photo, state: state, newDat : newDat, result: result,
-//                totalRating: totalRating, amountVotes: amountVotes
+                //                , photo: photo, state: state, newDat : newDat, result: result,
+                //                totalRating: totalRating, amountVotes: amountVotes
             )
         }
     }
     
     // MARK: - Actions (Target-Action)
-    
-    
-    
-    //    @IBAction func resetRating(sender: UIButton) {
-    //
-    //        for (index, button) in (reset?.ratingButtons.enumerate())! {
-    //
-    //            switch (index){
-    //
-    //            case 0...4: button.setImage(reset?.emptyStarImage, forState: .Normal)
-    //            reset?.rating = 0
-    //                break
-    //            default: ()
-    //            }
-    //            // Para asegurarme de que la imagen no muestre alguna caract.
-    //            // adicional  durante  el cambio  de  estado, al ser pulsada.
-    //            reset!.button.adjustsImageWhenHighlighted = false
-    //        }
-    //    }
-    
     
     @IBAction func saveAzureAction(sender: AnyObject) {
         
@@ -175,8 +154,8 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         
         // 1º: Guardamos las  fotos que queremos  persistir en Base de Datos
         tablePhotos?.insert([
-            "title" : titleTextField.text!, "author" : authorTextField.text!,"newText": newsText.text,
-            "blobName": "myBlob", "containername" : "myphotoposts"],
+            "title" : titleTextField.text!, "author" : authorTextField.text!,"newtext": newsText.text,
+            "blobName": blobName!, "containername" : "scoopes"],
             completion: { (inserted: [NSObject : AnyObject]!, error: NSError?) -> Void in
                 print("Hello Azure!!!👋👍😋 👋👍😋")
                 // Si hay error
@@ -225,20 +204,21 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         }
     }
     
-    // MARK: Methods for Capture Video
+    // MARK: Methods for Capture Video/Photos
     
     /// Captura las photos realizados mediante la cámara de nuestro dispositvo
     func capturePhotos (sender : AnyObject){
         
-        // Inicio  el  'activityIndicator'  cuando  el usuario va  acceder  carrete
         self.activityIndicator.startAnimating()
-        
         
         // Utilizo una cola del sistema, donde se obtiene la foto en  segundo plano
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
             self.startCapturePhotosBlogFromViewController(self, withDelegate: self)
+            
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                self.activityIndicator.stopAnimating()
+            }
         }
-        
     }
     
     /// Captura  photos realizados  mediante  la cámara del  dispositivo usado
@@ -246,32 +226,50 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         withDelegate delegate: protocol<UIImagePickerControllerDelegate,
         UINavigationControllerDelegate>) -> Bool {
             
-            if (UIImagePickerController.isSourceTypeAvailable(.Camera) == false) {
+            if (UIImagePickerController.isSourceTypeAvailable(.SavedPhotosAlbum) == false) {
+                //                let alert = UIAlertAction(title: "Cámara no disponible", style: .plano, handler: { (UIAlertAction) -> Void in
+                //                    <#code#>
+                //                })
                 return false
             }
             
-            let cameraController = UIImagePickerController()
-            cameraController.sourceType = .Camera
-            cameraController.mediaTypes = [kUTTypeMovie as NSString as String]
-            cameraController.allowsEditing = false
-            cameraController.delegate = delegate
+            //            let cameraController = UIImagePickerController()
+            //            cameraController.sourceType = .SavedPhotosAlbum
+            //            cameraController.mediaTypes = [kUTTypeMovie as NSString as String]
+            //            cameraController.allowsEditing = false
+            //            cameraController.delegate = delegate
+            //
+            //            presentViewController(cameraController, animated: true, completion: nil)
             
-            presentViewController(cameraController, animated: true, completion: nil)
+            // Usuario  toca   la 'imageView' mientras escribe, el  teclado  desaparece
+            self.titleTextField.resignFirstResponder()
             
-            // Paro  el 'activity  Indicator'  en la cola principal  una vez  accedido
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            // Utilizo una cola del sistema, donde se obtiene la foto en  segundo plano
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
                 
-                // Detengo 'activityIndicator' cuando el usuario ya accedió al carrete
-                self.activityIndicator.stopAnimating()
-            })
-            
+                // Creo 'imagePickerController' para  que el usuario acceda  al carrete
+                let imagePickerController = UIImagePickerController()
+                
+                // Acceso solamente a 'photLibrary' del usuario, no acceso a  la camara
+                imagePickerController.sourceType = .PhotoLibrary
+                
+                // Paro  el 'activity Indicator' en la cola principal una vez  accedido
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    
+                    // Recibo las notificaciones cuando usuario escoge imagen 'Delegate'
+                    imagePickerController.delegate = self
+                    
+                    // Presento el 'viewController' definido por 'imagePickerController'
+                    self.presentViewController(imagePickerController, animated: true, completion: nil)
+                })
+            }
             return true
     }
     
     // MARK: Methods to save Videos & Upload Videos
     
     /// Path donde se guardarán las photos  grabadas en el dispositivo local/
-    func savePhotosInDocuments (data: UIImage) {
+    func savePhotosInDocuments (data: NSData) {
         
         let existsFile = NSArray(contentsOfFile: News.archivePhotosURL.path!) as? [String]
         
@@ -294,10 +292,140 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         }
     }
     
+    /// Método para guardar localmente un NSData
+    func saveInDocuments(data : NSData) {
+        
+        // Constante con la cual doy nombre con un 'UUIDString' ya creado y con la extensión 'jpg'
+        let blobNameUUID = "/photo-\(NSUUID().UUIDString).jpg"
+        
+        // Obtenemos el 'path' del directorio donde voy  guardar y  ponerle un nombre  al fichero
+        // El primer parámetro le paso el directorio del documento y el 2º el dominio del usuario
+        // Como esto nos devuelve un array le decimos que nos devuelva el primer elemento => '[0]'
+        // como una cadena. Con esto ya tengo el 'path' del directorio mi documents, de mi'Sanbox'
+        let documents = NSSearchPathForDirectoriesInDomains(.DocumentationDirectory, .UserDomainMask, true)[0] as String
+        
+        // Ahora le agrego a documents  un nombre de fichero al vídeo  a guardar que he capturado
+        // A este fichero le doy un nombre con un 'UUIDString' ya creado y con  la extensión 'mov'.
+        let filePath = documents.stringByAppendingString(blobNameUUID) // le  añado la  extensión
+        // Ya tenemos el nombre del fichero, pero el fichero  aún no existe, o creo que no existe.
+        // Para ello compruebo con un 'if' si existe o no el fichero. Con 'contentsOfFile' obtngo
+        // todas las coincidencias que encuentra en el'filePath' que le paso, metidas en un array
+        let array = NSArray(contentsOfFile: filePath) as? [String]// si lo puede desempaquetar...
+        // Pregunto si el array  está vacio, es decir, no ha encontrado coincidencias en el Path,
+        // ya que si encuentra  coincidencias, es  que el fichero ya existe y se sobreescribiría.
+        // Puedo preguntar si es nil, es un opcional, y compruebo si está a nil, para persistirlo
+        // ya que, al comprobar  que no es nil, es  que no existe, por tanto  podemos persistirlo.
+        if (array == nil) {
+            // voy  a persistir  el fichero  localmente  y una vez haya guardado  lo subo a Azure.
+            data.writeToFile(filePath, atomically: true)
+            
+            // Guardo los datos binarios de la foto y el nombre que se le dará al blob que subamos.
+            bufferPhoto = data
+            blobName = blobNameUUID
+            // Para  subirlo  a  Azure, llamo  a  la  función que  he  creado ==> 'uploadToStorage'
+            // pasándole el NSData => el vídeo y el nombre NSUUID ya  creado con la extensión'.mov'
+            uploadToStorage(data, blobName: blobNameUUID)
+        }
+    }
+    
     /// Sube los vídeos al Storage de Azure y los almacena
-    func uploadToStorage(data: UIImage, blobName: String) {
+    func uploadToStorage(data: NSData, blobName: String) {
         
+        // Invocamos la API 'urlsastoblobcontainer' para obtener una url para poder subir el 'blob'
+        // Esta misma custom API, también nos va a servir para la operación inversa ===> descargar
         
+        //********************* 1º **********************
+        // Invocar la Api mediante el 'client'. Nuestra 'custom API'
+        // la  hemos  llamado   =======>  'urlsastoblobandcontainer'
+        // Aquí es donde se dispara nuestra custom API en 'Azure MS'
+        client.invokeAPI("urlsastoblobcontainer",
+            body: nil,
+            HTTPMethod: "GET",
+            // como  parámetros  el nombre  del contenedor y del blob
+            parameters: ["blobName" : self.blobName!, "containerName" : "scoopes" ],
+            headers: nil,
+            // El primer parámetro devuelve el diccionario con la URL
+            // que hemos  generado para poder  subir un  blob a Azure
+            // El segundo, es la  respuesta, por si queremos analizar
+            // el tipo de respuesta como por ejemplo que nos devuelva
+            // un '205' u  otra  respuesta  y por  último el 'NSError'
+            completion: { (result : AnyObject?, response : NSHTTPURLResponse?, error : NSError?) -> Void in
+                
+                // Si no hay error
+                if error == nil {
+                    
+                    // ********************* 2º ***********************
+                    // es  que en el 'result' recibo un diccionario con
+                    // una clave  que se llamará ==> 'sasURL' que tiene
+                    // un valor, que es el  que a nosotros nos interesa
+                    // Con esta sólo tenemos la ruta del container/blob
+                    let sasURL = result!["sasURL"] as? String
+                    
+                    // ********************* 3º ***********************
+                    // En  vez de  crear el  container  desde Azure, lo
+                    // vamos  a  hacer  desde  aquí, partiendo  de esta
+                    // 'sasURL'. Con esto tenemos la 'firma' de la URL,
+                    // pero tenemos que poner también el recurso al que
+                    // queremos acceder,tenemos que ponerle el endpoint
+                    // Hay que poner el 'endpoint 'del 'Storage' no del
+                    // Mobile Service.
+                    var endPoint = "https://scoopes.blob.core.windows.net"
+                    
+                    // Ya  tenemos  la 'sasURL' y el 'endPoint'. Lo que
+                    // hacemos ahora es sumar las dos cadenas,  unirlas,
+                    // para tener la URL completa y poder subir o bajar
+                    // el recurso queremos acceder. En este caso  subir.
+                    
+                    // Sumamos  las cadenas == > 'endPoint'  y  'sasURl'
+                    endPoint += sasURL!
+                    
+                    // ********************** 4º ***********************
+                    //     APUNTANDO AL CONTAINER DE AZURE STORAGE
+                    // Ya podemos hacer  referencia a nuestro  container
+                    // para  poder  subir. Hasta ahora  usábamos el  que
+                    // tenía el blobClient y ahora usaremos directamente
+                    // una URL, que no es ni más ni menos  que 'endPoint'
+                    let container = AZSCloudBlobContainer(url: NSURL(string: endPoint)!)
+                    
+                    // ********************** 5º ***********************
+                    //           CREANDO NUESTRO BLOB LOCAL
+                    // Como no me permite subir un fichero, sino un blob
+                    // he de convertir el fichero a un tipo de dato blob
+                    // Desde el container tomo la referencia del  nombre
+                    // del  'blob', pasándole  el 'blobName' que  recibo
+                    let blobLocal = container.blockBlobReferenceFromName(blobName)
+                    
+                    // ********************** 6º ***********************
+                    // HACEMOS EL UPLOAD DE NUESTRO BLOB LOCAL *EL DATA*
+                    //
+                    blobLocal.uploadFromData(data, completionHandler: {
+                        (error : NSError?) -> Void in
+                        
+                        // Aquí se supone  que  hemos controlado el éxito
+                        // Recordar también, que tenemos un button, en el
+                        // storyBoard del viewController, el cual  estaba
+                        // desactivado para poder subir los datos a Azure
+                        
+                        // Si no hay error
+                        if error == nil {
+                            // Deshabilito el botón. Como las clase de AZS
+                            // trabajan en 2º plano, tenemos que volver al
+                            // hilo principale para poder llevarlo a  cabo
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                // Deshabilito el botón para subida  Azure
+                                self.saveButton.enabled = false
+                                self.saveInAzure.enabled = false
+                            })
+                        } else{
+                            print("Houston we have a problem: Error!! -> \(error)")
+                        }
+                        
+                        // NOTA: CON ESTO HEMOS  TERMINADO TODO EL PROCESO DE
+                        // ASOCIAR EL ELEMENTO EN UNA TABLA DE MOBILE SERVICE
+                        // Y  DE  SUBIR  EL  'BLOB'  AL  STORAGE   DE  'AZURE'
+                    })
+                }
+        })
     }
     
     // Asigna los valores en vista Detail valoración y votos
@@ -355,6 +483,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         // Se llama cuando se inicia algún tipo de edición o se visualiza teclado
         // Se desactiva 'Save' cuando el usuario está  editando en campo de texto
         saveButton.enabled = false
+        saveInAzure.enabled = false
     }
     
     
@@ -370,6 +499,10 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         saveButton.enabled = !textAuthor.isEmpty
         saveButton.enabled = !textTxt.isEmpty
         
+        saveInAzure.enabled = !textTitle.isEmpty
+        saveInAzure.enabled = !textAuthor.isEmpty
+        saveInAzure.enabled = !textTxt.isEmpty
+        
     }
     
     // MARK: - UIImagePickerControllerDelegate - Métodos del  protocolo delegado
@@ -381,7 +514,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    // Método qu se llama cuando usuario selecciona una foto pudiendo modificarla
+    // Método q se llama cuando usuario selecciona una foto pudiendo modificarla
     func imagePickerController(picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [String : AnyObject]) {
             
@@ -392,9 +525,32 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             // Establezco como 'photoImage' la 'selectImage' seleccionada y la muestro
             photoImageView.image = selectImage
             
+            // Obtengo el NSData de la imagen seleccionada
+            let imageData = UIImageJPEGRepresentation(selectImage, 0.9)
+            
+            // Recojo  lo  que  he recibido, el parámetro 'info' tiene  una key que se
+            // va  a poder  tener acceso a  lo que hemos capturado, lo casteo a cadena
+            let mediaType = info[UIImagePickerControllerMediaType] as! String
+            
             // Cierro  el selector de imágenes de forma animada y bloque final ==> nil
             dismissViewControllerAnimated(true, completion: nil)
             
+            // Comprobamos  que  hemos  capturado, si  es  una photo ==> 'kUTTypePhoto'
+            if(mediaType == kUTTypeImage as String){
+                
+                // Obtengo de la clave 'info', preguntando donde está almacenada tempo/
+                // la photo que acabamos de capturar, obteniendo el 'path'(casteo a URL)
+                //let path = (info[UIImagePickerControllerMediaURL] as? NSURL)
+                
+                // Creo  el  siguiente método, que  lo que  va a  recibir
+                // es,  por un  lado el  buffer NSData que tiene la photo
+                // y por otro lado el path donde está almacenado el vídeo
+                saveInDocuments(imageData!)
+                
+                // Éste método se invoca desde la extensión del UIImagePickerContr
+                //UISaveVideoAtPathToSavedPhotosAlbum((path?.absoluteString)!, self, "photo:didFinishSavingWithError:contextInfo:", nil)
+                
+            }
     }
 }
 

@@ -29,7 +29,7 @@ class News : NSObject, NSCoding {
     var title : String
     var author : String
     var newstext : String
-    var id : String
+    //var id : String
     //var photo : UIImage?
     //var state :  Bool
     var rating : Int?
@@ -75,22 +75,22 @@ class News : NSObject, NSCoding {
     // MARK: Archiving Paths
     
     // Constantes 'statics' acceder fuera
-    // Constante con la cual doy nombre con un 'UUIDString' ya creado y con la extensión 'mov'
-    static let blobNameUUID = "/photo-\(NSUUID().UUIDString).png"
+    // Constante con la cual doy nombre con un 'UUIDString' ya creado y con la extensión 'jpg'
+    static let blobNameUUID = "/photo-\(NSUUID().UUIDString).jpg"
     // Lugar  donde  se guardan las 'news'
     static let documentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
     // Path donde se  guardarán las 'news'
     static let archiveURL = documentsDirectory.URLByAppendingPathComponent("news")
-    // Lugar donde se  guardarán  'vídeos'
+    // Lugar donde se  guardarán  'photos'
     static let photosDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-    // Path donde se guardar  los 'vídeos'
+    // Path donde se guardar  las 'photos'
     static let archivePhotosURL = photosDirectory.URLByAppendingPathComponent(blobNameUUID)
     
     
     // MARK: Types
     // Struct: => key para codificar propiedades
     struct propertyKey {
-        static let idKey = "id"
+        //static let idKey = "id"
         static let titleKey = "title"
         static let authorKey = "author"
         static let newsTextKey = "textKey"
@@ -108,14 +108,14 @@ class News : NSObject, NSCoding {
     
     
     // MARK:  Initialization
-    init? (id : String, title : String, author : String, newstext : String, rating : Int, totalrating : Int)
+    init? (title : String, author : String, newstext : String, rating : Int, totalrating : Int)
         //    ,
         //        photo : UIImage?,  state : Bool, newDat : NSDate,result : Int, totalRating : Int,
         //        amountVotes : Int)
     {
         
         // Inicilizando propiedades almacenadas
-        self.id = id
+        //self.id = id
         self.title = title
         self.author = author
         self.newstext = newstext
@@ -132,7 +132,7 @@ class News : NSObject, NSCoding {
         
         // Inicializador fallable si se cumple:
         if title.isEmpty || author.isEmpty ||
-            newstext.isEmpty || rating < 0 || id.isEmpty
+            newstext.isEmpty || rating < 0
             //                ||
             //                newDat == ""
         {
@@ -147,7 +147,7 @@ class News : NSObject, NSCoding {
     func encodeWithCoder(aCoder: NSCoder) {
         // encodeObject codifica cualquier tipo de objeto, codificando el valor
         // de cada propiedad de 'news'
-        aCoder.encodeObject(id, forKey: propertyKey.idKey)
+        //aCoder.encodeObject(id, forKey: propertyKey.idKey)
         aCoder.encodeObject(title, forKey: propertyKey.titleKey)
         aCoder.encodeObject(author, forKey: propertyKey.authorKey)
         aCoder.encodeObject(newstext, forKey: propertyKey.newsTextKey)
@@ -167,7 +167,7 @@ class News : NSObject, NSCoding {
     // Sólo se aplicará cuando se vayan a guardar datos o cargar datos ==> (rw)
     required convenience init?(coder aDecoder: NSCoder) {
         // Como 'decodeObjectForKey' devuelve un 'AnyObject' lo casteo a 'String'
-        let id = aDecoder.decodeObjectForKey(propertyKey.idKey) as! String
+        //let id = aDecoder.decodeObjectForKey(propertyKey.idKey) as! String
         let title = aDecoder.decodeObjectForKey(propertyKey.titleKey) as! String
         let author = aDecoder.decodeObjectForKey(propertyKey.authorKey) as! String
         let newstext = aDecoder.decodeObjectForKey(propertyKey.newsTextKey) as! String
@@ -183,7 +183,7 @@ class News : NSObject, NSCoding {
         //let longitude = aDecoder.decodeObjectForKey(propertyKey.longitudeKey) as! Double
         
         // Llammo al incializador designado
-        self.init(id : id, title : title, author : author, newstext : newstext, rating : rating, totalrating : totalrating)
+        self.init(title : title, author : author, newstext : newstext, rating : rating, totalrating : totalrating)
         //        ,
         //            photo : photo,  state: state, newDat: date, result : result, totalRating : totalRating,
         //            amountVotes : amountVotes)

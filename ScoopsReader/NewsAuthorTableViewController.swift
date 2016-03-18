@@ -83,7 +83,6 @@ class NewsAuthorTableViewController: UITableViewController {
         
         //let photo4 = UIImage(named: "noticias.jpg")
         let news4 = News(
-            id: "ÑKL0-SE4BN-003D",
             title: "Nunas noticias",
             author: "Andrés",
             newstext: "Noticias mundiales",
@@ -99,7 +98,6 @@ class NewsAuthorTableViewController: UITableViewController {
         
         //let photo5 = UIImage(named: "noticiasfresquitas.png")
         let news5 = News(
-            id: "ÑKL0-SE4BN-003D",
             title: "Notcias frescas",
             author: "Fernando",
             newstext: "Las noticias más fresquitas de la actualidad",
@@ -115,7 +113,6 @@ class NewsAuthorTableViewController: UITableViewController {
         
         //let photo6 = UIImage(named: "Mafalda_vin_prodiaser.jpg")
         let news6 = News(
-            id: "ÑKL0-SE4BN-003D",
             title: "Mafalda",
             author: "Marta",
             newstext: "Mafalda se pone al día",
@@ -207,7 +204,46 @@ class NewsAuthorTableViewController: UITableViewController {
         let tableNews = client.tableWithName(nameTable)
         
         // Prueba 1: obtener todos los datos de tabla via 'MSTable'
-        tableNews?.readWithCompletion({ (results: MSQueryResult?, error: NSError?) -> Void in
+//        tableNews?.readWithCompletion({ (results: MSQueryResult?, error: NSError?) -> Void in
+//            
+//            // si no hay error
+//            if error == nil {
+//                // Guardao  los  resultados y sincronizo la tabla  con el modelo
+//                let resultsTableMS = (results?.items as! AnyObject) as! [NSDictionary]
+//                
+//                // De  los datos  recibidos, asignamos  a cada propiedad su valor
+//                for item in resultsTableMS {
+//                    
+//                    let id = item["id"] as! String
+//                    let title = item["title"] as! String
+//                    let author = item["author"] as! String
+//                    let newstext = item["newtext"] as! String
+//                    let rating = item["rating"] as! Int
+//                    let totalrating = item["totalrating"] as! Int
+//                    
+//                    // Creo una nueva noticia con los datos sacados del dictionary
+//                    let newsCloud = News(id: id, title: title, author: author, newstext: newstext, rating: rating, totalrating: totalrating)
+//                    
+//                    // Añado la nueva noticia recibida al array que contine 'News'
+//                    self.news.append(newsCloud!)
+//                    
+//                }
+//                
+//                // Por último, guardo también en modo local la  nueva noticia
+//                self.saveNews()
+//                // actualizo la tabla con un 'reload'
+//                self.tableView.reloadData()
+//            }
+//        })
+        
+        // Prueba 2: Obtener todos los datos de tabla via 'MSQuery'
+        let query = MSQuery(table: tableNews)
+        
+        // Incluir predicados, constrains  para filtrar, limitar el
+        // número de filas que vamos a recibir o en múmero columnas
+        query.orderByAscending("__updatedAt")
+        // Ejecutar el 'MSQuery', que es practiacamente al anterior
+        query.readWithCompletion { (results: MSQueryResult?, error: NSError?) -> Void in
             
             // si no hay error
             if error == nil {
@@ -217,7 +253,7 @@ class NewsAuthorTableViewController: UITableViewController {
                 // De  los datos  recibidos, asignomos  a cada propiedad su valor
                 for item in resultsTableMS {
                     
-                    let id = item["id"] as! String
+                    //let id = item["id"] as! String
                     let title = item["title"] as! String
                     let author = item["author"] as! String
                     let newstext = item["newtext"] as! String
@@ -225,37 +261,19 @@ class NewsAuthorTableViewController: UITableViewController {
                     let totalrating = item["totalrating"] as! Int
                     
                     // Creo una nueva noticia con los datos sacados del dictionary
-                    let newsCloud = News(id: id, title: title, author: author, newstext: newstext, rating: rating, totalrating: totalrating)
+                    let newsCloud = News(title: title, author: author, newstext: newstext, rating: rating, totalrating: totalrating)
                     
                     // Añado la nueva noticia recibida al array que contine 'News'
                     self.news.append(newsCloud!)
                     
                 }
                 
-                // Por último, guardo también en modo local la  nueva noticia
+                // Guardo en modo local
                 self.saveNews()
-                // actualizo la tabla con un 'reload'
+                // Actualizo  la  tabla
                 self.tableView.reloadData()
             }
-        })
-        
-        // Prueba 2: Obtener todos los datos de tabla via 'MSQuery'
-        //        let query = MSQuery(table: tableNews)
-        //
-        //        // Incluir predicados, constrains  para filtrar, limitar el
-        //        // número de filas que vamos a recibir o en múmero columnas
-        //        query.orderByAscending("__updatedAtDescending")
-        //        // Ejecutar el 'MSQuery', que es practiacamente al anterior
-        //        query.readWithCompletion { (results: MSQueryResult?, error: NSError?) -> Void in
-        
-        // si no hay error
-        //            if error == nil {
-        //                // Sincronizo la tabla con el modelo
-        //                self.news = results?.items as! [News]
-        //                // actualizo la tabla con un 'reload'
-        //                self.tableView.reloadData()
-        //            }
-        //        }
+        }
     }
     
     
@@ -279,10 +297,6 @@ class NewsAuthorTableViewController: UITableViewController {
                 // Obtengo objeto seleccionado del'indexPath'del array
                 let selectNews = news[indexPath.row]
                 
-                // //************** TODO: aprovecho para coger el indexpath y asignarle ****************//
-                // guardarle, la cantidad de rating y votos que tiene,
-                // el 'state' que tiene, la fecha  y las  coordenadas.
-                
                 // Asigno el  objeto 'selectNews' a la propiedad 'news'
                 // del controlador que es el objeto seleccionado table
                 newsDetailViewController.news = selectNews
@@ -296,9 +310,7 @@ class NewsAuthorTableViewController: UITableViewController {
     }
     
     // MARK: Action
-    
-    
-    
+
     @IBAction func unwindToNewsList(sender : UIStoryboardSegue) {
         
         // Casteo 'sourceViewController' de tipo 'UIViewController' a 'NewsViewController'
@@ -318,7 +330,8 @@ class NewsAuthorTableViewController: UITableViewController {
                     //NewsAuthorTableViewController.ratingTotalNewsForViewDetail = new.ratingTotalNews
                     NewsAuthorTableViewController.resultViewDetail = new.result
                     
-                    saveNews()
+                    // Guardo
+                    self.saveNews()
                     
                     // Vuelvo a cargar  la fila  correspondiente  para mostrar los cambios
                     tableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .None)
@@ -359,6 +372,7 @@ class NewsAuthorTableViewController: UITableViewController {
         
         self.activityIndicator?.activityIndicator.startAnimating()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            
             // Intento guardar  el array de las 'news', si se  ha podido  guardar me devuelve 'true'
             // Le paso constante  estática creada en 'News' que es la ruta al archivo donde guardar
             let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(self.news, toFile: News.archiveURL.path!)
