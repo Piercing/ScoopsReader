@@ -382,7 +382,6 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="uVT-O3-DV5">
                             <color key="tintColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="saveAzureAction:" destination="BYZ-38-t0r" id="GDa-4w-XES"/>
                                 <segue destination="Zz3-Iy-Fp3" kind="unwind" unwindAction="unwindToNewsList:" id="9sG-oX-Lpp"/>
                             </connections>
                         </barButtonItem>
@@ -395,7 +394,7 @@
                         <outlet property="numberVotes" destination="8EV-ZE-gNW" id="MMZ-Np-FPa"/>
                         <outlet property="photoImageView" destination="0uq-lS-Lpt" id="ed0-rb-pmB"/>
                         <outlet property="ratingControl" destination="Bkx-UI-Qxp" id="gV9-0N-MTj"/>
-                        <outlet property="saveButton" destination="uVT-O3-DV5" id="PfW-jq-RXK"/>
+                        <outlet property="saveButton" destination="uVT-O3-DV5" id="8C0-Ao-73y"/>
                         <outlet property="saveInAzure" destination="6DR-JZ-D8A" id="f0P-cB-Djr"/>
                         <outlet property="titleTextField" destination="dP0-tX-Kku" id="8vw-Vc-Aef"/>
                     </connections>

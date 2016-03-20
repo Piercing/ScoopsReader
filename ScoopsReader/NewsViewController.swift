@@ -36,7 +36,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     // Propiedad cliente
     var client : MSClient = MSClient(applicationURL: NSURL(
         string: "https://scoopsdailay.azure-mobile.net/"),
-        applicationKey: "VjcTsrgmahsJOviIgUWrrkpQHxIRKO71")
+        applicationKey: "SFfIMXQedqiHrvQJXiIuVKIomiMign98")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -155,8 +155,8 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         // 1º: Guardamos las  fotos que queremos  persistir en Base de Datos
         tablePhotos?.insert([
             "title" : titleTextField.text!, "author" : authorTextField.text!,"newtext": newsText.text,
-            "blobName": blobName!, "containername" : "scoopes"],
-            completion: { (inserted: [NSObject : AnyObject]!, error: NSError?) -> Void in
+            "blobName": blobName!, "containername" : "scoop"],
+            completion: { (inserted, error: NSError?) -> Void in
                 print("Hello Azure!!!👋👍😋 👋👍😋")
                 // Si hay error
                 if error != nil {
@@ -213,11 +213,8 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         
         // Utilizo una cola del sistema, donde se obtiene la foto en  segundo plano
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-            self.startCapturePhotosBlogFromViewController(self, withDelegate: self)
             
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                self.activityIndicator.stopAnimating()
-            }
+            self.startCapturePhotosBlogFromViewController(self, withDelegate: self)
         }
     }
     
@@ -261,6 +258,8 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
                     
                     // Presento el 'viewController' definido por 'imagePickerController'
                     self.presentViewController(imagePickerController, animated: true, completion: nil)
+                    
+                    self.activityIndicator.stopAnimating()
                 })
             }
             return true
@@ -323,7 +322,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             bufferPhoto = data
             blobName = blobNameUUID
             // Para  subirlo  a  Azure, llamo  a  la  función que  he  creado ==> 'uploadToStorage'
-            // pasándole el NSData => el vídeo y el nombre NSUUID ya  creado con la extensión'.mov'
+            // pasándole el NSData => el vídeo y el nombre NSUUID ya  creado con la extensión'.JPG'
             uploadToStorage(data, blobName: blobNameUUID)
         }
     }
@@ -337,12 +336,12 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
         //********************* 1º **********************
         // Invocar la Api mediante el 'client'. Nuestra 'custom API'
         // la  hemos  llamado   =======>  'urlsastoblobandcontainer'
-        // Aquí es donde se dispara nuestra custom API en 'Azure MS'
+        // Aquí es donde se dispara nuestra custom API en 'Azure MS
         client.invokeAPI("urlsastoblobcontainer",
             body: nil,
             HTTPMethod: "GET",
             // como  parámetros  el nombre  del contenedor y del blob
-            parameters: ["blobName" : self.blobName!, "containerName" : "scoopes" ],
+            parameters: ["blobName" : self.blobName!, "containerName" : "scoop" ],
             headers: nil,
             // El primer parámetro devuelve el diccionario con la URL
             // que hemos  generado para poder  subir un  blob a Azure
@@ -369,7 +368,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
                     // queremos acceder,tenemos que ponerle el endpoint
                     // Hay que poner el 'endpoint 'del 'Storage' no del
                     // Mobile Service.
-                    var endPoint = "https://scoopes.blob.core.windows.net"
+                    var endPoint = "https://scoop.blob.core.windows.net"
                     
                     // Ya  tenemos  la 'sasURL' y el 'endPoint'. Lo que
                     // hacemos ahora es sumar las dos cadenas,  unirlas,
@@ -415,9 +414,11 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
                                 // Deshabilito el botón para subida  Azure
                                 self.saveButton.enabled = false
                                 self.saveInAzure.enabled = false
+                                print("Houston, upload to Storage Azure 👍!!!")
                             })
                         } else{
                             print("Houston we have a problem: Error!! -> \(error)")
+                            print("Respuesta del server -> \(response.debugDescription)")
                         }
                         
                         // NOTA: CON ESTO HEMOS  TERMINADO TODO EL PROCESO DE

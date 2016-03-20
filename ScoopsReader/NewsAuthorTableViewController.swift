@@ -19,7 +19,7 @@ class NewsAuthorTableViewController: UITableViewController {
     
     var client : MSClient = MSClient(applicationURL: NSURL(
         string: "https://scoopsdailay.azure-mobile.net/"),
-        applicationKey: "VjcTsrgmahsJOviIgUWrrkpQHxIRKO71")
+        applicationKey: "SFfIMXQedqiHrvQJXiIuVKIomiMign98")
     
     // Modelo de objetos que recibimos de Mob.Serv
     var model : [AnyObject]?
@@ -201,7 +201,7 @@ class NewsAuthorTableViewController: UITableViewController {
         
         let nameTable = "photos"
         // Defino la tabla donde voy a coger 'vídeos/fotos' Azure'
-        let tableNews = client.tableWithName(nameTable)
+        let tableNews = self.client.tableWithName(nameTable)
         
         // Prueba 1: obtener todos los datos de tabla via 'MSTable'
 //        tableNews?.readWithCompletion({ (results: MSQueryResult?, error: NSError?) -> Void in
@@ -257,8 +257,8 @@ class NewsAuthorTableViewController: UITableViewController {
                     let title = item["title"] as! String
                     let author = item["author"] as! String
                     let newstext = item["newtext"] as! String
-                    let rating = item["rating"] as! Int
-                    let totalrating = item["totalrating"] as! Int
+                    let rating = 4
+                    let totalrating = 16
                     
                     // Creo una nueva noticia con los datos sacados del dictionary
                     let newsCloud = News(title: title, author: author, newstext: newstext, rating: rating, totalrating: totalrating)
