@@ -33,7 +33,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     var blobName : String?
     // Propiedad para  acceder a propiedades
     var values : RatingControl?
-    // Propiedad cliente
+    // Propiedad cliente, referencia a 'AMS'
     var client : MSClient = MSClient(applicationURL: NSURL(
         string: "https://scoopsdailay.azure-mobile.net/"),
         applicationKey: "SFfIMXQedqiHrvQJXiIuVKIomiMign98")
@@ -323,7 +323,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             blobName = blobNameUUID
             // Para  subirlo  a  Azure, llamo  a  la  función que  he  creado ==> 'uploadToStorage'
             // pasándole el NSData => el vídeo y el nombre NSUUID ya  creado con la extensión'.JPG'
-            uploadToStorage(data, blobName: blobNameUUID)
+            //uploadToStorage(data, blobName: blobNameUUID)
         }
     }
     

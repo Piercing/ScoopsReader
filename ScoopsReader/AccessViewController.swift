@@ -10,12 +10,20 @@ import UIKit
 
 class AccessViewController: UIViewController {
     
+    // Propiedad cliente, referencia a 'Mob.Servic'
+    var client : MSClient = MSClient(applicationURL: NSURL(
+        string: "https://scoopsdailay.azure-mobile.net/"),
+        applicationKey: "SFfIMXQedqiHrvQJXiIuVKIomiMign98")
+    
     var callNewsCloud : NewsAuthorTableViewController?
     
     @IBOutlet weak var accessAuthor: UIButton!
     @IBOutlet weak var accessLector: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var logIntoSocialNetworks: UIButton!
     
+    @IBOutlet weak var buttonAuthor: UIButton!
+    @IBOutlet weak var buttonLector: UIButton!
     // MARK: LifeCycle
     
     override func viewDidLoad() {
@@ -26,6 +34,12 @@ class AccessViewController: UIViewController {
         
         settingPropeties(accessLector)
         settingPropeties(accessAuthor)
+        self.buttonAuthor.highlighted = true
+        self.buttonLector.highlighted = true
+        self.buttonAuthor.enabled = false
+        self.buttonLector.enabled = false
+        
+        
         
     }
     
@@ -57,20 +71,53 @@ class AccessViewController: UIViewController {
     // MARK: Action
     
     @IBAction func callNewsCloud(sender: AnyObject) {
-        //self.callNewsCloud?.populateModel()
+        self.callNewsCloud?.populateModel()
+    }
+    @IBAction func logIntoSocialNetworks(sender: AnyObject) {
+        
+        if sender as! NSObject == self.logIntoSocialNetworks{
+            
+            // ******* 1º: Comprobar si estamos logueados *******
+            // Si el el usuario tiene algo, es que está logueados
+            if client.currentUser != nil {
+                
+                print("Estamos logueados")
+                
+            }else{
+                // Sino, nos logueamos
+                client.loginWithProvider("facebook", // provider, facebook, twttier, google, etc, etc
+                    controller: self,// donde queremos que aparezca la ventana modal de autenticarnos
+                    animated: true,
+                    completion: { (user: MSUser?, error: NSError?) -> Void in//Devuleve un user logueado y error
+                        
+                        if (error != nil){
+                            print("Houston, we have a problem to log 😱😱")
+                        }else{
+                            
+                            // Si tenemos éxito ==> "facebook: 23425jqsdfjasñqw3rlñdsfu343a689qflkz (i.e)
+                            
+                            self.buttonAuthor.enabled = true
+                            self.buttonAuthor.highlighted = true
+                            self.buttonLector.enabled = true
+                            self.buttonLector.highlighted = true
+                        }
+                })
+                
+            }
+        }
     }
     
     @IBAction func authorButton(sender: UIButton) {
         if sender == self.accessAuthor{
-            self.activityIndicator.startAnimating()
+           
         }
     }
     
-    @IBAction func unwindToNewsAuthorTable(sender : UIStoryboardSegue) {
-        if sender.destinationViewController is NewsAuthorTableViewController{
-            self.activityIndicator.stopAnimating()
-        }
-    }
+//    @IBAction func unwindToNewsAuthorTable(sender : UIStoryboardSegue) {
+//        if sender.destinationViewController is NewsAuthorTableViewController{
+//            //self.activityIndicator.stopAnimating()
+//        }
+//    }
     
     // MARK: - Navigation
     /*
@@ -82,8 +129,33 @@ class AccessViewController: UIViewController {
     }*/
 }
 
-
-
+//
+//@IBAction func logIntoSocialNetworks(sender: AnyObject) {
+//    
+//    // ******* 1º: Comprobar si estamos logueados *******
+//    // Si el el usuario tiene algo, es que está logueados
+//    if client.currentUser != nil {
+//        
+//        print("Estamos logueados")
+//        
+//    }else{
+//        // Sino, nos logueamos
+//        client.loginWithProvider("facebook", // provider, facebook, twttier, google, etc, etc
+//            controller: self,// donde queremos que aparezca la ventana modal de autenticarnos
+//            animated: true,
+//            completion: { (user: MSUser?, error: NSError?) -> Void in//Devuleve un user logueado y error
+//                
+//                if (error != nil){
+//                    print("Houston, we have a problem to log 😱😱")
+//                }else{
+//                    
+//                    // Si tenemos éxito ==> "facebook: 23425jqsdfjasñqw3rlñdsfu343a689qflkz (i.e)
+//                }
+//        })
+//        
+//    }
+//    
+//}
 
 
 

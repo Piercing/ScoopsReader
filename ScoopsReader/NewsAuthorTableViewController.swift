@@ -16,7 +16,7 @@ class NewsAuthorTableViewController: UITableViewController {
     // let account = AZSCloudStorageAccount(fromConnectionString: "")
     
     // MARK: Properties
-    
+    // Propiedad cliente, referencia a 'Mob.Servic'
     var client : MSClient = MSClient(applicationURL: NSURL(
         string: "https://scoopsdailay.azure-mobile.net/"),
         applicationKey: "SFfIMXQedqiHrvQJXiIuVKIomiMign98")
@@ -182,12 +182,40 @@ class NewsAuthorTableViewController: UITableViewController {
             
             if editingStyle == .Delete {
                 
-                // Elimino la  fila  del => 'data source'
-                news.removeAtIndex(indexPath.row)
-                // Guardo 'news' al eliminar una noticia
-                saveNews()
+                // Antes de  actualizar 'news' en tabla
+                tableView.beginUpdates()
                 
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                // Elimino la fila  del => 'data source'
+              _ = news.removeAtIndex(indexPath.row)
+                
+                // Tabla 'photos' para borrado en Azure
+                _ = client.tableWithName("photos")
+                
+//                table.deleteWithId(objDelete.id, completion: { (resultado: AnyObject?, error : NSError? ) -> Void in
+//                    // error al canto
+//                    if (error != nil){
+//                        print("Error" + error!.description)
+//                    }else{
+//                        print("Elemento eliminado -> \(resultado)")
+//                    }
+//                })
+                
+//                table.delete((objDelete as AnyObject) as! [NSObject : AnyObject], completion: {
+//                    (resultado: AnyObject?, error : NSError?) -> Void in
+//                    // error al canto
+//                    if (error != nil){
+//                        print("Error" + error!.description)
+//                    }else{
+//                        print("Elemento eliminado -> \(resultado)")
+//                    }
+//                })
+                
+                // Después de actualizar  news en tabla
+                tableView.endUpdates()
+                
+                // Guardo 'news' al eliminar una noticia
+                saveNews()
                 
             } else if editingStyle == .Insert {
                 // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -248,10 +276,10 @@ class NewsAuthorTableViewController: UITableViewController {
             // si no hay error
             if error == nil {
                 // Guardao  los  resultados y sincronizo la tabla  con el modelo
-                let resultsTableMS = (results?.items as! AnyObject) as! [NSDictionary]
+                let resultsTableMS = results?.items
                 
-                // De  los datos  recibidos, asignomos  a cada propiedad su valor
-                for item in resultsTableMS {
+                // De los resultados recibidos, asigno a cada propiedad su valor
+                for item in resultsTableMS! {
                     
                     //let id = item["id"] as! String
                     let title = item["title"] as! String
