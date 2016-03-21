@@ -20,8 +20,10 @@ func saveAuthInfo (currentUser: MSUser?){
     NSUserDefaults.standardUserDefaults().setObject(currentUser?.mobileServiceAuthenticationToken, forKey: "tokenID")
 }
 
-/// Devuelve los datos 'userId' y 'tokenID'
-func loadUserAuthInfo () -> (usr : String, token : String){
+/// Devuelve los datos 'userId' y 'tokenID' del user log.
+// Pongo los parámetros como opcionales, puede ser que no
+// se haya logueado  el usuario y los parámetros sean nil
+func loadUserAuthInfo () -> (usr : String, token : String)? {
     
     // Leemos del userDefault
     let user = NSUserDefaults.standardUserDefaults().objectForKey("userdId") as? String
