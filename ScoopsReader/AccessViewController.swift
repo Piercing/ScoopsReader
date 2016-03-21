@@ -53,7 +53,6 @@ class AccessViewController: UIViewController {
             self.buttonLector.enabled = true
             self.buttonLector.highlighted = false
         }
-        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -94,8 +93,22 @@ class AccessViewController: UIViewController {
             // Si el el usuario tiene algo, es que está logueados
             if client.currentUser != nil {
                 
+                // Creando un alert
+                let alert = UIAlertController(title: "Log with Facebook",
+                    message: "You're still logged in, continue", preferredStyle: UIAlertControllerStyle.Alert)
+                
+                // Añadiendo acciones (buttons)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                //alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+                
+                // Mostrando el alert
+                self.presentViewController(alert, animated: true, completion: nil)
+                
+                
                 print("Estamos logueados")
                 self.log = true
+                
+                
                 
             }else{
                 // Sino, nos logueamos
@@ -110,6 +123,17 @@ class AccessViewController: UIViewController {
                         }else{
                             
                             // Si tenemos éxito ==> "facebook: 23425jqsdfjasñqw3rlñdsfu343a689qflkz (i.e)
+                            
+                            // Creando un alert
+                            let alert = UIAlertController(title: "Log with Facebook",
+                                message: "You've logged correctly", preferredStyle: UIAlertControllerStyle.Alert)
+                            
+                            // Añadiendo acciones (buttons)
+                            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                            //alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+                            
+                            // Mostrando el alert
+                            self.presentViewController(alert, animated: true, completion: nil)
                             
                             self.buttonAuthor.enabled = true
                             self.buttonAuthor.highlighted = false
