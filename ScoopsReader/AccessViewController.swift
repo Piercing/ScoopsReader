@@ -42,9 +42,9 @@ class AccessViewController: UIViewController {
         if (log == false) {
             
             self.buttonAuthor.highlighted = true
-            self.buttonLector.highlighted = true
+            self.buttonLector.highlighted = false
             self.buttonAuthor.enabled = false
-            self.buttonLector.enabled = false
+            self.buttonLector.enabled = true
             
         }else{
             
@@ -123,6 +123,7 @@ class AccessViewController: UIViewController {
                         }else{
                             
                             // Si tenemos éxito ==> "facebook: 23425jqsdfjasñqw3rlñdsfu343a689qflkz (i.e)
+                            saveAuthInfo(user)
                             
                             // Creando un alert
                             let alert = UIAlertController(title: "Log with Facebook",
