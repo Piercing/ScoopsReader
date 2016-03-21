@@ -17,6 +17,9 @@ class AccessViewController: UIViewController {
     
     var callNewsCloud : NewsAuthorTableViewController?
     
+    // Flag
+    var log : Bool = false
+    
     @IBOutlet weak var accessAuthor: UIButton!
     @IBOutlet weak var accessLector: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -34,12 +37,22 @@ class AccessViewController: UIViewController {
         
         settingPropeties(accessLector)
         settingPropeties(accessAuthor)
-        self.buttonAuthor.highlighted = true
-        self.buttonLector.highlighted = true
-        self.buttonAuthor.enabled = false
-        self.buttonLector.enabled = false
+        settingPropeties(logIntoSocialNetworks)
         
-        
+        if (log == false) {
+            
+            self.buttonAuthor.highlighted = true
+            self.buttonLector.highlighted = true
+            self.buttonAuthor.enabled = false
+            self.buttonLector.enabled = false
+            
+        }else{
+            
+            self.buttonAuthor.enabled = true
+            self.buttonAuthor.highlighted = false
+            self.buttonLector.enabled = true
+            self.buttonLector.highlighted = false
+        }
         
     }
     
@@ -70,9 +83,9 @@ class AccessViewController: UIViewController {
     
     // MARK: Action
     
-    @IBAction func callNewsCloud(sender: AnyObject) {
-        self.callNewsCloud?.populateModel()
-    }
+//    @IBAction func callNewsCloud(sender: AnyObject) {
+//        self.callNewsCloud?.populateModel()
+//    }
     @IBAction func logIntoSocialNetworks(sender: AnyObject) {
         
         if sender as! NSObject == self.logIntoSocialNetworks{
@@ -82,6 +95,7 @@ class AccessViewController: UIViewController {
             if client.currentUser != nil {
                 
                 print("Estamos logueados")
+                self.log = true
                 
             }else{
                 // Sino, nos logueamos
@@ -92,14 +106,17 @@ class AccessViewController: UIViewController {
                         
                         if (error != nil){
                             print("Houston, we have a problem to log 😱😱")
+                            self.log = false
                         }else{
                             
                             // Si tenemos éxito ==> "facebook: 23425jqsdfjasñqw3rlñdsfu343a689qflkz (i.e)
                             
                             self.buttonAuthor.enabled = true
-                            self.buttonAuthor.highlighted = true
+                            self.buttonAuthor.highlighted = false
                             self.buttonLector.enabled = true
-                            self.buttonLector.highlighted = true
+                            self.buttonLector.highlighted = false
+                            
+                            self.log = true
                         }
                 })
                 
