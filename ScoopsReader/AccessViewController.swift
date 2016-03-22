@@ -81,7 +81,7 @@ class AccessViewController: UIViewController {
     }
     
     // MARK: Action
-
+    
     @IBAction func logIntoSocialNetworks(sender: AnyObject) {
         
         if sender as! NSObject == self.logIntoSocialNetworks{
@@ -90,6 +90,7 @@ class AccessViewController: UIViewController {
             // Si el el usuario tiene algo, es que está logueados
             if isUserLoged() {
                 
+                print("We are loged")
                 // Cargo los datos del  usuario que ya logueo
                 if let usrLogin = loadUserAuthInfo(){
                     
@@ -97,6 +98,17 @@ class AccessViewController: UIViewController {
                     self.client.currentUser = MSUser(userId: usrLogin.usr)
                     // Cojo el 'idToken' del usuario logueado y lo asigno al MServiceToken del client
                     client.currentUser.mobileServiceAuthenticationToken = usrLogin.token
+                    
+                    // Creando un alert
+                    let alert = UIAlertController(title: "Log with Facebook",
+                        message: "Already loged, continue", preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    // Añadiendo acciones (buttons)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                    //alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+                    
+                    // Mostrando el alert
+                    self.presentViewController(alert, animated: true, completion: nil)
                 }
                 
             }else{
@@ -123,44 +135,26 @@ class AccessViewController: UIViewController {
                             self.log = false
                             
                         }else{
+                            // Persistimos los credenciales del usuario log
+                            saveAuthInfo(user)
                             
-                            if self.log == true{
-                                
-                                // Creando un alert
-                                let alert = UIAlertController(title: "Log with Facebook",
-                                    message: "You've already loged, continue", preferredStyle: UIAlertControllerStyle.Alert)
-                                
-                                // Añadiendo acciones (buttons)
-                                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-                                //alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
-                                
-                                // Mostrando el alert
-                                self.presentViewController(alert, animated: true, completion: nil)
-                                
-                                // self.log = true
-                                
-                            }else{
-                                // Persistimos los credenciales del usuario log
-                                saveAuthInfo(user)
-                                
-                                // Creando un alert
-                                let alert = UIAlertController(title: "Log with Facebook",
-                                    message: "You've logged correctly", preferredStyle: UIAlertControllerStyle.Alert)
-                                
-                                // Añadiendo acciones (buttons)
-                                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-                                //alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
-                                
-                                // Mostrando el alert
-                                self.presentViewController(alert, animated: true, completion: nil)
-                                
-                                self.buttonAuthor.enabled = true
-                                self.buttonAuthor.highlighted = false
-                                self.buttonLector.enabled = true
-                                self.buttonLector.highlighted = false
-                                
-                                self.log = true
-                            }
+                            // Creando un alert
+                            let alert = UIAlertController(title: "Log with Facebook",
+                                message: "You've logged correctly", preferredStyle: UIAlertControllerStyle.Alert)
+                            
+                            // Añadiendo acciones (buttons)
+                            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                            //alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+                            
+                            // Mostrando el alert
+                            self.presentViewController(alert, animated: true, completion: nil)
+                            
+                            self.buttonAuthor.enabled = true
+                            self.buttonAuthor.highlighted = false
+                            self.buttonLector.enabled = true
+                            self.buttonLector.highlighted = false
+                            
+                            self.log = true
                         }
                 })
             }
@@ -188,34 +182,6 @@ class AccessViewController: UIViewController {
     
     }*/
 }
-
-//
-//@IBAction func logIntoSocialNetworks(sender: AnyObject) {
-//
-//    // ******* 1º: Comprobar si estamos logueados *******
-//    // Si el el usuario tiene algo, es que está logueados
-//    if client.currentUser != nil {
-//
-//        print("Estamos logueados")
-//
-//    }else{
-//        // Sino, nos logueamos
-//        client.loginWithProvider("facebook", // provider, facebook, twttier, google, etc, etc
-//            controller: self,// donde queremos que aparezca la ventana modal de autenticarnos
-//            animated: true,
-//            completion: { (user: MSUser?, error: NSError?) -> Void in//Devuleve un user logueado y error
-//
-//                if (error != nil){
-//                    print("Houston, we have a problem to log 😱😱")
-//                }else{
-//
-//                    // Si tenemos éxito ==> "facebook: 23425jqsdfjasñqw3rlñdsfu343a689qflkz (i.e)
-//                }
-//        })
-//
-//    }
-//
-//}
 
 
 

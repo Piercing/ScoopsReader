@@ -11,7 +11,7 @@ import MobileCoreServices
 
 class NewsViewController: UIViewController, UITextFieldDelegate,
 UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
-
+    
     // MARK: - Properties
     
     @IBOutlet weak var titleTextField: UITextField!
@@ -149,26 +149,54 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     
     @IBAction func saveAzureAction(sender: AnyObject) {
         
-        // Usando el ==>'client' hacemos referencia a la tabla de los vídeos
-        let tablePhotos = client.tableWithName("photos")
-        
-        // 1º: Guardamos las  fotos que queremos  persistir en Base de Datos
-        tablePhotos?.insert([
-            "title" : titleTextField.text!, "author" : authorTextField.text!,"newtext": newsText.text,
-            "blobName": blobName!, "containername" : "scoop"],
-            completion: { (inserted, error: NSError?) -> Void in
-                print("Hello Azure!!!👋👍😋 👋👍😋")
-                // Si hay error
-                if error != nil {
-                    print("Houston, we have a problem to save  😱😵😱 => : \(error?.description)")
-                }
-                else {
-                    // 2º: Persistimos ahora el 'blob' en el Storage de Azure
-                    print("All right when saving Database Houston, now plays Blob 😎😎😎")
-                    // Se supone que aquí la photo ya debe de estar capturada
-                    self.uploadToStorage(self.bufferPhoto!, blobName: self.blobName!)
-                }
-        })
+        if isUserLoged(){
+            
+            // Cargo los datos del usuario que ya logueo
+            if let usrLogin = loadUserAuthInfo(){
+                
+                // Cojo el 'id'del usuario de su red social y la asigno al currentUser del client
+                self.client.currentUser = MSUser(userId: usrLogin.usr)
+                // Cojo el 'idToken' del usuario logueado y lo asigno al MServiceToken del client
+                client.currentUser.mobileServiceAuthenticationToken = usrLogin.token
+                
+                // Usando el ==>'client' hacemos referencia a la tabla de los vídeos
+                let tablePhotos = client.tableWithName("photos")
+                
+                // 1º: Guardamos las  fotos que queremos  persistir en Base de Datos
+                tablePhotos?.insert([
+                    "title" : titleTextField.text!, "author" : authorTextField.text!,"newtext": newsText.text,
+                    "blobName": blobName!, "containername" : "scoop"],
+                    completion: { (inserted, error: NSError?) -> Void in
+                        print("Hello Azure!!!👋👍😋 👋👍😋")
+                        // Si hay error
+                        if error != nil {
+                            print("Houston, we have a problem to save  😱😵😱 => : \(error?.description)")
+                        }
+                        else {
+                            // 2º: Persistimos ahora el 'blob' en el Storage de Azure
+                            print("All right when saving Database Houston, now plays Blob 😎😎😎")
+                            // Se supone que aquí la photo ya debe de estar capturada
+                            self.uploadToStorage(self.bufferPhoto!, blobName: self.blobName!)
+                        }
+                })
+            }
+            
+        }else{
+            
+            // No estamos logados, podemos forzar el login para que se loguee el usuario correcta/
+            client.loginWithProvider("facebook", //  provider, facebook, twttier, google, etc, etc
+                controller: self,// donde queremos que aparezca la  ventana modal de autenticarnos
+                animated: true,
+                completion: { (user: MSUser?, error: NSError?) -> Void in // user logueado y error
+                    
+                    if (error != nil){
+                        print("Houston, we have a problem to log 😱😱")
+                        
+                    }else{
+                        saveAuthInfo(user)
+                    }
+            })
+        }
     }
     
     // Tap Capture Recognizer, al pulsar sobre 'no photo availble' accede a carrete

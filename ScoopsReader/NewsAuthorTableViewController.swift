@@ -231,39 +231,6 @@ class NewsAuthorTableViewController: UITableViewController {
         // Defino la tabla donde voy a coger 'vídeos/fotos' Azure'
         let tableNews = self.client.tableWithName(nameTable)
         
-        // Prueba 1: obtener todos los datos de tabla via 'MSTable'
-//        tableNews?.readWithCompletion({ (results: MSQueryResult?, error: NSError?) -> Void in
-//            
-//            // si no hay error
-//            if error == nil {
-//                // Guardao  los  resultados y sincronizo la tabla  con el modelo
-//                let resultsTableMS = (results?.items as! AnyObject) as! [NSDictionary]
-//                
-//                // De  los datos  recibidos, asignamos  a cada propiedad su valor
-//                for item in resultsTableMS {
-//                    
-//                    let id = item["id"] as! String
-//                    let title = item["title"] as! String
-//                    let author = item["author"] as! String
-//                    let newstext = item["newtext"] as! String
-//                    let rating = item["rating"] as! Int
-//                    let totalrating = item["totalrating"] as! Int
-//                    
-//                    // Creo una nueva noticia con los datos sacados del dictionary
-//                    let newsCloud = News(id: id, title: title, author: author, newstext: newstext, rating: rating, totalrating: totalrating)
-//                    
-//                    // Añado la nueva noticia recibida al array que contine 'News'
-//                    self.news.append(newsCloud!)
-//                    
-//                }
-//                
-//                // Por último, guardo también en modo local la  nueva noticia
-//                self.saveNews()
-//                // actualizo la tabla con un 'reload'
-//                self.tableView.reloadData()
-//            }
-//        })
-        
         // Prueba 2: Obtener todos los datos de tabla via 'MSQuery'
         let query = MSQuery(table: tableNews)
         
