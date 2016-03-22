@@ -24,21 +24,24 @@ class AccessViewController: UIViewController {
     @IBOutlet weak var accessLector: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var logIntoSocialNetworks: UIButton!
-    
     @IBOutlet weak var buttonAuthor: UIButton!
     @IBOutlet weak var buttonLector: UIButton!
+    
     // MARK: LifeCycle
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
+        // Color fondo  para  la view
         self.view.backgroundColor = UIColor.blackColor()
         
+        // Propiedades para atributos
         settingPropeties(accessLector)
         settingPropeties(accessAuthor)
         settingPropeties(logIntoSocialNetworks)
         
+        // Si no estamos logados......
         if (log == false) {
             
             self.buttonAuthor.highlighted = true
@@ -46,6 +49,7 @@ class AccessViewController: UIViewController {
             self.buttonAuthor.enabled = false
             self.buttonLector.enabled = true
             
+            // Si estamos logados.....
         }else{
             
             self.buttonAuthor.enabled = true
@@ -57,13 +61,14 @@ class AccessViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         
+        // Estableciendo  título 'navigationItem'
         navigationItem.title = "Scoopes Reader"
+        // Estableciendo  color   'navigationBar'
         navigationController?.navigationBar.tintColor = UIColor.orangeColor()
         // Color de fondo  para el 'navigationBar'
         UINavigationBar.appearance().barTintColor = UIColor.blackColor()
     }
-    
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -90,7 +95,7 @@ class AccessViewController: UIViewController {
             // Si el el usuario tiene algo, es que está logueados
             if isUserLoged() {
                 
-                print("We are loged")
+                print("You're loged")
                 // Cargo los datos del  usuario que ya logueo
                 if let usrLogin = loadUserAuthInfo(){
                     
@@ -105,7 +110,6 @@ class AccessViewController: UIViewController {
                     
                     // Añadiendo acciones (buttons)
                     alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-                    //alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
                     
                     // Mostrando el alert
                     self.presentViewController(alert, animated: true, completion: nil)
@@ -118,23 +122,26 @@ class AccessViewController: UIViewController {
                     animated: true,
                     completion: { (user: MSUser?, error: NSError?) -> Void in // user logueado y error
                         
+                        // Si hay error, Houston
                         if (error != nil){
                             print("Houston, we have a problem to log 😱😱")
                             
-                            // Creando un alert
+                            // Creando  un alert
                             let alert = UIAlertController(title: "Log with Facebook",
                                 message: "Failed to authenticate", preferredStyle: UIAlertControllerStyle.Alert)
                             
-                            // Añadiendo acciones (buttons)
+                            // Añadiendo acciones
                             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
                             //alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
                             
                             // Mostrando el alert
                             self.presentViewController(alert, animated: true, completion: nil)
                             
+                            // Bajo flag => flase
                             self.log = false
                             
                         }else{
+                            
                             // Persistimos los credenciales del usuario log
                             saveAuthInfo(user)
                             
@@ -142,18 +149,20 @@ class AccessViewController: UIViewController {
                             let alert = UIAlertController(title: "Log with Facebook",
                                 message: "You've logged correctly", preferredStyle: UIAlertControllerStyle.Alert)
                             
-                            // Añadiendo acciones (buttons)
+                            // Añadiendo acciones
                             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
                             //alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
                             
                             // Mostrando el alert
                             self.presentViewController(alert, animated: true, completion: nil)
                             
+                            // Establezco  acceso
                             self.buttonAuthor.enabled = true
                             self.buttonAuthor.highlighted = false
                             self.buttonLector.enabled = true
                             self.buttonLector.highlighted = false
                             
+                            // Subo flag => flase
                             self.log = true
                         }
                 })

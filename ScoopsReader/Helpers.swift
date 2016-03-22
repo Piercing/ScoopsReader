@@ -42,15 +42,7 @@ func loadUserAuthInfo () -> (usr : String, token : String)? {
 
 /// Comprueba si tenemos datos de un usuario log
 func isUserLoged() -> Bool {
-    
-    //let result = logued
-    
-    // Leemos el usuario
-//    let userID = NSUserDefaults.standardUserDefaults().objectForKey("userdId") as? String
-//    
-//    if let _ = userID {
-//        result = true
-//    }
+
     return logued
 }
 

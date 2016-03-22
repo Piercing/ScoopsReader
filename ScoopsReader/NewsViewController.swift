@@ -155,7 +155,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             if let usrLogin = loadUserAuthInfo(){
                 
                 // Cojo el 'id'del usuario de su red social y la asigno al currentUser del client
-                self.client.currentUser = MSUser(userId: usrLogin.usr)
+                client.currentUser = MSUser(userId: usrLogin.usr)
                 // Cojo el 'idToken' del usuario logueado y lo asigno al MServiceToken del client
                 client.currentUser.mobileServiceAuthenticationToken = usrLogin.token
                 
@@ -174,7 +174,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
                         }
                         else {
                             // 2º: Persistimos ahora el 'blob' en el Storage de Azure
-                            print("All right when saving Database Houston, now plays Blob 😎😎😎")
+                            print("All right when saving Database Houston, now plays Blob 😎😎😎\n\n")
                             // Se supone que aquí la photo ya debe de estar capturada
                             self.uploadToStorage(self.bufferPhoto!, blobName: self.blobName!)
                         }
@@ -444,15 +444,15 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
                                 self.saveInAzure.enabled = false
                                 print("Houston, upload to Storage Azure 👍!!!")
                             })
-                        } else{
-                            print("Houston we have a problem: Error!! -> \(error)")
-                            print("Respuesta del server -> \(response.debugDescription)")
                         }
                         
                         // NOTA: CON ESTO HEMOS  TERMINADO TODO EL PROCESO DE
                         // ASOCIAR EL ELEMENTO EN UNA TABLA DE MOBILE SERVICE
                         // Y  DE  SUBIR  EL  'BLOB'  AL  STORAGE   DE  'AZURE'
                     })
+                }else{
+                    print("Server response: \(response?.description) \n\n")
+                    print("error:  \(error?.description)")
                 }
         })
     }

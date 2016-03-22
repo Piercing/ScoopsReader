@@ -192,6 +192,8 @@ class NewsAuthorTableViewController: UITableViewController {
                 // Tabla 'photos' para borrado en Azure
                 _ = client.tableWithName("photos")
                 
+                // TODO: añadir el id al modelo para parasrlo como parámetro para poder borrar datos en la tabla 'photos'
+                
 //                table.deleteWithId(objDelete.id, completion: { (resultado: AnyObject?, error : NSError? ) -> Void in
 //                    // error al canto
 //                    if (error != nil){
@@ -218,7 +220,7 @@ class NewsAuthorTableViewController: UITableViewController {
                 saveNews()
                 
             } else if editingStyle == .Insert {
-                // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+                
             }
     }
     
@@ -248,6 +250,8 @@ class NewsAuthorTableViewController: UITableViewController {
                 // De los resultados recibidos, asigno a cada propiedad su valor
                 for item in resultsTableMS! {
                     
+                    // TODO: tengo que actualizar e insertar las propiedades que faltan al modelo
+                    
                     //let id = item["id"] as! String
                     let title = item["title"] as! String
                     let author = item["author"] as! String
@@ -256,11 +260,11 @@ class NewsAuthorTableViewController: UITableViewController {
                     let totalrating = 16
                     
                     // Creo una nueva noticia con los datos sacados del dictionary
-                    let newsCloud = News(title: title, author: author, newstext: newstext, rating: rating, totalrating: totalrating)
+                    let newsCloud = News(title: title, author: author,
+                        newstext: newstext, rating: rating, totalrating: totalrating)
                     
                     // Añado la nueva noticia recibida al array que contine 'News'
                     self.news.append(newsCloud!)
-                    
                 }
                 
                 // Guardo en modo local
