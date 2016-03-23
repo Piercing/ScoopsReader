@@ -284,7 +284,7 @@ class NewsAuthorTableViewController: UITableViewController {
         
         // Incluir predicados, constrains  para filtrar, limitar el
         // número de filas que vamos a recibir o en múmero columnas
-        query.orderByAscending("title")
+        query.orderByAscending("newdat")
         // Ejecutar el 'MSQuery', que es practiacamente al anterior
         query.readWithCompletion { (results: MSQueryResult?, error: NSError?) -> Void in
             

@@ -28,10 +28,23 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     
     // Valor para pasar por 'prepareForsegue'
     var news : News?
-    // Propiedad para almacenar NSdate photo
+    
+    let imageAsset = UIImage(named: "defaultPhoto")
+    // Propiedad almacenada para almacenar NSdate photo
     var bufferPhoto : NSData?
+    //        {
+    //
+    //        get {
+    //            let defaultPhoto = UIImagePNGRepresentation(imageAsset!)
+    //            return defaultPhoto
+    //        }
+    //        set (newImage) {
+    //
+    //            self.bufferPhoto = newImage
+    //        }
+    //    }
     // Propiedad para almacenar  nombre blob
-    var blobName : String?
+    var blobName : String  = "Sin nombre"
     // Propiedad para  acceder a propiedades
     var values : RatingControl?
     // Propiedad cliente, referencia a 'AMS'
@@ -64,6 +77,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             numberVotes.text = news.amountVotes.description
             numberValoration.text = news.result.description
             newsText.text = news.newstext
+            
         }
         
         // Habilito el botón 'Save' sólo si los campos de texto
@@ -125,14 +139,14 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             let result = ratingControl.result ?? 0
             let amountVotes = ratingControl.amountVotes ?? 0
             let totalRatingNews = ratingControl.ratingTotalNews ?? 0
-//            let latitude = 1.45329
-//            let longitude = 1.45723
+            //            let latitude = 1.45329
+            //            let longitude = 1.45723
             
             // Estableciendo  valores de la 'news' para ser pasados al
             // =====>  'NewsTableViewController' a  través  del  segue
             news = News(title: title, author: author, newstext: newstext,rating: rating,ratingTotalNews : totalRatingNews,
                 state: state, newDat : newDat,result: result, amountVotes: amountVotes)
-//            , latitude : latitude, longitude : longitude)
+            //            , latitude : latitude, longitude : longitude)
         }
     }
     
@@ -156,7 +170,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
                 // 1º: Guardamos las  fotos que queremos  persistir en Base de Datos
                 tablePhotos?.insert([
                     "title" : titleTextField.text!, "author" : authorTextField.text!,"newtext": newsText.text,
-                    "blobName": blobName!, "containername" : "scoop"],
+                    "blobName": blobName, "containername" : "scoop"],
                     completion: { (inserted, error: NSError?) -> Void in
                         print("Hello Azure!!!👋👍😋 👋👍😋")
                         // Si hay error
@@ -166,8 +180,21 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
                         else {
                             // 2º: Persistimos ahora el 'blob' en el Storage de Azure
                             print("All right when saving Database Houston, now plays Blob 😎😎😎\n\n")
-                            // Se supone que aquí la photo ya debe de estar capturada
-                            self.uploadToStorage(self.bufferPhoto!, blobName: self.blobName!)
+                            
+                            if self.bufferPhoto == nil {
+                                
+                                let imageAsset = UIImage(named: "defaultPhoto")
+                                let defaultPhoto = UIImagePNGRepresentation(imageAsset!)
+                                self.bufferPhoto = defaultPhoto
+                                
+                                // Se supone que aquí la photo ya debe de estar capturada
+                                self.uploadToStorage(self.bufferPhoto!, blobName: self.blobName)
+                                
+                            }else{
+                                
+                                // Se supone que aquí la photo ya debe de estar capturada
+                                self.uploadToStorage(self.bufferPhoto!, blobName: self.blobName)
+                            }
                         }
                 })
             }
@@ -342,7 +369,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             blobName = blobNameUUID
             // Para  subirlo  a  Azure, llamo  a  la  función que  he  creado ==> 'uploadToStorage'
             // pasándole el NSData => el vídeo y el nombre NSUUID ya  creado con la extensión'.JPG'
-            uploadToStorage(data, blobName: blobNameUUID)
+            //uploadToStorage(data, blobName: blobNameUUID)
         }
     }
     
@@ -360,7 +387,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             body: nil,
             HTTPMethod: "GET",
             // como  parámetros  el nombre  del contenedor y del blob
-            parameters: ["blobName" : self.blobName!, "containerName" : "scoop" ],
+            parameters: ["blobName" : self.blobName, "containerName" : "scoop" ],
             headers: nil,
             // El primer parámetro devuelve el diccionario con la URL
             // que hemos  generado para poder  subir un  blob a Azure
@@ -562,9 +589,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
                 // la photo que acabamos de capturar, obteniendo el 'path'(casteo a URL)
                 //let path = (info[UIImagePickerControllerMediaURL] as? NSURL)
                 
-                // Creo  el  siguiente método, que  lo que  va a  recibir
-                // es,  por un  lado el  buffer NSData que tiene la photo
-                // y por otro lado el path donde está almacenado el vídeo
+                // Guarda la imagen en Documets
                 saveInDocuments(imageData!)
                 
                 // Éste método se invoca desde la extensión del UIImagePickerContr
