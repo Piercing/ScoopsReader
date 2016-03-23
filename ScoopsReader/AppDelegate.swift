@@ -11,14 +11,53 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    
+    var client : MSClient = MSClient(applicationURL: NSURL(
+        string: "https://scoopsdailay.azure-mobile.net/"),
+        applicationKey: "SFfIMXQedqiHrvQJXiIuVKIomiMign98")
+    
     var prueba : NewsViewController?
     
     var window: UIWindow?
-
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        let appearence = UINavigationBar.appearance()
+        appearence.barTintColor = UIColor.blackColor()
+        
+        let font = UIFont(name: "Helvetica-light", size: 20.0)!
+        appearence.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: font]
+        appearence.tintColor = UIColor.orangeColor()
+        
+        let notificationSettings = UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil)
+        UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
+        UIApplication.sharedApplication().registerForRemoteNotifications()
         return true
+    }
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData){
+        
+        client.push.registerNativeWithDeviceToken(deviceToken, tags: nil) { (error: NSError?) -> Void in
+            
+            if error != nil {
+                
+                print("Error -> \(error)")
+            }
+        }
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError){
+        
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        
+    }
+    
+    // Notificaciones silenciosas o en segundo plano
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        
     }
     
     func applicationWillResignActive(application: UIApplication) {

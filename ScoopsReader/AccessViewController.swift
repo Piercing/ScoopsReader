@@ -63,10 +63,6 @@ class AccessViewController: UIViewController {
         
         // Estableciendo  título 'navigationItem'
         navigationItem.title = "Scoopes Reader"
-        // Estableciendo  color   'navigationBar'
-        navigationController?.navigationBar.tintColor = UIColor.orangeColor()
-        // Color de fondo  para el 'navigationBar'
-        UINavigationBar.appearance().barTintColor = UIColor.blackColor()
     }
 
     override func didReceiveMemoryWarning() {
@@ -93,7 +89,7 @@ class AccessViewController: UIViewController {
             
             // ******* 1º: Comprobar si estamos logueados *******
             // Si el el usuario tiene algo, es que está logueados
-            if isUserLoged() {
+            if isUserLoged() == true {
                 
                 print("You're loged")
                 // Cargo los datos del  usuario que ya logueo

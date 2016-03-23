@@ -16,7 +16,7 @@ class NewsAuthorTableViewCell: UITableViewCell {
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var photoImage: UIImageView!
     @IBOutlet weak var ratingControl: RatingControl!
-    
+    @IBOutlet weak var dateTextView: UITextField!
     
     override func awakeFromNib() {
         super.awakeFromNib()

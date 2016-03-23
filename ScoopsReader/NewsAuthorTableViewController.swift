@@ -23,7 +23,7 @@ class NewsAuthorTableViewController: UITableViewController {
     
     // Modelo de objetos que recibimos de Mob.Serv
     var model : [AnyObject]?
-    
+    var records = [NSDictionary]()
     var news = [News]()
     var result : RatingControl?
     var activityIndicator : NewsViewController?
@@ -63,70 +63,86 @@ class NewsAuthorTableViewController: UITableViewController {
         
         // Título  para  el ====> 'navigationItem'
         navigationItem.title = "Your News"
-        
-        self.view.backgroundColor = UIColor.whiteColor()
-        
-        // Color  para el título 'navigationItem'
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
-        
-        // Color de fondo  para el 'navigationBar'
-        UINavigationBar.appearance().barTintColor = UIColor.blackColor()
-        
-        // Color para el título de 'navigationBar'
-        let color = UIColor.orangeColor()
-        self.navigationController?.navigationBar.topItem?.backBarButtonItem?.setTitleTextAttributes(
-            [NSForegroundColorAttributeName: color], forState: .Normal)
     }
     
     /// Lee noticias de ejemplo almacenadas en local
     func loadSamplesNews() {
         
         //let photo4 = UIImage(named: "noticias.jpg")
-        let news4 = News(
-            title: "Nunas noticias",
+        let news1 = News(
+            id: "ASDIE-453DF-5EKL-2WO7",
+            title: "Nuevas noticias",
             author: "Andrés",
             newstext: "Noticias mundiales",
             rating: 0,
+            ratingTotalNews: 0,
+            state: false,
+            newDat: NSDate(),
+            result: 0,
+            amountVotes: 0
             //            ,
-            //            photo: photo4,
-            //            state: false,
-            //            newDat: NSDate(),
-            //            result:  0,
-            totalrating: 0
-            //            amountVotes: 0
+            //            latitude: 1.44553,
+            //            longitude: 1.45445
             )!
         
         //let photo5 = UIImage(named: "noticiasfresquitas.png")
-        let news5 = News(
-            title: "Notcias frescas",
-            author: "Fernando",
-            newstext: "Las noticias más fresquitas de la actualidad",
+        let news2 = News(
+            id: "ASDIE-453DF-5EKL-2WO7",
+            title: "Noticias frescas",
+            author: "Carlos",
+            newstext: "Noticias fresquitas fresquitas",
             rating: 0,
+            ratingTotalNews: 0,
+            state: false,
+            newDat: NSDate(),
+            result: 0,
+            amountVotes: 0
             //            ,
-            //            photo: photo5,
-            //            state: false,
-            //            newDat: NSDate(),
-            //            result:  0,
-            totalrating: 0
-            //            amountVotes: 0
+            //            latitude: 1.2222,
+            //            longitude: 1.2222
             )!
         
         //let photo6 = UIImage(named: "Mafalda_vin_prodiaser.jpg")
-        let news6 = News(
+        let news3 = News(
+            id: "ASDIE-453DF-5EKL-2WO7",
             title: "Mafalda",
-            author: "Marta",
+            author: "Andrés",
             newstext: "Mafalda se pone al día",
             rating: 0,
+            ratingTotalNews: 0,
+            state: false,
+            newDat: NSDate(),
+            result: 0,
+            amountVotes: 0
             //            ,
-            //            photo: photo6,
-            //            state: false,
-            //            newDat: NSDate(),
-            //            result:  0,
-            totalrating: 0
-            //            amountVotes: 0
+            //            latitude: 1.3333,
+            //            longitude: 1.3333
             )!
         
-        news += [news4, news5, news6]
+        news += [news1, news2, news3]
+    }
+    
+    func onRefresh(sender: UIRefreshControl!) {
+        
+        let tablePhotos = client.tableWithName("photos")
+        let predicate = NSPredicate(format: "state == false")
+        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
+        tablePhotos!.readWithPredicate(predicate){ result, error in
+            
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            
+            if error != nil {
+                print("Error: " + error.description)
+                return
+            }
+            self.records = result.items as! [NSDictionary]
+            print("Information: retrieved %d records", result.items.count)
+            
+            self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -161,6 +177,13 @@ class NewsAuthorTableViewController: UITableViewController {
         //cell.photoImage.image = newsOfIndexPath.photo
         cell.ratingControl.rating = newsOfIndexPath.result
         
+        let dateFormatter = NSDateFormatter()
+        // the "M/d/yy, H:mm" is put together from the Symbol Table
+        dateFormatter.dateFormat = "dd/MM/yy, HH:mm"
+        let dateFormt = dateFormatter.stringFromDate(newsOfIndexPath.newDat!)
+        
+        cell.dateTextView.text = dateFormt
+        
         // Aprovecho para asignar  datos de las votaciones y actualizar sus valores
         //NewsAuthorTableViewController.ratingTotalNewsForViewDetail = newsOfIndexPath.rating!
         NewsAuthorTableViewController.amountForViewDetail = newsOfIndexPath.amountVotes
@@ -175,10 +198,35 @@ class NewsAuthorTableViewController: UITableViewController {
         return true
     }
     
+    override func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
+        
+        return "Complet"
+    }
     
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle,
         forRowAtIndexPath indexPath: NSIndexPath) {
+            
+            let tablePhotos = client.tableWithName("photos")
+            
+            let record = self.news[indexPath.row]
+            let compleItem = record.mutableCopy() as! NSMutableDictionary
+            compleItem["status"] = true
+            
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            
+            tablePhotos.update(compleItem as [NSObject : AnyObject]) { (result, error) in
+                
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                if error != nil {
+                    print("Error: " + error.description)
+                    return
+                }
+                
+                self.records.removeAtIndex(indexPath.row)
+                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            }
+            
             
             if editingStyle == .Delete {
                 
@@ -186,32 +234,33 @@ class NewsAuthorTableViewController: UITableViewController {
                 tableView.beginUpdates()
                 
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                
                 // Elimino la fila  del => 'data source'
-              _ = news.removeAtIndex(indexPath.row)
+                let  objDelete = news.removeAtIndex(indexPath.row)
                 
                 // Tabla 'photos' para borrado en Azure
-                _ = client.tableWithName("photos")
+                let   table = client.tableWithName("photos")
                 
                 // TODO: añadir el id al modelo para parasrlo como parámetro para poder borrar datos en la tabla 'photos'
                 
-//                table.deleteWithId(objDelete.id, completion: { (resultado: AnyObject?, error : NSError? ) -> Void in
-//                    // error al canto
-//                    if (error != nil){
-//                        print("Error" + error!.description)
-//                    }else{
-//                        print("Elemento eliminado -> \(resultado)")
-//                    }
-//                })
+                table.deleteWithId(objDelete.id, completion: { (resultado: AnyObject?, error : NSError? ) -> Void in
+                    // error al canto
+                    if (error != nil){
+                        print("Error" + error!.description)
+                    }else{
+                        print("Elemento eliminado -> \(resultado)")
+                    }
+                })
                 
-//                table.delete((objDelete as AnyObject) as! [NSObject : AnyObject], completion: {
-//                    (resultado: AnyObject?, error : NSError?) -> Void in
-//                    // error al canto
-//                    if (error != nil){
-//                        print("Error" + error!.description)
-//                    }else{
-//                        print("Elemento eliminado -> \(resultado)")
-//                    }
-//                })
+                //                table.delete((objDelete as AnyObject) as! [NSObject : AnyObject], completion: {
+                //                    (resultado: AnyObject?, error : NSError?) -> Void in
+                //                    // error al canto
+                //                    if (error != nil){
+                //                        print("Error" + error!.description)
+                //                    }else{
+                //                        print("Elemento eliminado -> \(resultado)")
+                //                    }
+                //                })
                 
                 // Después de actualizar  news en tabla
                 tableView.endUpdates()
@@ -238,7 +287,7 @@ class NewsAuthorTableViewController: UITableViewController {
         
         // Incluir predicados, constrains  para filtrar, limitar el
         // número de filas que vamos a recibir o en múmero columnas
-        query.orderByAscending("__updatedAt")
+        query.orderByAscending("newdat")
         // Ejecutar el 'MSQuery', que es practiacamente al anterior
         query.readWithCompletion { (results: MSQueryResult?, error: NSError?) -> Void in
             
@@ -252,16 +301,24 @@ class NewsAuthorTableViewController: UITableViewController {
                     
                     // TODO: tengo que actualizar e insertar las propiedades que faltan al modelo
                     
-                    //let id = item["id"] as! String
-                    let title = item["title"] as! String
-                    let author = item["author"] as! String
-                    let newstext = item["newtext"] as! String
-                    let rating = 4
-                    let totalrating = 16
+                    let id = (item["id"] as? String) ?? ""
+                    let title = (item["title"] as? String) ?? ""
+                    let author = (item["author"] as? String) ?? ""
+                    let newstext = (item["newtext"] as? String) ?? ""
+                    let rating = (item["rating"] as? Int) ?? 0
+                    let ratingTotalNews = (item["ratingtotalNews"] as? Int) ?? 0
+                    let state = (item["state"] as? Bool) ?? false
+                    let newDat = (item["newdat"] as? NSDate) ?? NSDate()
+                    let result = (item["result"] as? Int) ?? 0
+                    let amountVotes = (item["amountvotes"] as? Int) ?? 0
+                    //                    let latitude = item["latitude"] as! Double
+                    //                    let longitude = item["longitude"] as! Double
                     
                     // Creo una nueva noticia con los datos sacados del dictionary
-                    let newsCloud = News(title: title, author: author,
-                        newstext: newstext, rating: rating, totalrating: totalrating)
+                    let newsCloud = News(id : id, title: title, author: author, newstext: newstext, rating: rating,ratingTotalNews : ratingTotalNews,state : state, newDat : newDat,
+                        result : result, amountVotes : amountVotes)
+                    //                    , latitude : latitude, longitude : longitude)
+                    
                     
                     // Añado la nueva noticia recibida al array que contine 'News'
                     self.news.append(newsCloud!)
@@ -309,7 +366,7 @@ class NewsAuthorTableViewController: UITableViewController {
     }
     
     // MARK: Action
-
+    
     @IBAction func unwindToNewsList(sender : UIStoryboardSegue) {
         
         // Casteo 'sourceViewController' de tipo 'UIViewController' a 'NewsViewController'

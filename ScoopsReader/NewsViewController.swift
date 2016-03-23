@@ -27,7 +27,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     
     // Valor para pasar por 'prepareForsegue'
     var news : News?
-    // Propiedad para almacenar datos  photo
+    // Propiedad para almacenar NSdate photo
     var bufferPhoto : NSData?
     // Propiedad para almacenar  nombre blob
     var blobName : String?
@@ -41,7 +41,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Añado a la  Bar Navigation el botón de save y photo
+        // Añado a la  Bar Navigation el botón de  save y photo
         let plusButton = UIBarButtonItem(barButtonSystemItem: .Camera, target: self, action: "capturePhotos:")
         self.navigationItem.setRightBarButtonItems([self.saveButton ,plusButton], animated: true)
         plusButton.tintColor = UIColor.orangeColor()
@@ -72,13 +72,6 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     }
     override func viewWillAppear(animated: Bool) {
         
-        self.view.backgroundColor = UIColor.whiteColor()
-        
-        // Color  para el título 'navigationItem'
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.orangeColor()]
-        
-        // Color de fondo  para el 'navigationBar'
-        UINavigationBar.appearance().barTintColor = UIColor.blackColor()
     }
     
     // MARK: Navigation
@@ -120,28 +113,25 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             // 'Coalescencing operator' => devuelve un valor si lo tiene
             // y si éste no lo tiene, devuelve un valor por defecto ("")
             // En este caso si tuviera un nil, devolvería vacio "" ó '0'
-            //let id = self.news!.id
+            let id = self.news?.id ?? ""
             let title = titleTextField.text ?? ""
             let author = authorTextField.text ?? ""
             //let photo = photoImageView.image
             let rating = ratingControl.rating ?? 0
             let newstext = newsText.text ?? ""
-            //            let newDat = NSDate()
-            //            let state = false
-            //            let result = ratingControl.result
-            let totalrating = ratingControl.ratingTotalNews ?? 0
-            //            let amountVotes = ratingControl.amountVotes
-            //let totalRatingNews = ratingControl.ratingTotalNews
-            //let latitude =
-            //let longitude =
+            let newDat = self.news?.newDat ?? NSDate()
+            let state = self.news?.state ?? false
+            let result = ratingControl.result ?? 0
+            let amountVotes = ratingControl.amountVotes ?? 0
+            let totalRatingNews = ratingControl.ratingTotalNews ?? 0
+//            let latitude = 1.45329
+//            let longitude = 1.45723
             
             // Estableciendo  valores de la 'news' para ser pasados al
             // =====>  'NewsTableViewController' a  través  del  segue
-            news = News(title: title, author: author, newstext: newstext,
-                rating: rating, totalrating:  totalrating
-                //                , photo: photo, state: state, newDat : newDat, result: result,
-                //                totalRating: totalRating, amountVotes: amountVotes
-            )
+            news = News(id : id, title: title, author: author, newstext: newstext,rating: rating,ratingTotalNews : totalRatingNews,
+                state: state, newDat : newDat,result: result, amountVotes: amountVotes)
+//            , latitude : latitude, longitude : longitude)
         }
     }
     
@@ -296,28 +286,28 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     // MARK: Methods to save Videos & Upload Videos
     
     /// Path donde se guardarán las photos  grabadas en el dispositivo local/
-    func savePhotosInDocuments (data: NSData) {
-        
-        let existsFile = NSArray(contentsOfFile: News.archivePhotosURL.path!) as? [String]
-        
-        if existsFile == nil {
-            
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                // Intento guardar  el array de  'vídeos', si se  ha podido  guardar me devuelve 'true'
-                // Le paso constante  estática creada en 'News' que es la ruta al archivo donde guardar
-                let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(self.news!, toFile: News.archivePhotosURL.path!)
-                
-                // Guardo los datos de la foto y el  nombre que se le dará al blob que se sube a 'Azure'
-                self.bufferPhoto = data
-                self.blobName = News.blobNameUUID
-                
-                // Compruebo por consola si se han guardado o no los objetos en ruta especificada (path)
-                if !isSuccessfulSave {
-                    print("Failed to save photos")
-                }
-            }
-        }
-    }
+    //    func savePhotosInDocuments (data: NSData) {
+    //
+    //        let existsFile = NSArray(contentsOfFile: News.archivePhotosURL.path!) as? [String]
+    //
+    //        if existsFile == nil {
+    //
+    //            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+    //                // Intento guardar  el array de  'vídeos', si se  ha podido  guardar me devuelve 'true'
+    //                // Le paso constante  estática creada en 'News' que es la ruta al archivo donde guardar
+    //                let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(self.news!, toFile: News.archivePhotosURL.path!)
+    //
+    //                // Guardo los datos de la foto y el  nombre que se le dará al blob que se sube a 'Azure'
+    //                self.bufferPhoto = data
+    //                self.blobName = News.blobNameUUID
+    //
+    //                // Compruebo por consola si se han guardado o no los objetos en ruta especificada (path)
+    //                if !isSuccessfulSave {
+    //                    print("Failed to save photos")
+    //                }
+    //            }
+    //        }
+    //    }
     
     /// Método para guardar localmente un NSData
     func saveInDocuments(data : NSData) {
@@ -351,7 +341,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             blobName = blobNameUUID
             // Para  subirlo  a  Azure, llamo  a  la  función que  he  creado ==> 'uploadToStorage'
             // pasándole el NSData => el vídeo y el nombre NSUUID ya  creado con la extensión'.JPG'
-            //uploadToStorage(data, blobName: blobNameUUID)
+            uploadToStorage(data, blobName: blobNameUUID)
         }
     }
     
