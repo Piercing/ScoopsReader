@@ -41,12 +41,12 @@ class NewsAuthorTableViewController: UITableViewController {
         navigationItem.leftBarButtonItem = editButtonItem()
         
         // Cargo  las 'news' guardadas  en  disco
-        if let savedNews = loadUpNews() {
-            news += savedNews
-        }else{
+//        if let savedNews = loadUpNews() {
+//            news += savedNews
+//        }else{
             // Sino, cargo las 'news' de  ejemplo
             loadSamplesNews()
-        }
+//        }
         
         // Botón 'back':de vuelva pantalla inicio
         let button = UIBarButtonItem(title: "❮ Back👻", style: UIBarButtonItemStyle.Done,
@@ -70,7 +70,6 @@ class NewsAuthorTableViewController: UITableViewController {
         
         //let photo4 = UIImage(named: "noticias.jpg")
         let news1 = News(
-            id: "ASDIE-453DF-5EKL-2WO7",
             title: "Nuevas noticias",
             author: "Andrés",
             newstext: "Noticias mundiales",
@@ -87,7 +86,6 @@ class NewsAuthorTableViewController: UITableViewController {
         
         //let photo5 = UIImage(named: "noticiasfresquitas.png")
         let news2 = News(
-            id: "ASDIE-453DF-5EKL-2WO7",
             title: "Noticias frescas",
             author: "Carlos",
             newstext: "Noticias fresquitas fresquitas",
@@ -104,7 +102,6 @@ class NewsAuthorTableViewController: UITableViewController {
         
         //let photo6 = UIImage(named: "Mafalda_vin_prodiaser.jpg")
         let news3 = News(
-            id: "ASDIE-453DF-5EKL-2WO7",
             title: "Mafalda",
             author: "Andrés",
             newstext: "Mafalda se pone al día",
@@ -177,12 +174,12 @@ class NewsAuthorTableViewController: UITableViewController {
         //cell.photoImage.image = newsOfIndexPath.photo
         cell.ratingControl.rating = newsOfIndexPath.result
         
-        let dateFormatter = NSDateFormatter()
-        // the "M/d/yy, H:mm" is put together from the Symbol Table
-        dateFormatter.dateFormat = "dd/MM/yy, HH:mm"
-        let dateFormt = dateFormatter.stringFromDate(newsOfIndexPath.newDat!)
+//        let dateFormatter = NSDateFormatter()
+//        // the "M/d/yy, H:mm" is put together from the Symbol Table
+//        dateFormatter.dateFormat = "dd/MM/yy, HH:mm"
+//        let dateFormt = dateFormatter.stringFromDate(newsOfIndexPath.newDat!)
         
-        cell.dateTextView.text = dateFormt
+        //cell.dateTextView.text = dateFormt
         
         // Aprovecho para asignar  datos de las votaciones y actualizar sus valores
         //NewsAuthorTableViewController.ratingTotalNewsForViewDetail = newsOfIndexPath.rating!
@@ -236,21 +233,21 @@ class NewsAuthorTableViewController: UITableViewController {
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                 
                 // Elimino la fila  del => 'data source'
-                let  objDelete = news.removeAtIndex(indexPath.row)
+                //let  objDelete = news.removeAtIndex(indexPath.row)
                 
                 // Tabla 'photos' para borrado en Azure
-                let   table = client.tableWithName("photos")
+                // let table = client.tableWithName("photos")
                 
                 // TODO: añadir el id al modelo para parasrlo como parámetro para poder borrar datos en la tabla 'photos'
                 
-                table.deleteWithId(objDelete.id, completion: { (resultado: AnyObject?, error : NSError? ) -> Void in
-                    // error al canto
-                    if (error != nil){
-                        print("Error" + error!.description)
-                    }else{
-                        print("Elemento eliminado -> \(resultado)")
-                    }
-                })
+//                table.deleteWithId(objDelete.id, completion: { (resultado: AnyObject?, error : NSError? ) -> Void in
+//                    // error al canto
+//                    if (error != nil){
+//                        print("Error" + error!.description)
+//                    }else{
+//                        print("Elemento eliminado -> \(resultado)")
+//                    }
+//                })
                 
                 //                table.delete((objDelete as AnyObject) as! [NSObject : AnyObject], completion: {
                 //                    (resultado: AnyObject?, error : NSError?) -> Void in
@@ -287,7 +284,7 @@ class NewsAuthorTableViewController: UITableViewController {
         
         // Incluir predicados, constrains  para filtrar, limitar el
         // número de filas que vamos a recibir o en múmero columnas
-        query.orderByAscending("newdat")
+        query.orderByAscending("title")
         // Ejecutar el 'MSQuery', que es practiacamente al anterior
         query.readWithCompletion { (results: MSQueryResult?, error: NSError?) -> Void in
             
@@ -301,7 +298,7 @@ class NewsAuthorTableViewController: UITableViewController {
                     
                     // TODO: tengo que actualizar e insertar las propiedades que faltan al modelo
                     
-                    let id = (item["id"] as? String) ?? ""
+                    //let id = (item["id"] as? String) ?? ""
                     let title = (item["title"] as? String) ?? ""
                     let author = (item["author"] as? String) ?? ""
                     let newstext = (item["newtext"] as? String) ?? ""
@@ -315,7 +312,7 @@ class NewsAuthorTableViewController: UITableViewController {
                     //                    let longitude = item["longitude"] as! Double
                     
                     // Creo una nueva noticia con los datos sacados del dictionary
-                    let newsCloud = News(id : id, title: title, author: author, newstext: newstext, rating: rating,ratingTotalNews : ratingTotalNews,state : state, newDat : newDat,
+                    let newsCloud = News(title: title, author: author, newstext: newstext, rating: rating,ratingTotalNews : ratingTotalNews,state : state, newDat : newDat,
                         result : result, amountVotes : amountVotes)
                     //                    , latitude : latitude, longitude : longitude)
                     

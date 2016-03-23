@@ -230,16 +230,7 @@
                                             <rect key="frame" x="128" y="60" width="240" height="36"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="150" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VML-ox-0Cb">
-                                            <rect key="frame" x="442" y="63" width="150" height="30"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits"/>
-                                        </textField>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstItem="VML-ox-0Cb" firstAttribute="centerX" secondItem="iH6-NA-Oab" secondAttribute="centerX" constant="217" id="UsC-5l-nk1"/>
-                                        <constraint firstItem="VML-ox-0Cb" firstAttribute="centerY" secondItem="iH6-NA-Oab" secondAttribute="centerY" constant="18.5" id="rFJ-vm-vL1"/>
-                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="authorLabel" destination="mXc-1T-egl" id="AHf-EZ-bHM"/>
@@ -354,12 +345,15 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6DR-JZ-D8A">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6DR-JZ-D8A">
                                                 <rect key="frame" x="195" y="0.0" width="90" height="16"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                                                 <state key="normal" title="Upload">
-                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleColor" red="0.98823529409999999" green="0.43137254899999999" blue="0.047058823530000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="saveAzureAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XHl-DC-lTQ"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -418,7 +412,6 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="uVT-O3-DV5">
                             <color key="tintColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="saveAzureAction:" destination="BYZ-38-t0r" id="x9g-OR-sgp"/>
                                 <segue destination="Zz3-Iy-Fp3" kind="unwind" unwindAction="unwindToNewsList:" id="9sG-oX-Lpp"/>
                             </connections>
                         </barButtonItem>

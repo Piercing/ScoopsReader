@@ -1,3 +1,4 @@
+
 //
 //  NewsViewController.swift
 //  ScoopsReader
@@ -113,7 +114,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             // 'Coalescencing operator' => devuelve un valor si lo tiene
             // y si éste no lo tiene, devuelve un valor por defecto ("")
             // En este caso si tuviera un nil, devolvería vacio "" ó '0'
-            let id = self.news?.id ?? ""
+            //let id = self.news?.id ?? ""
             let title = titleTextField.text ?? ""
             let author = authorTextField.text ?? ""
             //let photo = photoImageView.image
@@ -129,7 +130,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
             
             // Estableciendo  valores de la 'news' para ser pasados al
             // =====>  'NewsTableViewController' a  través  del  segue
-            news = News(id : id, title: title, author: author, newstext: newstext,rating: rating,ratingTotalNews : totalRatingNews,
+            news = News(title: title, author: author, newstext: newstext,rating: rating,ratingTotalNews : totalRatingNews,
                 state: state, newDat : newDat,result: result, amountVotes: amountVotes)
 //            , latitude : latitude, longitude : longitude)
         }

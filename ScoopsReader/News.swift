@@ -34,7 +34,7 @@ class News : NSObject, NSCoding {
     var title     : String
     var author    : String
     var newstext  : String
-    var id        : String
+    //var id        : String
     //var photo   : UIImage?
     var state     :  Bool
     var longitude : Double?
@@ -90,7 +90,7 @@ class News : NSObject, NSCoding {
     
     // Struct: => key para codificar propiedades
     struct propertyKey {
-        static let idKey = "id"
+        //static let idKey = "id"
         static let titleKey = "title"
         static let authorKey = "author"
         static let newsTextKey = "textKey"
@@ -107,13 +107,13 @@ class News : NSObject, NSCoding {
     
     
     // MARK:  Initialization
-    init? (id : String, title : String, author : String, newstext : String, rating : Int,ratingTotalNews : Int,
+    init? (title : String, author : String, newstext : String, rating : Int,ratingTotalNews : Int,
         state : Bool, newDat : NSDate,result : Int, amountVotes : Int)
         //    , latitude : Double, longitude : Double)
     {
         
         // Inicilizando propiedades almacenadas
-        self.id = id
+        //self.id = id
         self.title = title
         self.author = author
         self.newstext = newstext
@@ -130,7 +130,7 @@ class News : NSObject, NSCoding {
         super.init()
         
         // Inicializador fallable si se cumple:
-        if id.isEmpty || title.isEmpty || author.isEmpty ||
+        if title.isEmpty || author.isEmpty ||
             newstext.isEmpty || rating < 0 || newDat == ""
         {
             return nil
@@ -144,7 +144,7 @@ class News : NSObject, NSCoding {
     func encodeWithCoder(aCoder: NSCoder) {
         // encodeObject codifica cualquier tipo de objeto, codificando el valor
         // de cada propiedad de 'news'
-        aCoder.encodeObject(id, forKey: propertyKey.idKey)
+        //aCoder.encodeObject(id, forKey: propertyKey.idKey)
         aCoder.encodeObject(title, forKey: propertyKey.titleKey)
         aCoder.encodeObject(author, forKey: propertyKey.authorKey)
         aCoder.encodeObject(newstext, forKey: propertyKey.newsTextKey)
@@ -163,7 +163,7 @@ class News : NSObject, NSCoding {
     // Sólo se aplicará cuando se vayan a guardar datos o cargar datos ==> (rw)
     required convenience init?(coder aDecoder: NSCoder) {
         // Como 'decodeObjectForKey' devuelve un 'AnyObject' lo casteo a 'String'
-        let id = aDecoder.decodeObjectForKey(propertyKey.idKey) as! String
+        //let id = aDecoder.decodeObjectForKey(propertyKey.idKey) as! String
         let title = aDecoder.decodeObjectForKey(propertyKey.titleKey) as! String
         let author = aDecoder.decodeObjectForKey(propertyKey.authorKey) as! String
         let newstext = aDecoder.decodeObjectForKey(propertyKey.newsTextKey) as! String
@@ -178,7 +178,7 @@ class News : NSObject, NSCoding {
         //        let longitude = aDecoder.decodeObjectForKey(propertyKey.longitudeKey) as! Double
         
         // Llammo al incializador designado
-        self.init(id : id, title: title, author: author, newstext: newstext, rating: rating,
+        self.init(title: title, author: author, newstext: newstext, rating: rating,
             ratingTotalNews : ratingTotalNews, state : state, newDat : newDat,
             result : result, amountVotes : amountVotes)
         //        , latitude : latitude, longitude : longitude)

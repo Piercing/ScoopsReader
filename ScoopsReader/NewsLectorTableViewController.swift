@@ -43,7 +43,6 @@ class NewsLectorTableViewController: UITableViewController {
         
         //let photo4 = UIImage(named: "noticias.jpg")
         let news1 = News(
-            id: "ASDIE-453DF-5EKL-2WO7",
             title: "Nuevas noticias",
             author: "Andrés",
             newstext: "Noticias mundiales",
@@ -60,7 +59,6 @@ class NewsLectorTableViewController: UITableViewController {
         
         //let photo5 = UIImage(named: "noticiasfresquitas.png")
         let news2 = News(
-            id: "ASDIE-453DF-5EKL-2WO7",
             title: "Noticias frescas",
             author: "Carlos",
             newstext: "Noticias fresquitas fresquitas",
@@ -77,7 +75,6 @@ class NewsLectorTableViewController: UITableViewController {
         
         //let photo6 = UIImage(named: "Mafalda_vin_prodiaser.jpg")
         let news3 = News(
-            id: "ASDIE-453DF-5EKL-2WO7",
             title: "Mafalda",
             author: "Andrés",
             newstext: "Mafalda se pone al día",
