@@ -36,10 +36,15 @@ class News : NSObject, NSCoding {
     var newstext  : String
     //var id        : String
     //var photo   : UIImage?
-    var state     :  Bool
+    // Variable state computada
+    var state     :  Bool = false {
+        didSet (newValue){
+            state = newValue
+        }
+    }
     var longitude : Double?
     var latitude  : Double?
-    var  newDat   : NSDate?
+    var newDat    : NSDate?
     // Inicializando  variable  con coordenadas
     //var initCoordinates = location(coordinates: [.longitude, .latitude])
     

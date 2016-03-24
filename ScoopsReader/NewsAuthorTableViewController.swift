@@ -10,11 +10,6 @@ import UIKit
 
 class NewsAuthorTableViewController: UITableViewController {
     
-    // Creo cuenta para AZS
-    // DefaultEndpointsProtocol=https;AccountName=scoopes;AccountKey=
-    // x90MSepEOi1TMwFnhft+iBtxVCWeA9JIoC6FlLZxhPNEjHT04Y6/kup4/XvuabeBMc0pYEtzfZf2KaqGK1rVOw==
-    // let account = AZSCloudStorageAccount(fromConnectionString: "")
-    
     // MARK: Properties
     // Propiedad cliente, referencia a 'Mob.Servic'
     var client : MSClient = MSClient(applicationURL: NSURL(
@@ -22,6 +17,7 @@ class NewsAuthorTableViewController: UITableViewController {
         applicationKey: "SFfIMXQedqiHrvQJXiIuVKIomiMign98")
     
     // Modelo de objetos que recibimos de Mob.Serv
+    var id : String = ""
     var model : [AnyObject]?
     var records = [NSDictionary]()
     var news = [News]()
@@ -41,12 +37,12 @@ class NewsAuthorTableViewController: UITableViewController {
         navigationItem.leftBarButtonItem = editButtonItem()
         
         // Cargo  las 'news' guardadas  en  disco
-//        if let savedNews = loadUpNews() {
-//            news += savedNews
-//        }else{
-            // Sino, cargo las 'news' de  ejemplo
-            loadSamplesNews()
-//        }
+        //        if let savedNews = loadUpNews() {
+        //            news += savedNews
+        //        }else{
+        // Sino, cargo las 'news' de  ejemplo
+        loadSamplesNews()
+        //        }
         
         // Botón 'back':de vuelva pantalla inicio
         let button = UIBarButtonItem(title: "❮ Back👻", style: UIBarButtonItemStyle.Done,
@@ -122,11 +118,11 @@ class NewsAuthorTableViewController: UITableViewController {
     func onRefresh(sender: UIRefreshControl!) {
         
         let tablePhotos = client.tableWithName("photos")
-        let predicate = NSPredicate(format: "state == false")
+        //let predicate = NSPredicate(format: "state == false")
         
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         
-        tablePhotos!.readWithPredicate(predicate){ result, error in
+        tablePhotos!.readWithPredicate(nil){ result, error in
             
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             
@@ -174,10 +170,16 @@ class NewsAuthorTableViewController: UITableViewController {
         //cell.photoImage.image = newsOfIndexPath.photo
         cell.ratingControl.rating = newsOfIndexPath.result
         
-//        let dateFormatter = NSDateFormatter()
-//        // the "M/d/yy, H:mm" is put together from the Symbol Table
-//        dateFormatter.dateFormat = "dd/MM/yy, HH:mm"
-//        let dateFormt = dateFormatter.stringFromDate(newsOfIndexPath.newDat!)
+        cell.accessoryType = UITableViewCellAccessoryType.None
+        if(newsOfIndexPath.state){
+            cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+        }
+        
+        
+        //        let dateFormatter = NSDateFormatter()
+        //        // the "M/d/yy, H:mm" is put together from the Symbol Table
+        //        dateFormatter.dateFormat = "dd/MM/yy, HH:mm"
+        //        let dateFormt = dateFormatter.stringFromDate(newsOfIndexPath.newDat!)
         
         //cell.dateTextView.text = dateFormt
         
@@ -233,21 +235,21 @@ class NewsAuthorTableViewController: UITableViewController {
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                 
                 // Elimino la fila  del => 'data source'
-                //let  objDelete = news.removeAtIndex(indexPath.row)
+                news.removeAtIndex(indexPath.row)
                 
                 // Tabla 'photos' para borrado en Azure
-                // let table = client.tableWithName("photos")
+                let table = client.tableWithName("photos")
                 
                 // TODO: añadir el id al modelo para parasrlo como parámetro para poder borrar datos en la tabla 'photos'
                 
-//                table.deleteWithId(objDelete.id, completion: { (resultado: AnyObject?, error : NSError? ) -> Void in
-//                    // error al canto
-//                    if (error != nil){
-//                        print("Error" + error!.description)
-//                    }else{
-//                        print("Elemento eliminado -> \(resultado)")
-//                    }
-//                })
+                table.deleteWithId(self.id, completion: { (resultado: AnyObject?, error : NSError? ) -> Void in
+                    // error al canto
+                    if (error != nil){
+                        print("Error" + error!.description)
+                    }else{
+                        print("Elemento eliminado -> \(resultado)")
+                    }
+                })
                 
                 //                table.delete((objDelete as AnyObject) as! [NSObject : AnyObject], completion: {
                 //                    (resultado: AnyObject?, error : NSError?) -> Void in
@@ -298,7 +300,7 @@ class NewsAuthorTableViewController: UITableViewController {
                     
                     // TODO: tengo que actualizar e insertar las propiedades que faltan al modelo
                     
-                    //let id = (item["id"] as? String) ?? ""
+                    self.id = (item["id"] as? String) ?? ""
                     let title = (item["title"] as? String) ?? ""
                     let author = (item["author"] as? String) ?? ""
                     let newstext = (item["newtext"] as? String) ?? ""
@@ -312,8 +314,9 @@ class NewsAuthorTableViewController: UITableViewController {
                     //                    let longitude = item["longitude"] as! Double
                     
                     // Creo una nueva noticia con los datos sacados del dictionary
-                    let newsCloud = News(title: title, author: author, newstext: newstext, rating: rating,ratingTotalNews : ratingTotalNews,state : state, newDat : newDat,
-                        result : result, amountVotes : amountVotes)
+                    let newsCloud = News(title : title, author : author, newstext : newstext,
+                        rating : rating, ratingTotalNews : ratingTotalNews, state : state,
+                        newDat : newDat, result : result, amountVotes : amountVotes)
                     //                    , latitude : latitude, longitude : longitude)
                     
                     
@@ -447,6 +450,19 @@ class NewsAuthorTableViewController: UITableViewController {
     
     
     // MARK: Utils
+    
+    // ToDoItemDelegate
+    func didSaveItem(text: String) {
+        
+        if text.isEmpty {
+            return
+        }
+        
+        let itemToInsert = ["text" : text, "state" : false]
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        self.records.append(itemToInsert)
+        self.tableView.reloadData()
+    }
     
     /// Nos  devuelve a la pantalla  de inicio al pulsar botón ===>'Back'
     func goBack()

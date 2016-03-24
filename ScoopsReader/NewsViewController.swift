@@ -25,6 +25,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     @IBOutlet weak var numberValoration: UILabel!
     @IBOutlet weak var numberVotes: UILabel!
     @IBOutlet weak var saveInAzure: UIButton!
+    @IBOutlet weak var stateNewsSwitch: UISwitch!
     
     // Valor para pasar por 'prepareForsegue'
     var news : News?
@@ -151,6 +152,17 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDeleg
     }
     
     // MARK: - Actions (Target-Action)
+    @IBAction func stateNewsAction(sender: UISwitch) {
+        
+        if (sender == self.stateNewsSwitch.on){
+            self.news?.state = true
+            stateNewsSwitch.on = true
+        }else{
+            self.news?.state = false
+            stateNewsSwitch.on = false
+        }
+        
+    }
     
     @IBAction func saveAzureAction(sender: AnyObject) {
         

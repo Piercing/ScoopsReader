@@ -306,12 +306,30 @@
                                         </connections>
                                     </imageView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" verticalCompressionResistancePriority="749" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="200" maximumZoomScale="3" text="Enter text news" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="k9I-sG-4tW">
-                                        <rect key="frame" x="0.0" y="334" width="560" height="73"/>
+                                        <rect key="frame" x="0.0" y="334" width="560" height="30"/>
                                         <color key="backgroundColor" red="0.92845852829768272" green="0.92845852829768272" blue="0.92845852829768272" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" returnKeyType="done"/>
                                     </textView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="rNM-C6-9PS">
+                                        <rect key="frame" x="220" y="376" width="120" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Estado" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kyb-S0-fW8">
+                                                <rect key="frame" x="0.0" y="0.0" width="52" height="31"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="szo-HM-4Ya">
+                                                <rect key="frame" x="71" y="0.0" width="51" height="31"/>
+                                                <color key="onTintColor" red="0.98823529409999999" green="0.43137254899999999" blue="0.047058823530000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <connections>
+                                                    <action selector="stateNewsAction:" destination="BYZ-38-t0r" eventType="valueChanged" id="161-XB-Km0"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="285" placeholderIntrinsicHeight="infinite" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="d45-a6-cmn">
                                         <rect key="frame" x="138" y="419" width="285" height="16"/>
                                         <subviews>
@@ -426,6 +444,7 @@
                         <outlet property="ratingControl" destination="Bkx-UI-Qxp" id="gV9-0N-MTj"/>
                         <outlet property="saveButton" destination="uVT-O3-DV5" id="8C0-Ao-73y"/>
                         <outlet property="saveInAzure" destination="6DR-JZ-D8A" id="f0P-cB-Djr"/>
+                        <outlet property="stateNewsSwitch" destination="szo-HM-4Ya" id="rfj-uV-MK2"/>
                         <outlet property="titleTextField" destination="dP0-tX-Kku" id="8vw-Vc-Aef"/>
                     </connections>
                 </viewController>
